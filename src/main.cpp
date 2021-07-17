@@ -64,44 +64,43 @@ void loop(){
   if(robotState == driving && readSonar() < sonarThreshold)
     robotState = canDetected;
 
-  
-  switch(robotState){
-    case canDetected:
-      //STOP MOTORS HERE
-      robotState = sweeperClose;
+  if(robotState != driving)
+    switch(robotState){
+      case canDetected:
+        //STOP MOTORS HERE
+        robotState = sweeperClose;
 
-      if(canCount> 2 )
-        //gate state
+        if(canCount> 2 )
+          //gate state
 
-      if(gateState == top)
-        gateServo.write(gateTopAngle);
-      else
-        gateServo.write(gateBotAngle);
+        if(gateState == top)
+          gateServo.write(gateTopAngle);
+        else
+          gateServo.write(gateBotAngle);
 
-      break;
-    case sweeperClose:
-      sweepServo.write(sweepCloseAngle);
-      delay(servoTaskTimeDealy);
-      robotState = sweeperOpen;
-      break;
-    case sweeperOpen:
-      sweepServo.write(sweepOpenAngle);
-      delay(sweepClearanceTimeDelay);
-      robotState = liftArm;
-      break;
-    case liftArm:
-      if(sweepServo.read() >= sweepAngleClearance){
-
-        armServo.write(armUpAngle);
+        break;
+      case sweeperClose:
+        sweepServo.write(sweepCloseAngle);
         delay(servoTaskTimeDealy);
-        robotState = lowerArm;
-      }
-      break;
-    case lowerArm:
-      armServo.write(armDownAngle);
-      canCount++;
-      break;
+        robotState = sweeperOpen;
+        break;
+      case sweeperOpen:
+        sweepServo.write(sweepOpenAngle);
+        delay(sweepClearanceTimeDelay);
+        robotState = liftArm;
+        break;
+      case liftArm:
+        if(sweepServo.read() >= sweepAngleClearance){
 
-
-  }  
+          armServo.write(armUpAngle);
+          delay(servoTaskTimeDealy);
+          robotState = lowerArm;
+        }
+        break;
+      case lowerArm:
+        armServo.write(armDownAngle);
+        canCount++;
+        robotState == driving;
+        break;
+    }  
 }
