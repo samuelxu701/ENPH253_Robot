@@ -16,16 +16,16 @@ const int centered = 0;
 const int slightRight = 1;
 const int farRight = 5;
  
-const int binaryThreshold = 100;
+const int binaryThreshold = 800;
  
 const int kp = 30;
 const int kd = 10;
  
-const int straight_max_pwm = 1600;
-const int turning_max_pwm = 1600;
+const int straight_max_pwm = 1200;
+const int turning_max_pwm = 1200;
  
-const float straight_multiplier = 12;
-const float turning_multiplier = 16;
+const float straight_multiplier = 1;
+const float turning_multiplier = 1;
  
 // Speed-dependent variables;
 volatile int max_pwm;
@@ -63,7 +63,7 @@ void setupTapeFollowing() {
  lastErrStateStartTime = millis();
 }
  
-void loop() {
+void tapeFollowingLoop() {
  display.clearDisplay();
  display.setCursor(0,0);
   int leftReading = analogRead(LEFT_SENSOR);

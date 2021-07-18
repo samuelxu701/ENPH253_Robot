@@ -14,22 +14,21 @@ extern RobotState robotState;
 
 void setup(){
     setupMotors();
-    setupSonar();
+    //setupSonar();
     setupTapeFollowing();
-    setupCanPickup();
+    //setupCanPickup();
 }
 
 void loop(){
-    if(robotState == driving && readSonar() < sonarThreshold)
-        robotState = canDetected;
+    // if(robotState == driving && readSonar() < sonarThreshold)
+    //     robotState = canDetected;
 
-    if(robotState == canDetected){
-        driveMotors(0,0,0,0);
-        canPickupLoop();
-    }
-    else
-        tapeFollowingLoop();
+    // if(robotState == canDetected){
+    //     driveMotors(0,0,0,0);
+    //     canPickupLoop();
+    // }
+    // else
+    //     tapeFollowingLoop();
 
-
-
+    tapeFollowingLoop();
 }
