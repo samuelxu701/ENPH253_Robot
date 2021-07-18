@@ -7,16 +7,14 @@
 #include <canpickup.h>
 #include <tapefollowing.h>
 #include <motor.h>
-
-
-
-extern RobotState robotState;
+#include <display.h>
 
 void setup(){
     setupMotors();
-    //setupSonar();
+    setupSonar();
     setupTapeFollowing();
-    //setupCanPickup();
+    setupCanPickup();
+    setupDisplay();
 }
 
 void loop(){

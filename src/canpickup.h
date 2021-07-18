@@ -13,6 +13,8 @@
 enum GateState{top, bottom};
 enum RobotState{driving,canDetected,sweeperClose,sweeperOpen,liftArm,lowerArm};
 
+extern RobotState robotState;
+
 void setupCanPickup();
 void canPickupLoop();
 
