@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <sonar.h>
 #include <canpickup.h>
+#include <candropoff.h>
 #include <tapefollowing.h>
 #include <motor.h>
 #include <display.h>

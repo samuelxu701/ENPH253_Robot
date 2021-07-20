@@ -5,6 +5,7 @@
 #include <motor.h>
 #include <display.h>
 #include <pindefinitions.h>
+#include <util.h>
  
 // Adjustable parameters:
 const int farLeft = -5;
@@ -13,7 +14,8 @@ const int centered = 0;
 const int slightRight = 1;
 const int farRight = 5;
  
-const int binaryThreshold = 800;
+
+const int binaryThreshold = 650;
  
 int kp = 30;
 int kd = 10;
@@ -23,6 +25,7 @@ const int turning_max_pwm = 300;
  
 const float straight_multiplier = 40;
 const float turning_multiplier = 40;
+
  
 // Speed-dependent variables;
 int max_pwm = 300;
@@ -42,9 +45,23 @@ volatile int speedSetting = LOW;
 void setupTapeFollowing() {
  pinMode(LEFT_SENSOR, INPUT);
  pinMode(RIGHT_SENSOR, INPUT);
+ pinMode(PWM_ADJUST, INPUT);
  
  max_pwm = 200;
- multiplier = turning_multiplier;
+
+ display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
+ display.display();
+ display.setTextSize(1);
+ display.setTextColor(SSD1306_WHITE);
+ 
+ display.clearDisplay();
+ display.setCursor(0,0);
+ display.println("Starting...");
+ delay(5000);
+ display.display();
+ 
+ max_pwm = analogRead(PWM_ADJUST);
+ //multiplier = turning_multiplier;
  
  lastErrStateStartTime = millis();
 }
@@ -52,7 +69,7 @@ void setupTapeFollowing() {
 void tapeFollowingLoop() {
  display.clearDisplay();
  display.setCursor(0,0);
-  int leftReading = analogRead(LEFT_SENSOR);
+ int leftReading = analogRead(LEFT_SENSOR);
  int rightReading = analogRead(RIGHT_SENSOR);
  int speedReading = analogRead(SPEED_SENSOR);
  
@@ -71,12 +88,16 @@ void tapeFollowingLoop() {
  lastTapeState = currTapeState;
  currTapeState = speedReadingBinary;
  
- display.print("Current speed:");
- display.println(speedSetting);
+//  display.print("Current speed:");
+//  display.println(speedSetting);
  
 //  if (lastTapeState == LOW && currTapeState == HIGH) {
 //    changeSpeed();
 //  }
+
+ max_pwm = analogRead(PWM_ADJUST);
+ display.print("Current max pwm:");
+ display.println(max_pwm);
  
  display.print("Left binary:");
  display.println(leftBinary);
@@ -129,17 +150,17 @@ void tapeFollowingLoop() {
  motor(g);
 }
  
-void changeSpeed() {
- speedSetting = !speedSetting;
+// void changeSpeed() {
+//  speedSetting = !speedSetting;
  
- if (speedSetting == HIGH) {
-   multiplier = straight_multiplier;
-   max_pwm = straight_max_pwm;
- } else {
-   multiplier = turning_multiplier;
-   max_pwm = turning_max_pwm;
- }
-}
+//  if (speedSetting == HIGH) {
+//    multiplier = straight_multiplier;
+//    max_pwm = straight_max_pwm;
+//  } else {
+//    multiplier = turning_multiplier;
+//    max_pwm = turning_max_pwm;
+//  }
+// }
  
 void motor(int g) {
  
@@ -163,14 +184,6 @@ void motor(int g) {
  }
  
  driveMotors(left_fwd_pwm, left_rev_pwm, right_fwd_pwm, right_rev_pwm);
-}
- 
- 
-int binaryProcessor(int reading, int threshold) {
- if (reading >= threshold) {
-   return HIGH;
- }
- return LOW;
 }
 
 int getState(int leftBinary, int rightBinary) {

@@ -19,6 +19,8 @@
 #define RIGHT_SENSOR PA5
 #define SPEED_SENSOR PA6
 
+#define PWM_ADJUST PB1
+
 //*********SERVO PINS*************//
 #define sweepServoPin PA8
 #define armServoPin PA9

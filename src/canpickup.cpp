@@ -87,7 +87,9 @@ void canPickupLoop(){
       case lowerArm:
         armServo.write(armDownAngle);
         canCount++;
-        robotState == driving;
+        robotState = driving;
+        break;
+      case driving:
         break;
     }  
 }
