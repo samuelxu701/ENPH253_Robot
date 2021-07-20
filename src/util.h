@@ -1,0 +1,1 @@
+int binaryProcessor(int reading, int threshold);

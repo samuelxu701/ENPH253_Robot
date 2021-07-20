@@ -5,6 +5,7 @@
 #include <math.h>
 #include <sonar.h>
 #include <canpickup.h>
+#include <candropoff.h>
 #include <tapefollowing.h>
 #include <motor.h>
 
@@ -20,7 +21,8 @@ void setup(){
 }
 
 void loop(){
-    if(robotState == driving && readSonar() < sonarThreshold)
+    readSonar();
+    if(robotState == driving && isCanDetected())
         robotState = canDetected;
 
     if(robotState == canDetected){
@@ -28,7 +30,9 @@ void loop(){
         canPickupLoop();
     }
     else
-        tapeFollowingLoop();
+    tapeFollowingLoop();
+
+    
 
 
 
