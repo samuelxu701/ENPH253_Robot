@@ -11,5 +11,10 @@ void changeSpeed();
 int getState(int leftBinary, int rightBinary);
 int binaryProcessor(int reading, int threshold);
 
+//********GLOBAL VARAIBLES**********//
+extern int kd;
+extern int kp;
+extern int max_pwm;
+extern float multiplier;
 
 #endif

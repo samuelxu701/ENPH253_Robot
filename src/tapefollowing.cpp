@@ -4,6 +4,7 @@
 #include <tapefollowing.h>
 #include <motor.h>
 #include <display.h>
+#include <pindefinitions.h>
  
 // Adjustable parameters:
 const int farLeft = -5;
@@ -14,18 +15,18 @@ const int farRight = 5;
  
 const int binaryThreshold = 800;
  
-const int kp = 30;
-const int kd = 10;
+int kp = 30;
+int kd = 10;
  
-const int straight_max_pwm = 1200;
-const int turning_max_pwm = 1200;
+const int straight_max_pwm = 300;
+const int turning_max_pwm = 300;
  
-const float straight_multiplier = 1;
-const float turning_multiplier = 1;
+const float straight_multiplier = 40;
+const float turning_multiplier = 40;
  
 // Speed-dependent variables;
-volatile int max_pwm;
-volatile float multiplier;
+int max_pwm = 300;
+float multiplier = 40;
  
 // PID variables:
 volatile int lastErrState = 0;

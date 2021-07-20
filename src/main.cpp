@@ -8,6 +8,9 @@
 #include <tapefollowing.h>
 #include <motor.h>
 #include <display.h>
+#include <irreceiver.h>
+#include <pindefinitions.h>
+
 
 void setup(){
     setupMotors();
@@ -15,6 +18,7 @@ void setup(){
     setupTapeFollowing();
     setupCanPickup();
     setupDisplay();
+    setupIRRemote();
 }
 
 void loop(){
@@ -28,5 +32,12 @@ void loop(){
     // else
     //     tapeFollowingLoop();
 
-    tapeFollowingLoop();
+    checkIRreceiver();
+
+    if(receivingIRData){
+        driveMotors(0,0,0,0);
+        parameterMenuLoop();
+    } else {
+        tapeFollowingLoop();
+    }
 }

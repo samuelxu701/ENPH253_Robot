@@ -1,5 +1,6 @@
 #include <sonar.h>
 #include <Arduino.h>
+#include <pindefinitions.h>
 
 void setupSonar(){
     pinMode(triggerPin, OUTPUT);

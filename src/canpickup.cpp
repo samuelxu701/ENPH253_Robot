@@ -14,13 +14,13 @@ Servo gateServo;
 //**********Servo Angle Parameters**************//
 //change these for open and close positions of servos
 const int sweepOpenAngle = 0;
-const int sweepCloseAngle = 100;
+const int sweepCloseAngle = 180;
 
-const int armDownAngle = 0;
-const int armUpAngle = 100;
+const int armDownAngle = 38;
+const int armUpAngle = 153;
 
-const int gateTopAngle = 0;
-const int gateBotAngle = 0;
+const int gateTopAngle = 47;
+const int gateBotAngle = 180;
 
 //*********State Machine Function Dec. and Variables**********//
 //Two options for step in state machine

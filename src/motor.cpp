@@ -1,5 +1,6 @@
 #include <motor.h>
 #include <Arduino.h>
+#include <pindefinitions.h>
 
 void setupMotors(){
     pinMode(MOTOR_LEFT_FWD, OUTPUT);
