@@ -1,11 +1,6 @@
 #ifndef CANPICKUP_H
 #define CANPICKUP_H
 
-//************** PIN DEFINITIONS ***************//
-#define sweepServoPin PA8
-#define armServoPin PA9
-#define gateServoPin PA10
-
 //********** GLOBAL PARAMETERS ***********//
 #define sonarThreshold 43
 

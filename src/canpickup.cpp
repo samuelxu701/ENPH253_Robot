@@ -5,6 +5,7 @@
 #include <math.h>
 #include <sonar.h>
 #include <canpickup.h>
+#include <pindefinitions.h>
 
 //************** Servo Declaration***********//
 Servo sweepServo;
