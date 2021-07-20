@@ -25,7 +25,7 @@ void checkIRreceiver(){
         display.println("*****************");
         display.display();
 
-        if(irrecv.decodedIRData.decodedRawData == 3125149440){
+        if(irrecv.decodedIRData.decodedRawData == IR_POWER){
             driveMotors(0,0,0,0);
             delay(2000);
             receivingIRData = !receivingIRData;
@@ -48,25 +48,25 @@ int getNumFromDigits(int digitsArray[], int count){
 
 int getNumFromRawData(int rawData){
     switch(rawData){ 
-      case 3910598400:
+      case IR_ZERO:
         return 0;
-      case 4077715200:
+      case IR_ONE:
         return 1;
-      case 3877175040:
+      case IR_TWO:
         return 2;
-      case 2707357440:
+      case IR_THREE:
         return 3;
-      case 4144561920:
+      case IR_FOUR:
         return 4;
-      case 3810328320:
+      case IR_FIVE:
         return 5;  
-      case 2774204160:
+      case IR_SIX:
         return 6; 
-      case 3175284480:
+      case IR_SEVEN:
         return 7;   
-      case 2907897600:
+      case IR_EIGHT:
         return 8;   
-      case 3041591040:
+      case IR_NINE:
         return 9;   
     }
 
@@ -89,7 +89,7 @@ int getNumFromIR(){
             if(num >= 0){
                 digits[digitsCount] = num;
                 digitsCount++;
-            } else if(rawData == -1169817856) {
+            } else if(rawData == IR_POWERB) {
                 receivingDigits = false;
             }
 
