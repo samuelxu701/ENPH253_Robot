@@ -1,4 +1,3 @@
-#include <IRremote.h>
 #include <irreceiver.h>
 #include <pindefinitions.h>
 #include <Arduino.h>
@@ -6,15 +5,17 @@
 #include <display.h>
 #include <motor.h>
 #include <tapefollowing.h>
+#include <IRremote.h>
 
 
 IRrecv irrecv(IR_RECEIVER, 1);
 bool receivingIRData;
 
 void setupIRRemote(){
-      irrecv.enableIRIn(); // Start the receive
-      receivingIRData = false;
+  irrecv.enableIRIn(); // Start the receive
+  receivingIRData = false;
 }
+
 
 void checkIRreceiver(){
     if(irrecv.decode()){
@@ -82,6 +83,12 @@ int getNumFromIR(){
 
 
     while(receivingDigits){
+      display.clearDisplay();
+      display.setCursor(0,0);
+
+      display.println("Enter Digits for new Value.");
+      display.println("Press stop once finished.");
+
         if(irrecv.decode()){
             int rawData = irrecv.decodedIRData.decodedRawData;
             int num = getNumFromRawData(rawData);
@@ -99,6 +106,14 @@ int getNumFromIR(){
         }
 
         irrecv.resume();
+
+        display.print("Value: ");
+        for(int i = 0; i < digitsCount;i++){
+          display.print(digits[i]);
+          display.print(" ");
+        }
+
+        display.display();
     }
 
 

@@ -43,7 +43,7 @@ void setupTapeFollowing() {
  pinMode(LEFT_SENSOR, INPUT);
  pinMode(RIGHT_SENSOR, INPUT);
  
- max_pwm = turning_max_pwm;
+ max_pwm = 200;
  multiplier = turning_multiplier;
  
  lastErrStateStartTime = millis();
@@ -74,9 +74,9 @@ void tapeFollowingLoop() {
  display.print("Current speed:");
  display.println(speedSetting);
  
- if (lastTapeState == LOW && currTapeState == HIGH) {
-   changeSpeed();
- }
+//  if (lastTapeState == LOW && currTapeState == HIGH) {
+//    changeSpeed();
+//  }
  
  display.print("Left binary:");
  display.println(leftBinary);

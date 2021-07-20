@@ -11,6 +11,9 @@
 #define triggerPin PA0
 #define echoPin PA1
 
+//**********IR RECEIVER********//
+#define IR_RECEIVER PA7
+
 //*********TAPE SENSOR PINS**********//
 #define LEFT_SENSOR PA4
 #define RIGHT_SENSOR PA5
