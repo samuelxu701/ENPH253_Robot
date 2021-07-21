@@ -122,19 +122,20 @@ int getNumFromIR(){
 }
 
 void parameterMenuLoop(){
-    enum SetupState{Menu, KP, KD, Multiplier, MaxPWM, Threshold};
+    enum SetupState{Menu, KP, KD, Multiplier, MaxPWM, Threshold, Frequency};
     SetupState setupState = Menu;
 
     while(receivingIRData){
       if(setupState == Menu){
         display.clearDisplay();
         display.setCursor(0,0);
-        display.println("Welcome to MyRobo Setup Menu :)");
+        display.println("MyRobo-Setup: )");
         display.println("Press 1: modify Kp");
         display.println("Press 2: modify Kd");
         display.println("Press 3: modify mul");
         display.println("Press 4: modify PWM");
-        display.println("Press 5: modify Threshold");
+        display.println("Press 5: modify thresh");
+        display.println("Press 6: modify freq");
         display.println("Press Power: Exit setup");
         display.display();
 
@@ -184,7 +185,16 @@ void parameterMenuLoop(){
               display.display();
               setupState = Threshold;
               delay(1000);
-              break;              
+              break;       
+            case IR_SIX:
+              display.clearDisplay();
+              display.setCursor(0,0);
+              display.println("You have selected to");
+              display.println("modify PWM Frequency");
+              display.display();
+              setupState = Frequency;
+              delay(1000);
+              break;                       
             case IR_POWER:
               display.clearDisplay();
               display.setCursor(0,0);
@@ -229,6 +239,9 @@ void parameterMenuLoop(){
           case Threshold:
             binaryThreshold = num;
             break;                
+          case Frequency:
+            freq = num;
+            break;                 
           case Menu:
             break;    
           default:
@@ -259,8 +272,11 @@ void parameterMenuLoop(){
     display.print("Max PWM: ");
     display.println(max_pwm);    
 
-    display.print("Binary Threshold: ");
+    display.print("Threshold: ");
     display.println(binaryThreshold); 
+
+    display.print("Frequency: ");
+    display.println(freq); 
 
     display.println(" ");
     display.println("Leaving setup soon.");

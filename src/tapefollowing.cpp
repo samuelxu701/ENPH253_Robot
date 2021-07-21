@@ -60,7 +60,7 @@ void setupTapeFollowing() {
  delay(5000);
  display.display();
  
- max_pwm = analogRead(PWM_ADJUST);
+//  max_pwm = analogRead(PWM_ADJUST);
  //multiplier = turning_multiplier;
  
  lastErrStateStartTime = millis();
@@ -95,9 +95,9 @@ void tapeFollowingLoop() {
 //    changeSpeed();
 //  }
 
- max_pwm = analogRead(PWM_ADJUST);
- display.print("Current max pwm:");
- display.println(max_pwm);
+ //max_pwm = analogRead(PWM_ADJUST);
+//  display.print("Current max pwm:");
+//  display.println(max_pwm);
  
  display.print("Left binary:");
  display.println(leftBinary);

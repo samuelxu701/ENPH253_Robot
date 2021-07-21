@@ -1,8 +1,7 @@
 #ifndef MOTOR_H
 #define MOTOR_H
 
-#define FREQ_LEFT 200
-#define FREQ_RIGHT 200
+extern int freq;
 
 void setupMotors();
 void driveMotors(int LFpwm, int LRpwm, int RFpwm, int RRpwm);
