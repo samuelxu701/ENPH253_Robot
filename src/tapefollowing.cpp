@@ -15,7 +15,7 @@ const int slightRight = 1;
 const int farRight = 5;
  
 
-const int binaryThreshold = 650;
+int binaryThreshold = 650;
  
 int kp = 30;
 int kd = 10;

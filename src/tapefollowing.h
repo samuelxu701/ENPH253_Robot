@@ -14,5 +14,6 @@ extern int kd;
 extern int kp;
 extern int max_pwm;
 extern float multiplier;
+extern int binaryThreshold;
 
 #endif

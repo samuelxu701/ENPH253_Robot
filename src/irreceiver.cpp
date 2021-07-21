@@ -122,7 +122,7 @@ int getNumFromIR(){
 }
 
 void parameterMenuLoop(){
-    enum SetupState{Menu, KP, KD, Multiplier, MaxPWM};
+    enum SetupState{Menu, KP, KD, Multiplier, MaxPWM, Threshold};
     SetupState setupState = Menu;
 
     while(receivingIRData){
@@ -132,8 +132,9 @@ void parameterMenuLoop(){
         display.println("Welcome to MyRobo Setup Menu :)");
         display.println("Press 1: modify Kp");
         display.println("Press 2: modify Kd");
-        display.println("Press 3: modify g multipier");
-        display.println("Press 4: modify Max PWM");
+        display.println("Press 3: modify mul");
+        display.println("Press 4: modify PWM");
+        display.println("Press 5: modify Threshold");
         display.println("Press Power: Exit setup");
         display.display();
 
@@ -175,6 +176,15 @@ void parameterMenuLoop(){
               setupState = MaxPWM;
               delay(1000);
               break;
+            case IR_FIVE:
+              display.clearDisplay();
+              display.setCursor(0,0);
+              display.println("You have selected to");
+              display.println("modify BINARY THRESHOLD");
+              display.display();
+              setupState = Threshold;
+              delay(1000);
+              break;              
             case IR_POWER:
               display.clearDisplay();
               display.setCursor(0,0);
@@ -215,7 +225,10 @@ void parameterMenuLoop(){
             break;
           case MaxPWM:
             max_pwm = num;
-            break;    
+            break;  
+          case Threshold:
+            binaryThreshold = num;
+            break;                
           case Menu:
             break;    
           default:
@@ -245,6 +258,9 @@ void parameterMenuLoop(){
 
     display.print("Max PWM: ");
     display.println(max_pwm);    
+
+    display.print("Binary Threshold: ");
+    display.println(binaryThreshold); 
 
     display.println(" ");
     display.println("Leaving setup soon.");
