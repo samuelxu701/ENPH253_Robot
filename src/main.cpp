@@ -12,6 +12,7 @@
 
 
 extern RobotState robotState;
+extern bool isCanDetected;
 
 void setup(){
     setupMotors();
@@ -22,7 +23,7 @@ void setup(){
 
 void loop(){
     readSonar();
-    if(robotState == driving && isCanDetected())
+    if(robotState == driving && isCanDetected)
         robotState = canDetected;
 
     if(robotState == canDetected){

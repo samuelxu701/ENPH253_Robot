@@ -3,12 +3,11 @@
 
 #define triggerPin PB10
 #define echoPin PB11
-#define maxReadingCount 10
+#define maxReadingCount 100
 #define sonarThreshold 40
-#define minReadingsBelowThreshold 8
+#define minPercentBelowThreshold 0.8
 
 void setupSonar();
 long readSonar();
-bool isCanDetected();
 
 #endif
