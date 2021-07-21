@@ -1,12 +1,14 @@
 #ifndef SONAR_H
 #define SONAR_H
 
-#define maxReadingCount 10
+
+extern bool isCanDetected;
+
+#define maxReadingCount 100
 #define sonarThreshold 40
-#define minReadingsBelowThreshold 8
+#define minPercentBelowThreshold 0.8
 
 void setupSonar();
 long readSonar();
-bool isCanDetected();
 
 #endif

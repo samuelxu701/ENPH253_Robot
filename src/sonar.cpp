@@ -5,6 +5,7 @@
 long sonarReadings[maxReadingCount] = {0};
 int numReadingsTaken = 0;
 int numReadingsBelowThreshold = 0;
+bool isCanDetected = false;
 
 void setupSonar(){
     pinMode(triggerPin, OUTPUT);
@@ -32,15 +33,13 @@ long readSonar(){
     sonarReadings[index] = distance;
     numReadingsTaken++;
 
-    return distance;
-}
-
-bool isCanDetected(){
-    if(numReadingsBelowThreshold >= minReadingsBelowThreshold){
+    if((float) numReadingsBelowThreshold >= minPercentBelowThreshold * maxReadingCount){
         for(int i = 0; i < maxReadingCount; i++){
             sonarReadings[i] = 0;
         }
         numReadingsBelowThreshold = 0;
-        return true;
-    } else return false;
+        isCanDetected = true;
+    } else isCanDetected = false;
+
+    return distance;
 }
