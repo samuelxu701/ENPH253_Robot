@@ -18,18 +18,20 @@ const int farRight = 5;
 int binaryThreshold = 650;
  
 int kp = 30;
-int kd = 10;
+int kd = 20;
  
 const int straight_max_pwm = 300;
 const int turning_max_pwm = 300;
+
+volatile int absolute_maximum_pwm = 4096;
  
 const float straight_multiplier = 40;
 const float turning_multiplier = 40;
 
  
 // Speed-dependent variables;
-int max_pwm = 300;
-float multiplier = 40;
+int max_pwm = 150;
+float multiplier = 3;
  
 // PID variables:
 volatile int lastErrState = 0;
@@ -67,6 +69,7 @@ void setupTapeFollowing() {
 }
  
 void tapeFollowingLoop() {
+ absolute_maximum_pwm = 2 * max_pwm;
  display.clearDisplay();
  display.setCursor(0,0);
  int leftReading = analogRead(LEFT_SENSOR);
@@ -170,17 +173,30 @@ void motor(int g) {
  int right_rev_pwm = 0;
  
  if (g < 0) {
-   left_fwd_pwm = max_pwm;
    right_fwd_pwm = max_pwm - (multiplier * abs(g));
+   left_fwd_pwm = max_pwm + (multiplier * abs(g));
    if (right_fwd_pwm < 0) {
+     if (abs(g) >= 4) {
+       right_rev_pwm = abs(right_fwd_pwm);
+     }
      right_fwd_pwm = 0;
+   }
+   if (left_fwd_pwm > absolute_maximum_pwm) {
+     left_fwd_pwm = absolute_maximum_pwm;
    }
  } else {
    left_fwd_pwm = max_pwm - (multiplier * abs(g));
+   right_fwd_pwm = max_pwm + (multiplier * abs(g));
    if (left_fwd_pwm < 0) {
+    if (abs(g) >= 4) {
+     left_rev_pwm = abs(left_fwd_pwm);
+    }
      left_fwd_pwm = 0;
-   }   
-   right_fwd_pwm = max_pwm;
+   }
+   if (right_fwd_pwm > absolute_maximum_pwm) {
+     right_fwd_pwm = absolute_maximum_pwm;
+   }
+   
  }
  
  driveMotors(left_fwd_pwm, left_rev_pwm, right_fwd_pwm, right_rev_pwm);
