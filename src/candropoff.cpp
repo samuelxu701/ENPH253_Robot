@@ -5,8 +5,8 @@
 #include <math.h>
 #include <candropoff.h>
 #include <util.h>
+#include <pindefinitions.h>
 
-#define DROPOFF_THRESH 100
 
 // Bumper Servo
 Servo canBumperServo;
@@ -19,13 +19,13 @@ volatile int currDockingState = HIGH;
 
 void setupCanDropoff() {
   // put your setup code here, to run once:
-  canBumperServo.attach(bumperServoPin);
+  canBumperServo.attach(canKickerServoPin);
   canBumperServo.write(bumperOutAngle);
-  pinMode(dockingSensorPin, INPUT);
+  pinMode(DOCKING_SENSOR, INPUT);
 }
 
 bool readDockingSensor(){
-    int dockerReading = analogRead(dockingSensorPin);
+    int dockerReading = analogRead(DOCKING_SENSOR);
     int dockerReadingBinary = binaryProcessor(dockerReading, DROPOFF_THRESH);
 
     int prevDockingState = currDockingState;

@@ -74,7 +74,7 @@ void tapeFollowingLoop() {
  display.setCursor(0,0);
  int leftReading = analogRead(LEFT_SENSOR);
  int rightReading = analogRead(RIGHT_SENSOR);
- int speedReading = analogRead(SPEED_SENSOR);
+ int speedReading = 0; //analogRead(SPEED_SENSOR);
  
  display.print("Left reading:");
  display.println(leftReading);

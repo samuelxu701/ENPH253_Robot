@@ -17,7 +17,7 @@
 //*********TAPE SENSOR PINS**********//
 #define LEFT_SENSOR PA4
 #define RIGHT_SENSOR PA5
-#define SPEED_SENSOR PB0
+#define DOCKING_SENSOR PB0
 
 #define PWM_ADJUST PA6
 
@@ -25,7 +25,7 @@
 #define sweepServoPin PA8
 #define armServoPin PB8
 #define gateServoPin PA9
-// #define canKickerServoPin PB8
+#define canKickerServoPin PB8
 
 //**********DISPLAY PINS*********//
 //#define sck PB6
