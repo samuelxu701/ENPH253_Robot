@@ -11,11 +11,13 @@
 // Bumper Servo
 Servo canBumperServo;
 // TODO: These Values need to be calibrated 
-const int bumperOutAngle = 70;
+const int bumperOutAngle = 45;
 const int bumperInAngle = 90;
 
-volatile int prevDockingState = HIGH;
-volatile int currDockingState = HIGH;
+int prevDockingState = LOW;
+int currDockingState = LOW;
+
+volatile int dockingStatus = 0;
 
 void setupCanDropoff() {
   // put your setup code here, to run once:
@@ -24,18 +26,23 @@ void setupCanDropoff() {
   pinMode(DOCKING_SENSOR, INPUT);
 }
 
-bool readDockingSensor(){
+int updateDockingStatus(){
     int dockerReading = analogRead(DOCKING_SENSOR);
     int dockerReadingBinary = binaryProcessor(dockerReading, DROPOFF_THRESH);
 
-    int prevDockingState = currDockingState;
-    int currDockingState = dockerReadingBinary;
+    prevDockingState = currDockingState;
+    currDockingState = dockerReadingBinary;
 
-    if (prevDockingState == LOW && currDockingState == HIGH) {
-        return true;
-    }else{
-        return false;
+    if (currDockingState == HIGH) {
+        dockingStatus = 1;
+    } else {
+        if (prevDockingState == HIGH) {
+            dockingStatus = 2;
+        } else {
+            dockingStatus = 0;
+        }
     }
+    return dockingStatus;
 }
 
 void dropoffBump(){

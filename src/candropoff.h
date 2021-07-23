@@ -3,9 +3,12 @@
 
 #define DROPOFF_THRESH 100
 
+extern volatile int dockingStatus;
+
 //Function
 void setupCanDropoff();
-void canPickupLoop();
+int readDockingSensor();
+void dropoffBump();
 
 
 #endif

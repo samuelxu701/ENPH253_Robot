@@ -4,8 +4,8 @@
 
 extern bool isCanDetected;
 
-#define maxReadingCount 100
-#define sonarThreshold 40
+#define maxReadingCount 50
+#define sonarThreshold 43
 #define minPercentBelowThreshold 0.8
 
 void setupSonar();

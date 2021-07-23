@@ -7,11 +7,11 @@ enum RobotState{driving,canDetected,sweeperClose,sweeperOpen,liftArm,lowerArm};
 
 //*******STATE VARIABLE********//
 extern RobotState robotState;
-extern int canCount;
+extern volatile int canCount;
 
 //*********FUNCTION DECLARATATIONS*********//
 void setupCanPickup();
-void canPickupLoop();
+void canPickup();
 void servoTurn(Servo servo, int finalPos, float time);
 
 #endif

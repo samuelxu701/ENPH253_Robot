@@ -30,7 +30,7 @@ const float turning_multiplier = 40;
 
  
 // Speed-dependent variables;
-int max_pwm = 150;
+int max_pwm = 300;
 float multiplier = 3;
  
 // PID variables:
