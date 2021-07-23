@@ -30,7 +30,7 @@ const float turning_multiplier = 40;
 
  
 // Speed-dependent variables;
-int max_pwm = 300;
+int max_pwm = 200;
 float multiplier = 3;
  
 // PID variables:
@@ -48,8 +48,8 @@ void setupTapeFollowing() {
  pinMode(LEFT_SENSOR, INPUT);
  pinMode(RIGHT_SENSOR, INPUT);
  pinMode(PWM_ADJUST, INPUT);
- 
- max_pwm = 200;
+
+ freq = 75;
 
  display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
  display.display();
