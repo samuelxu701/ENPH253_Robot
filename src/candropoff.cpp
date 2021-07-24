@@ -6,10 +6,12 @@
 #include <candropoff.h>
 #include <util.h>
 #include <pindefinitions.h>
+#include <motor.h>
+#include <tapefollowing.h>
+#include <robotservos.h>
+#include <display.h>
 
 
-// Bumper Servo
-Servo canBumperServo;
 // TODO: These Values need to be calibrated 
 const int bumperOutAngle = 45;
 const int bumperInAngle = 90;
@@ -21,32 +23,53 @@ volatile int dockingStatus = 0;
 
 void setupCanDropoff() {
   // put your setup code here, to run once:
-  canBumperServo.attach(canKickerServoPin);
-  canBumperServo.write(bumperOutAngle);
   pinMode(DOCKING_SENSOR, INPUT);
+}
+
+void dock(){
+    if(dockingStatus == 1){
+        int slowSpeed = max_pwm/2;
+        driveMotors(slowSpeed, slowSpeed, slowSpeed, slowSpeed);
+    } else if (dockingStatus == 2){
+        driveMotors(0,0,0,0);
+        delay(10);
+        dropoffBump();
+    }
 }
 
 int updateDockingStatus(){
     int dockerReading = analogRead(DOCKING_SENSOR);
-    int dockerReadingBinary = binaryProcessor(dockerReading, DROPOFF_THRESH);
-
-    prevDockingState = currDockingState;
-    currDockingState = dockerReadingBinary;
+    int dockerReadingBinary = binaryProcessor(dockerReading, binaryThreshold);
 
     if (currDockingState == HIGH) {
         dockingStatus = 1;
     } else {
         if (prevDockingState == HIGH) {
             dockingStatus = 2;
+            driveMotors(0,0,0,0);
+            display.clearDisplay();
+            display.setCursor(0,0);
+            display.println("DOCKING STATUS = 2");
+            display.println("STOP AND DOCK");
+            display.display();
+            delay(5000);
         } else {
             dockingStatus = 0;
         }
     }
+
+    prevDockingState = currDockingState;
+    currDockingState = dockerReadingBinary;
+
     return dockingStatus;
 }
 
 void dropoffBump(){
-    canBumperServo.write(bumperInAngle);
-    canBumperServo.write(bumperOutAngle);
+    canKickerServo.write(bumperInAngle);
+    canKickerServo.write(bumperOutAngle);
 }
+
+
+
+
 

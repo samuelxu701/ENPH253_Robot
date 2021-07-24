@@ -25,7 +25,7 @@
 #define sweepServoPin PA8
 #define armServoPin PB8
 #define gateServoPin PA9
-#define canKickerServoPin PB8
+#define canKickerServoPin PA10
 
 //**********DISPLAY PINS*********//
 //#define sck PB6

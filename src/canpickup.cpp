@@ -1,16 +1,12 @@
 #include <Arduino.h>
 #include <Wire.h>
 #include <Adafruit_SSD1306.h>
-#include <Servo.h>
 #include <math.h>
 #include <sonar.h>
 #include <canpickup.h>
 #include <pindefinitions.h>
-
-//************** Servo Declaration***********//
-Servo sweepServo;
-Servo armServo;
-Servo gateServo;
+#include <robotservos.h>
+#include <Servo.h>
 
 //**********Servo Angle Parameters**************//
 //change these for open and close positions of servos
@@ -38,15 +34,6 @@ GateState gateState;
 volatile int canCount = 0;
 
 void setupCanPickup() {
-  // put your setup code here, to run once:
-  sweepServo.attach(sweepServoPin);
-  armServo.attach(armServoPin);
-  gateServo.attach(gateServoPin);
-
-  sweepServo.write(sweepOpenAngle);
-  armServo.write(armDownAngle);
-  gateServo.write(gateBotAngle);
-
   robotState = driving;
   gateState = bottom;
 }
@@ -79,22 +66,4 @@ void canPickup(){
   servoTurn(armServo, armDownAngle, 500);
   delay(servoTaskTimeDelay);
   canCount++;
-}
-
-void servoTurn(Servo servo, int finalPos, float millis){
-  int initialPos = servo.read();
-  if(initialPos != finalPos){
-    int delayTime = millis / abs(finalPos - initialPos);
-    if(finalPos > initialPos) {
-      for(int i = initialPos + 1; i < finalPos; i++){
-        servo.write(i);
-        delay(delayTime);
-      }
-    } else {
-      for(int i = initialPos - 1; i > finalPos; i--){
-        servo.write(i);
-        delay(delayTime);
-      }
-    }
-  }
 }

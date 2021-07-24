@@ -12,6 +12,5 @@ extern volatile int canCount;
 //*********FUNCTION DECLARATATIONS*********//
 void setupCanPickup();
 void canPickup();
-void servoTurn(Servo servo, int finalPos, float time);
 
 #endif

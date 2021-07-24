@@ -11,56 +11,33 @@
 #include <display.h>
 #include <irreceiver.h>
 #include <pindefinitions.h>
+#include <util.h>
+#include <robotservos.h>
 
 void setup(){
     setupMotors();
-    setupSonar();
+    // setupSonar();
     setupTapeFollowing();
-    setupCanPickup();
+    // setupCanPickup();
+    setupCanDropoff();
+    // setupServos();
     setupDisplay();
     setupIRRemote();
+
     display.clearDisplay();
     display.setCursor(0,0);
-    display.println("Done Setup");
+    display.println("Done Setup1");
     display.display();
 }
 
 void loop(){
-    display.clearDisplay();
-    display.setCursor(0,0);
+    updateDockingStatus();
+    checkIRreceiver();
 
-    long distance = readSonar();
-
-    display.println(distance);
-    display.print("Is Can Detected? ");
-    display.println((isCanDetected) ? "True" : "False");
-    display.print("Can Count: ");
-    display.println(canCount);
-    // display.print("Docking Status: ");
-    // display.println(dockingStatus);
-    display.display();
-
-    if (robotState == driving) {
-        // switch (dockingStatus) {
-        //     case 0:
-        //         // changeSpeed(/* Regular */);
-        //         break;
-        //     case 1:
-        //         // changeSpeed(/* Slower */);
-        //         break;
-        //     case 2:
-        //         // changeSpeed(/* Stop */);
-        //         dropoffBump();
-        //         canCount--;
-        //         break;
-        // }
-        if (isCanDetected) {
-            driveMotors(0, 0, 0, 0);
-            // display.clearDisplay();
-            // display.setCursor(0,0);
-            // display.println("Can Detected");
-            // display.display();
-            canPickup();
-        }
+    if(receivingIRData){
+        driveMotors(0,0,0,0);
+        parameterMenuLoop();
+    } else {
+        tapeFollowingLoop();
     }
 }
