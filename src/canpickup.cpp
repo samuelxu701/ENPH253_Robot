@@ -16,8 +16,8 @@ const int sweepCloseAngle = 180;
 const int armDownAngle = 0;
 const int armUpAngle = 115; // 115
 
-const int gateTopAngle = 0; // 47
-const int gateBotAngle = 90; // 175
+const int gateTopAngle = 10; // 47
+const int gateBotAngle = 100; // 175
 
 //*********State Machine Function Dec. and Variables**********//
 //Two options for step in state machine
