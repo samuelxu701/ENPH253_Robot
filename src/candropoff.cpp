@@ -5,10 +5,10 @@
 #include <math.h>
 #include <candropoff.h>
 #include <util.h>
-#include <pindefinitions.h>
+#include <PinDefinitions.h>
 #include <motor.h>
 #include <tapefollowing.h>
-#include <robotservos.h>
+#include <rservos.h>
 #include <display.h>
 
 

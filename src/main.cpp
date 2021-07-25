@@ -8,36 +8,33 @@
 #include <candropoff.h>
 #include <tapefollowing.h>
 #include <motor.h>
-#include <display.h>
+#include <Display.h>
 #include <irreceiver.h>
 #include <pindefinitions.h>
 #include <util.h>
-#include <robotservos.h>
+#include <rservos.h>
 
 void setup(){
     setupMotors();
     // setupSonar();
-    setupTapeFollowing();
+    //setupTapeFollowing();
     // setupCanPickup();
-    setupCanDropoff();
+    // setupCanDropoff();
     // setupServos();
-    setupDisplay();
-    setupIRRemote();
+    // setupDisplay();
+    // setupIRRemote();
 
     display.clearDisplay();
     display.setCursor(0,0);
-    display.println("Done Setup1");
+    display.setTextSize(3);
+    display.println("Done Setup");
     display.display();
+    delay(500);
 }
 
 void loop(){
-    updateDockingStatus();
-    checkIRreceiver();
-
-    if(receivingIRData){
-        driveMotors(0,0,0,0);
-        parameterMenuLoop();
-    } else {
-        tapeFollowingLoop();
-    }
+    driveMotors(400,0,400,0);
+    delay(2000);
+    driveMotors(0,400,0,400);
+    delay(2000);
 }

@@ -4,7 +4,7 @@
 #include <tapefollowing.h>
 #include <motor.h>
 #include <display.h>
-#include <pindefinitions.h>
+#include <PinDefinitions.h>
 #include <util.h>
  
 // Adjustable parameters:

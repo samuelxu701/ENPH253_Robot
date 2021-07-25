@@ -1,5 +1,5 @@
-#ifndef SONAR_H
-#define SONAR_H
+#ifndef ROBOTSONAR_H
+#define ROBOTSONAR_H
 
 
 extern bool isCanDetected;

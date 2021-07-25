@@ -4,7 +4,7 @@
 #include <Wire.h>
 #include <display.h>
 #include <motor.h>
-#include <tapefollowing.h>
+#include <TapeFollowing.h>
 #include <IRremote.h>
 
 

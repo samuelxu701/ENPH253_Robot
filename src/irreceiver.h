@@ -1,11 +1,11 @@
-#ifndef IRRECEIVER_H
-#define IRRECEIVER_H
+#ifndef ROBOTIRRECEIVER_H
+#define ROBOTIRRECEIVER_H
+
+#include <irreceiver.h>
 
 //************IR RECEIVER VARIABLES*********//
 extern bool receivingIRData;
-
 #define MAX_DIGITS 10
-
 
 //********FUNCTION DECLARATIONS*******//
 
