@@ -24,12 +24,12 @@ void setup(){
     // setupDisplay();
     // setupIRRemote();
 
-    display.clearDisplay();
-    display.setCursor(0,0);
-    display.setTextSize(3);
-    display.println("Done Setup");
-    display.display();
-    delay(500);
+//     display.clearDisplay();
+//     display.setCursor(0,0);
+//     display.setTextSize(3);
+//     display.println("Done Setup");
+//     display.display();
+//     delay(500);
 }
 
 void loop(){
