@@ -1,6 +1,6 @@
 #include <sonar.h>
 #include <Arduino.h>
-#include <pindefinitions.h>
+#include <PinDefinitions.h>
 
 long sonarReadings[maxReadingCount] = {0};
 int numReadingsTaken = 0;
@@ -22,8 +22,15 @@ long readSonar(){
     
     long distance = float(duration) * 0.034 / 2.0;
 
+    return distance;
+}
+
+long detectCan(){
+    long distance = readSonar();
+
     int index = numReadingsTaken % maxReadingCount;
     long reading = sonarReadings[index];
+
     if(reading < sonarThreshold && reading > 0){
         numReadingsBelowThreshold--;
     }

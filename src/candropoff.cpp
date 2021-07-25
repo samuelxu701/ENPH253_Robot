@@ -52,7 +52,7 @@ int updateDockingStatus(){
             display.println("DOCKING STATUS = 2");
             display.println("STOP AND DOCK");
             display.display();
-            delay(5000);
+            // delay(5000);
         } else {
             dockingStatus = 0;
         }

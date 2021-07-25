@@ -16,13 +16,13 @@
 
 void setup(){
     setupMotors();
-    // setupSonar();
-    //setupTapeFollowing();
-    // setupCanPickup();
-    // setupCanDropoff();
-    // setupServos();
-    // setupDisplay();
-    // setupIRRemote();
+    setupSonar();
+    setupTapeFollowing();
+    setupCanPickup();
+    setupCanDropoff();
+    setupServos();
+    setupDisplay();
+    setupIRRemote();
 
     display.clearDisplay();
     display.setCursor(0,0);
@@ -33,8 +33,23 @@ void setup(){
 }
 
 void loop(){
-    driveMotors(400,0,400,0);
-    delay(2000);
-    driveMotors(0,400,0,400);
-    delay(2000);
+    checkIRreceiver();
+
+    if(receivingIRData){
+        driveMotors(0,0,0,0);
+        parameterMenuLoop();
+    }else{
+        updateDockingStatus();
+        detectCan();
+
+        if(dockingStatus != 0){
+            //dock function incomplete.
+            dock();
+        }else if (isCanDetected){
+            driveMotors(0,0,0,0);
+            canPickup();
+        } else {
+            tapeFollowingLoop();
+        }
+    }
 }
