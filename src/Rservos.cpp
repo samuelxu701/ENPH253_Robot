@@ -2,6 +2,7 @@
 #include <Servo.h>
 #include <pindefinitions.h>
 #include <Arduino.h>
+#include <Motor.h>
 
 //************** Servo Declaration***********//
 Servo sweepServo;
@@ -10,12 +11,21 @@ Servo gateServo;
 Servo canKickerServo;
 
 
-void setupServos(){
+void attachServos(){
     // put your setup code here, to run once:
-    // sweepServo.attach(sweepServoPin);
-    // armServo.attach(armServoPin);
-    // gateServo.attach(gateServoPin);
-    // canKickerServo.attach(canKickerServoPin);
+    sweepServo.attach(sweepServoPin);
+    armServo.attach(armServoPin);
+    gateServo.attach(gateServoPin);
+    canKickerServo.attach(canKickerServoPin);
+}
+
+
+void detachServos(){
+    // put your setup code here, to run once:
+    sweepServo.detach();
+    armServo.detach();
+    gateServo.detach();
+    canKickerServo.detach();
 }
 
 void servoTurn(Servo servo, int finalPos, float millis){

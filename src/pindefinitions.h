@@ -8,11 +8,11 @@
 #define MOTOR_RIGHT_REV PA_3
 
 //*********IR RECEIVER**********//
-#define IR_RECEIVER PA7
+#define IR_RECEIVER PA11
 
 //*****SONAR PINS**********//
-#define triggerPin PA0
-#define echoPin PA1
+#define triggerPin PB10
+#define echoPin PB11
 
 //*********TAPE SENSOR PINS**********//
 #define LEFT_SENSOR PA4
@@ -23,7 +23,7 @@
 
 //*********SERVO PINS*************//
 #define sweepServoPin PA8
-#define armServoPin PA9
+#define armServoPin PA9 //PA9
 #define gateServoPin PA10
 #define canKickerServoPin PB8
 

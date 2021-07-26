@@ -2,6 +2,7 @@
 #include <Util.h>
 #include <Display.h>
 #include <PinDefinitions.h>
+#include <HardwareTimer.h>
 
 volatile bool onTape = false;
 float unitVoltage = 3.3/1024;

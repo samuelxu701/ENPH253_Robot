@@ -25,7 +25,7 @@ long readSonar(){
     return distance;
 }
 
-long detectCan(){
+long checkCanDetector(){
     long distance = readSonar();
 
     int index = numReadingsTaken % maxReadingCount;

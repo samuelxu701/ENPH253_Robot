@@ -2,7 +2,7 @@
 #define ROBOTSONAR_H
 
 //boolean for can detection at sonar
-//Is modified by detectCan();
+//Is modified by checkCanDetector()
 extern bool isCanDetected;
 
 #define maxReadingCount 50
@@ -19,6 +19,6 @@ long readSonar();
 //determine if an object: can is detected at the sonar.
 //Modifies bool isCanDetected in the process
 //Returns most recent sonar distance reading in cm (long)
-long detectCan(); 
+long checkCanDetector(); 
 
 #endif

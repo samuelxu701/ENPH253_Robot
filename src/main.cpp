@@ -16,17 +16,17 @@
 
 void setup(){
     setupMotors();
+    attachServos();
     setupSonar();
     setupTapeFollowing();
     setupCanPickup();
     setupCanDropoff();
-    setupServos();
     setupDisplay();
     setupIRRemote();
 
     display.clearDisplay();
     display.setCursor(0,0);
-    display.setTextSize(3);
+    display.setTextSize(4);
     display.println("Done Setup");
     display.display();
     delay(500);
@@ -34,17 +34,16 @@ void setup(){
 
 void loop(){
     checkIRreceiver();
+    updateDropOffState();
+    checkCanDetector();
 
     if(receivingIRData){
         driveMotors(0,0,0,0);
         parameterMenuLoop();
     }else{
-        updateDockingStatus();
-        detectCan();
-
-        if(dockingStatus != 0){
+        if(dropOffState != driving || dropOffState != complete){
             //dock function incomplete.
-            dock();
+            canDropoff();
         }else if (isCanDetected){
             driveMotors(0,0,0,0);
             canPickup();
