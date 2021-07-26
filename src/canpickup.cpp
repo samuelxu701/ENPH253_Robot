@@ -29,12 +29,10 @@ const int armUpDelay = 1000;
 const int sweepCloseDelay = 500;
 
 
-RobotState robotState;
 GateState gateState;
 volatile int canCount = 0;
 
 void setupCanPickup() {
-  robotState = driving;
   gateState = bottom;
 }
 

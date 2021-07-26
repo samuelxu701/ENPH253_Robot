@@ -4,8 +4,8 @@
 #include <Servo.h>
 #include <math.h>
 #include <sonar.h>
-#include <canpickup.h>
-#include <candropoff.h>
+#include <CanPickup.h>
+#include <CanDropoff.h>
 #include <tapefollowing.h>
 #include <motor.h>
 #include <Display.h>
@@ -42,7 +42,6 @@ void loop(){
         parameterMenuLoop();
     }else{
         if(dropOffState != driving || dropOffState != complete){
-            //dock function incomplete.
             canDropoff();
         }else if (isCanDetected){
             driveMotors(0,0,0,0);

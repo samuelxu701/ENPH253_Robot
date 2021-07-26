@@ -3,7 +3,7 @@
 #include <Adafruit_SSD1306.h>
 #include <Servo.h>
 #include <math.h>
-#include <candropoff.h>
+#include <CanDropoff.h>
 #include <util.h>
 #include <PinDefinitions.h>
 #include <motor.h>
@@ -25,7 +25,7 @@ int prevDockingState = LOW;
 int currDockingState = LOW;
 
 volatile int dockingStatus = 0;
-volatile DropOffState dropOffState;
+DropOffState dropOffState;
 
 int dropOffCount;
 

@@ -1,8 +1,15 @@
-#ifndef CANDROPOFF_H
-#define CANDROPOFF_H
+#ifndef ROBOTCANDROPOFF_H
+#define ROBOTCANDROPOFF_H
 
 //max number of cans to drop off
 #define MAX_CANS 6
+
+//Enum representing drop off states
+//0 ='driving' = no docking
+//1 = 'slowDown' = stopping soon, slow down
+//2 = 'dropOff' = Docking/drop off procedure
+//4 = 'complete' = drop off procedure complete
+enum DropOffState{driving,slowDown,dropOff,complete};
 
 //integer representing docking status
 //is modified by updateDropOffState -> updateDockingStatus()
@@ -12,14 +19,7 @@
 extern volatile int dockingStatus;
 
 //Can drop off states
-extern volatile DropOffState dropOffState;
-
-//Enumrepresenting drop off states
-//0 ='driving' = no docking
-//1 = 'slowDown' = stopping soon, slow down
-//2 = 'dropOff' = Docking/drop off procedure
-//4 = 'complete' = drop off procedure complete
-enum DropOffState{driving,slowDown, dropOff,complete};
+extern DropOffState dropOffState;
 
 //******FUNCTION DECLARATIONS*****//
 
