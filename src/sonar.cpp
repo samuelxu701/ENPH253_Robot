@@ -1,6 +1,7 @@
 #include <sonar.h>
 #include <Arduino.h>
 #include <PinDefinitions.h>
+#include <display.h>
 
 long sonarReadings[maxReadingCount] = {0};
 int numReadingsTaken = 0;

@@ -12,9 +12,6 @@ void tapeFollowingLoop();
 //Takes a g values based on PID control then determines and writes pwm values to motors
 void motor(int g);
 
-//Method to change speed of robot - redacted
-void changeSpeed();
-
 //Reads tape sensors and returns error state of robot
 int getState(int leftBinary, int rightBinary);
 

@@ -3,6 +3,7 @@
 #include <pindefinitions.h>
 #include <Arduino.h>
 #include <Motor.h>
+#include <display.h>
 
 //************** Servo Declaration***********//
 Servo sweepServo;

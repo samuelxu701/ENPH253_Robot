@@ -23,7 +23,7 @@
 
 //*********SERVO PINS*************//
 #define sweepServoPin PA8
-#define armServoPin PA9 //PA9
+#define armServoPin PA9
 #define gateServoPin PA10
 #define canKickerServoPin PB8
 

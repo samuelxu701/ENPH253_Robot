@@ -1,6 +1,7 @@
 #include <Motor.h>
 #include <Arduino.h>
 #include <PinDefinitions.h>
+#include <Display.h>
 
 int freq;
 

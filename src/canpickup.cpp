@@ -7,6 +7,7 @@
 #include <pindefinitions.h>
 #include <rservos.h>
 #include <Servo.h>
+#include <Display.h>
 
 //**********Servo Angle Parameters**************//
 //change these for open and close positions of servos
@@ -37,6 +38,7 @@ void setupCanPickup() {
 }
 
 void canPickup(){
+  printDisplay("Can\nPickup",3,1);
   if(canCount >= 3 && gateState != top){
     gateState = top;
     servoTurn(gateServo, gateTopAngle, 1000);

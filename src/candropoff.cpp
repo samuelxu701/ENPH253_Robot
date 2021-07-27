@@ -71,12 +71,6 @@ int updateDockingStatus(){
         if (prevDockingState == HIGH) {
             dockingStatus = 2;
             driveMotors(0,0,0,0);
-            // display.clearDisplay();
-            // display.setCursor(0,0);
-            // display.println("DOCKING STATUS = 2");
-            // display.println("STOP AND DOCK");
-            // display.display();
-            // delay(5000);
         } else {
             dockingStatus = 0;
         }
