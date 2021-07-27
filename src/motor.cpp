@@ -9,7 +9,7 @@ void setupMotors(){
     pinMode(MOTOR_LEFT_REV, OUTPUT);
     pinMode(MOTOR_RIGHT_FWD, OUTPUT);
     pinMode(MOTOR_RIGHT_REV, OUTPUT);
-    freq=20;
+    freq=75;
 }
 
 void driveMotors(int LFpwm, int LRpwm, int RFpwm, int RRpwm){

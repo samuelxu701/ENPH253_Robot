@@ -27,7 +27,6 @@ void setup(){
 
 void loop(){
     tapeFollowingLoop();
-    
     // display.clearDisplay();
     // display.setCursor(0,0);
 
