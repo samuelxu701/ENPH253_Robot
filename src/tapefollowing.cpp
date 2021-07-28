@@ -44,7 +44,6 @@ volatile unsigned long currErrStateStartTime = 0;
 volatile int lastTapeState = HIGH;
 volatile int currTapeState = HIGH;
 volatile int speedSetting = LOW;
-char buff[200];
  
 void setupTapeFollowing() {
   pinMode(LEFT_SENSOR, INPUT);

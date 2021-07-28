@@ -19,7 +19,7 @@ const int bumperInAngle = 90;
 //time it takes for cans to fall into silo after getting hit by bumper
 const int dropOffBumpDelay = 1000;
 
-int slowSpeed = max_pwm/4;
+int slowSpeed = max_pwm/2;
 
 int prevDockingState = LOW;
 int currDockingState = LOW;
@@ -44,8 +44,17 @@ void canDropoff(){
             driveMotors(slowSpeed, 0, slowSpeed, 0);
 
         if(dockingStatus == dropOff){
+            //stop
             driveMotors(0,0,0,0);
             delay(10);
+
+            //reverse at slow speed becuase of overshoot
+            driveMotors(0,slowSpeed,0,slowSpeed);
+
+            //reverse until docking sensor on tape again
+            while(analogRead(DOCKING_SENSOR) < binaryThreshold);
+            //stop
+            driveMotors(0,0,0,0);
 
             bumpCans();
             delay(dropOffBumpDelay);

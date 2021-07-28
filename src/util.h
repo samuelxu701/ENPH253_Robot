@@ -9,6 +9,9 @@ extern HardwareTimer tim2;
 extern HardwareTimer tim3;
 extern HardwareTimer tim4;
 
+//char array for storing messages to print
+extern char buff[];
+
 //Takes an analog value and reduces it to a binary based on a threshold value
 int binaryProcessor(int reading, int threshold);
 

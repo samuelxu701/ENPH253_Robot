@@ -14,7 +14,13 @@
 #include <util.h>
 #include <rservos.h>
 
-char buff1[100];
+//Note from yousif:
+/*
+If the servos and motors are interfering with each other's signals
+make sure that TIMER_SERVO is defined as TIM1 in a HEADER called "variant_PILL_F103Cx.h"
+The file is usually found in:
+C:\Users\<username>\.platformio\packages\framework-arduinoststm32\variants\STM32F1xx\F103C8T_F103CB(T-U)
+*/
 
 void setup(){
     setupMotors();
@@ -46,7 +52,28 @@ void setup(){
 }
 
 void loop(){    
-    // tapeFollowingLoop();
+//*********MAIN CODE LOOP********//    
+    checkCanDetector();
+    updateDropOffState();
+
+    if(receivingIRData){
+        driveMotors(0,0,0,0);
+        parameterMenuLoop();
+    }else{
+        if(dropOffState != driving && dropOffState != complete){
+            printDisplay("Can\nDrop\nOff",2,1);
+            canDropoff();
+        }else if (isCanDetected){
+            printDisplay("Can\nPick\nUp",2,1);
+            driveMotors(0,0,0,0);
+            canPickup();
+        } else 
+            tapeFollowingLoop();
+        
+    }
+
+
+//*********TIMER TEST LOOP********//  
 //test code to see if timer works will IR, sonar, motors, and servos doing things
     // driveMotors(300,0,300,0);
     // delay(500);
@@ -96,23 +123,4 @@ void loop(){
     // display.println(readSonar());
     // display.display();
     // delay(3000);
-    
-    checkCanDetector();
-    updateDropOffState();
-
-    if(receivingIRData){
-        driveMotors(0,0,0,0);
-        parameterMenuLoop();
-    }else{
-        if(dropOffState != driving && dropOffState != complete){
-            printDisplay("Can\nDrop\nOff",2,1);
-            canDropoff();
-        }else if (isCanDetected){
-            printDisplay("Can\nPick\nUp",2,1);
-            driveMotors(0,0,0,0);
-            canPickup();
-        } else 
-            tapeFollowingLoop();
-        
-    }
 }
