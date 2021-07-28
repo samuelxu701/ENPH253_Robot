@@ -2,7 +2,8 @@
 #include <Arduino.h>
 #include <pindefinitions.h>
 
-long sonarReadings[maxReadingCount] = {0};
+int *sonarReadings;
+int array[maxReadingCount] = {0};
 int numReadingsTaken = 0;
 int numReadingsBelowThreshold = 0;
 bool isCanDetected = false;
@@ -10,21 +11,22 @@ bool isCanDetected = false;
 void setupSonar(){
     pinMode(triggerPin, OUTPUT);
     pinMode(echoPin, INPUT);
+    sonarReadings = array;
 }
 
-long readSonar(){
+int readSonar(){
     digitalWrite(triggerPin, LOW);
     delayMicroseconds(2);
     digitalWrite(triggerPin, HIGH);
     delayMicroseconds(10);
     digitalWrite(triggerPin, LOW);
-    long duration = pulseIn(echoPin, HIGH);
+    int duration = pulseIn(echoPin, HIGH);
     
-    long distance = float(duration) * 0.034 / 2.0;
+    int distance = duration * 0.034 / 2.0;
 
     int index = numReadingsTaken % maxReadingCount;
-    long reading = sonarReadings[index];
-    if(reading < sonarThreshold && reading > 0){
+    int reading = sonarReadings[index];
+    if(reading > 0 && reading < sonarThreshold){
         numReadingsBelowThreshold--;
     }
     if(distance < sonarThreshold){
@@ -34,9 +36,8 @@ long readSonar(){
     numReadingsTaken++;
 
     if((float) numReadingsBelowThreshold >= minPercentBelowThreshold * maxReadingCount){
-        for(int i = 0; i < maxReadingCount; i++){
-            sonarReadings[i] = 0;
-        }
+        int newArray[maxReadingCount] = {0};
+        sonarReadings = newArray;
         numReadingsBelowThreshold = 0;
         isCanDetected = true;
     } else isCanDetected = false;

@@ -4,11 +4,11 @@
 
 extern bool isCanDetected;
 
-#define maxReadingCount 50
+#define maxReadingCount 20
 #define sonarThreshold 43
 #define minPercentBelowThreshold 0.8
 
 void setupSonar();
-long readSonar();
+int readSonar();
 
 #endif
