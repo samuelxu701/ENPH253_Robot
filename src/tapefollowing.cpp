@@ -6,6 +6,7 @@
 #include <display.h>
 #include <PinDefinitions.h>
 #include <util.h>
+#include <sonar.h>
 
 // Adjustable parameters:
 const int farLeft = -5;
@@ -30,8 +31,8 @@ const float turning_multiplier = 40;
 
  
 // Speed-dependent variables;
-int max_pwm = 1000;
-float multiplier = 20;
+int max_pwm = 950;
+float multiplier = 25;
  
 // PID variables:
 volatile int lastErrState = 0;
@@ -84,13 +85,14 @@ void tapeFollowingLoop() {
   int p = kp * currErrState;
   int d = kd * derivative;
   int g = p + d;
-  
-  snprintf(buff, sizeof(buff), "Left Reading:%d\nRight Reading:%d\nDocking Reading:%d\nLeft binary:%d\nRight binary:%d\nCurrent Error:%d\nTime Step:%d\ng:%d",
-  leftReading, rightReading,docking, leftBinary, rightBinary, currErrState, timeStep, g);
-  String msg = buff;
-  printDisplay(msg, 1, 1);
 
   motor(g);
+  long sonar_dis = sonar.ping_cm();
+  
+  snprintf(buff, sizeof(buff), "Left Reading:%d\nRight Reading:%d\nDocking Reading:%d\nSonar Dis:%d\nnCurrent Error:%d\nTime Step:%d\ng:%d",
+  leftReading, rightReading,docking, sonar_dis, currErrState, timeStep, g);
+  String msg = buff;
+  printDisplay(msg, 1, 1);
 }
  
 void motor(int g) {

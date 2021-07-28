@@ -12,7 +12,6 @@ bool isCanDetected = false;
 NewPing sonar(triggerPin, echoPin, 400);
 
 void setupSonar(){
-<<<<<<< HEAD
     sonarReadings = array;
 }
 
@@ -25,40 +24,20 @@ void setupSonar(){
 //     long duration = pulseIn(echoPin, HIGH);
     
 //     long distance = duration * 0.034 / 2.0;
-=======
-    pinMode(triggerPin, OUTPUT);
-    pinMode(echoPin, INPUT);
-    sonarReadings = array;
-}
-
-int readSonar(){
-    digitalWrite(triggerPin, LOW);
-    delayMicroseconds(2);
-    digitalWrite(triggerPin, HIGH);
-    delayMicroseconds(10);
-    digitalWrite(triggerPin, LOW);
-    int duration = pulseIn(echoPin, HIGH);
-    
-    int distance = duration * 0.034 / 2.0;
->>>>>>> 2cabaadfbe67e19f1f1933221b680582f23f5338
 
 //     return distance;
 // }
 
-<<<<<<< HEAD
 long checkCanDetector(){
     long distance = sonar.ping_cm();
-=======
-int checkCanDetector(){
-    int distance = readSonar();
->>>>>>> 2cabaadfbe67e19f1f1933221b680582f23f5338
 
     int index = numReadingsTaken % maxReadingCount;
-    int reading = sonarReadings[index];
+    long reading = sonarReadings[index];
+
     if(reading > 0 && reading < sonarThreshold){
         numReadingsBelowThreshold--;
     }
-    if(distance < sonarThreshold){
+    if(distance > 0 && distance < sonarThreshold){
         numReadingsBelowThreshold++;
     }
     sonarReadings[index] = distance;

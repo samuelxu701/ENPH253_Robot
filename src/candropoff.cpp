@@ -19,7 +19,7 @@ const int bumperInAngle = 90;
 //time it takes for cans to fall into silo after getting hit by bumper
 const int dropOffBumpDelay = 1000;
 
-int slowSpeed = max_pwm/2;
+int slowSpeed = max_pwm/4;
 
 int prevDockingState = LOW;
 int currDockingState = LOW;

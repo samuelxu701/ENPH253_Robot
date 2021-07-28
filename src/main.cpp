@@ -96,9 +96,9 @@ void loop(){
     // display.println(readSonar());
     // display.display();
     // delay(3000);
+    
     checkCanDetector();
-    updateDockingStatus();
-
+    updateDropOffState();
 
     if(receivingIRData){
         driveMotors(0,0,0,0);
