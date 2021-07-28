@@ -32,7 +32,7 @@ const float turning_multiplier = 40;
  
 // Speed-dependent variables;
 int max_pwm = 950;
-float multiplier = 25;
+int multiplier = 25;
  
 // PID variables:
 volatile int lastErrState = 0;

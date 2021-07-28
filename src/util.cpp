@@ -7,7 +7,6 @@
 
 volatile bool onTape = false;
 float unitVoltage = 3.3/1024;
-char buff[200];
 
 // HardwareTimer tim1(TIM1);
 // HardwareTimer tim2(TIM2);

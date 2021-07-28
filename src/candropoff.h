@@ -4,6 +4,9 @@
 //max number of cans to drop off
 #define MAX_CANS 6
 
+//pwm speed for drop off procedure
+extern int dropOffPWM;
+
 //Enum representing drop off states
 //0 ='driving' = no docking
 //1 = 'slowDown' = stopping soon, slow down

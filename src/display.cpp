@@ -5,6 +5,7 @@
 
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
+char buff[200];
 
 void setupDisplay(){
     display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
@@ -21,6 +22,7 @@ void printDisplaySetup(String formattedMessage, int textSize, int endTimeDelay, 
     display.print(formattedMessage);
     drawPercentBar( 0, 40, 128, 15,progress);
     display.display();
+    display.setTextSize(1);
     delay(endTimeDelay);
 }
 
@@ -30,6 +32,7 @@ void printDisplay(String formattedMessage, int textSize, int endTimeDelay){
     display.setTextSize(textSize);
     display.print(formattedMessage);
     display.display();
+    display.setTextSize(1);
     delay(endTimeDelay);
 }
 

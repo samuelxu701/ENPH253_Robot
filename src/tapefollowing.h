@@ -16,12 +16,31 @@ void motor(int g);
 int getState(int leftBinary, int rightBinary);
 
 
-//********GLOBAL VARAIBLES**********//
+//********GLOBAL PID VARAIBLES**********//
+
+//derivative constant of PID control
+//recommended value = 20
 extern int kd;
+
+//proportionality constant of PID control
+//recommended value = 30
 extern int kp;
+
+//maximum straight-forward drive pwm for motors
+//recommended value = 950
+//recommended range : 800-1200
 extern int max_pwm;
-extern float multiplier;
+
+//PID multiplier to vary pwm, multiplies PID g value
+//recommended range : 10-30
+extern int multiplier;
+
+//Threshold for analog tape sensors to make them binary
+//recommended value = 650
 extern int binaryThreshold;
+
+//Motor frequency, this usually remains constant
+//recommended value = 200
 extern int freq;
 
 #endif

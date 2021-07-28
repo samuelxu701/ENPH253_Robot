@@ -9,6 +9,9 @@
 //is modified inside checkIRreceiver()
 extern bool receivingIRData;
 
+//state enum for setup menu
+enum SetupState{Menu, KP, KD, Multiplier, MaxPWM, Threshold, Frequency, DropOffPWM};
+
 //Max number of digits to receive for a parameter
 #define MAX_DIGITS 10
 

@@ -6,13 +6,16 @@
 #include <motor.h>
 #include <TapeFollowing.h>
 #include <IRremote.h>
+#include <CanDropoff.h>
 
 
 bool receivingIRData;
+SetupState setupState;
 
 void setupIRRemote(){
   IrReceiver.begin(IR_RECEIVER_PIN, ENABLE_LED_FEEDBACK, USE_DEFAULT_FEEDBACK_LED_PIN); // Start the receive
   receivingIRData = false;
+  setupState = Menu;
 }
 
 
@@ -115,21 +118,21 @@ int getNumFromIR(){
 }
 
 void parameterMenuLoop(){
-    enum SetupState{Menu, KP, KD, Multiplier, MaxPWM, Threshold, Frequency};
-    SetupState setupState = Menu;
+    printDisplay("MY ROBO\nSETUP\n:)", 2, 1000);
+    display.setTextSize(1);
 
     while(receivingIRData){
       if(setupState == Menu){
         display.clearDisplay();
         display.setCursor(0,0);
-        display.println("MyRobo-Setup: )");
-        display.println("Press 1: modify Kp");
-        display.println("Press 2: modify Kd");
-        display.println("Press 3: modify mul");
-        display.println("Press 4: modify PWM");
-        display.println("Press 5: modify thresh");
-        display.println("Press 6: modify freq");
-        display.println("Press Power: Exit setup");
+        display.println("1: Kp");
+        display.println("2: Kd");
+        display.println("3: mul");
+        display.println("4: PWM");
+        display.println("5: thresh");
+        display.println("6: freq");
+        display.println("7: dropoff pwm");
+        display.println("Power: Exit setup");
         display.display();
 
         if (IrReceiver.decode()){
@@ -138,7 +141,8 @@ void parameterMenuLoop(){
               display.clearDisplay();
               display.setCursor(0,0);
               display.println("You have selected to");
-              display.println("modify Kp");
+              display.print("modify ");
+              display.println(setupState);
               display.display();
               setupState = KP;
               delay(1000);
@@ -187,7 +191,16 @@ void parameterMenuLoop(){
               display.display();
               setupState = Frequency;
               delay(1000);
-              break;                       
+              break;      
+            case IR_SEVEN:
+              display.clearDisplay();
+              display.setCursor(0,0);
+              display.println("You have selected to");
+              display.println("modify drop off PWM");
+              display.display();
+              setupState = DropOffPWM;
+              delay(1000);
+              break;                                    
             case IR_POWER:
               display.clearDisplay();
               display.setCursor(0,0);
@@ -234,7 +247,10 @@ void parameterMenuLoop(){
             break;                
           case Frequency:
             freq = num;
-            break;                 
+            break;    
+          case DropOffPWM:
+            dropOffPWM = num;
+            break;                           
           case Menu:
             break;    
           default:
@@ -247,36 +263,10 @@ void parameterMenuLoop(){
 
     }
 
-
-    display.clearDisplay();
-    display.setCursor(0,0);
-
-    display.println("****New Parameter Values****");
-
-    display.print("Kp: ");
-    display.println(kp);
-
-    display.print("Kd: ");
-    display.println(kd);
-
-    display.print("Mult.: ");
-    display.println(multiplier);
-
-    display.print("Max PWM: ");
-    display.println(max_pwm);    
-
-    display.print("Threshold: ");
-    display.println(binaryThreshold); 
-
-    display.print("Frequency: ");
-    display.println(freq); 
-
-    display.println(" ");
-    display.println("Leaving setup soon.");
-
-    display.display();
-
-    delay(5000);
+    snprintf(buff, sizeof(buff), "MyRobo Parameters:\nKp:%d\nKd:%d\nMult.:%d\nMax PWM:%d\nThreshold:%d\nFreq.:%d\nDropOff PWM:%d", kp, kd, multiplier, max_pwm, binaryThreshold, freq, dropOffPWM);
+    String msg = buff;
+    printDisplay(msg, 1, 4000);
+    printDisplay("Leaving\nSetup\nSoon", 2, 1000);
 }
     
 

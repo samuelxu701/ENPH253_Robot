@@ -7,8 +7,11 @@
 #define SCREEN_HEIGHT 64 // OLED display height, in pixels
 #define OLED_RESET  -1 // This display does not have a reset pin accessible
 
+//oled display object
 extern Adafruit_SSD1306 display;
 
+//char array for storing messages to print
+extern char buff[200];
 
 void setupDisplay();
 
