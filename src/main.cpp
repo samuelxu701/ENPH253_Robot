@@ -56,11 +56,6 @@ void loop(){
     checkCanDetector();
     updateDropOffState();
     checkIRreceiver();
-    servoTurn(canKickerServo, 0, 10);
-    servoTurn(armServo, 0, 10);
-    servoTurn(canKickerServo, 180, 10);
-    servoTurn(armServo, 180, 10);
-    // displayTimers(HERTZ_FORMAT);
 
     if(receivingIRData){
         driveMotors(0,0,0,0);
