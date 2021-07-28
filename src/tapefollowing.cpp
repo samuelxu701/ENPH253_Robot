@@ -17,7 +17,7 @@ const int farRight = 5;
 
 int binaryThreshold = 650;
  
-int kp = 30;
+int kp = 25;
 int kd = 20;
  
 const int straight_max_pwm = 300;
@@ -30,8 +30,8 @@ const float turning_multiplier = 40;
 
  
 // Speed-dependent variables;
-int max_pwm = 300;
-float multiplier = 3;
+int max_pwm = 1000;
+float multiplier = 20;
  
 // PID variables:
 volatile int lastErrState = 0;
@@ -43,6 +43,7 @@ volatile unsigned long currErrStateStartTime = 0;
 volatile int lastTapeState = HIGH;
 volatile int currTapeState = HIGH;
 volatile int speedSetting = LOW;
+char buff[200];
  
 void setupTapeFollowing() {
   pinMode(LEFT_SENSOR, INPUT);
@@ -54,21 +55,14 @@ void setupTapeFollowing() {
  
 void tapeFollowingLoop() {
   absolute_maximum_pwm = 2 * max_pwm;
-  display.clearDisplay();
-  display.setCursor(0,0);
   int leftReading = analogRead(LEFT_SENSOR);
   int rightReading = analogRead(RIGHT_SENSOR);
-  int speedReading = 0;
+  int docking = analogRead(DOCKING_SENSOR);
 
-  
   unsigned long currTime = millis();
   
   int leftBinary = binaryProcessor(leftReading, binaryThreshold);
   int rightBinary = binaryProcessor(rightReading, binaryThreshold);
-  int speedReadingBinary = binaryProcessor(speedReading, binaryThreshold);
-  
-  lastTapeState = currTapeState;
-  currTapeState = speedReadingBinary;
   
   int currState = getState(leftBinary, rightBinary);
   
@@ -91,9 +85,8 @@ void tapeFollowingLoop() {
   int d = kd * derivative;
   int g = p + d;
   
-  char buff[200];
-  snprintf(buff, sizeof(buff), "Left Reading:%d\nRight Reading:%d\nLeft binary:%d\nRight binary:%d\nCurrent Error:%d\nTime Step:%d\nDerivative:%.2f\ng:%d",
-  leftReading, rightReading, leftBinary, rightBinary, currErrState, timeStep, derivative, g);
+  snprintf(buff, sizeof(buff), "Left Reading:%d\nRight Reading:%d\nDocking Reading:%d\nLeft binary:%d\nRight binary:%d\nCurrent Error:%d\nTime Step:%d\ng:%d",
+  leftReading, rightReading,docking, leftBinary, rightBinary, currErrState, timeStep, g);
   String msg = buff;
   printDisplay(msg, 1, 1);
 

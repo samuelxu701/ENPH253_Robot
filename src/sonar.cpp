@@ -2,32 +2,34 @@
 #include <Arduino.h>
 #include <PinDefinitions.h>
 #include <display.h>
+#include <NewPing.h>
 
-long sonarReadings[maxReadingCount] = {0};
+int *sonarReadings;
+int array[maxReadingCount] = {0};
 int numReadingsTaken = 0;
 int numReadingsBelowThreshold = 0;
 bool isCanDetected = false;
+NewPing sonar(triggerPin, echoPin, 400);
 
 void setupSonar(){
-    pinMode(triggerPin, OUTPUT);
-    pinMode(echoPin, INPUT);
+    sonarReadings = array;
 }
 
-long readSonar(){
-    digitalWrite(triggerPin, LOW);
-    delayMicroseconds(2);
-    digitalWrite(triggerPin, HIGH);
-    delayMicroseconds(10);
-    digitalWrite(triggerPin, LOW);
-    long duration = pulseIn(echoPin, HIGH);
+// long readSonar(){
+//     digitalWrite(triggerPin, LOW);
+//     delayMicroseconds(2);
+//     digitalWrite(triggerPin, HIGH);
+//     delayMicroseconds(10);
+//     digitalWrite(triggerPin, LOW);
+//     long duration = pulseIn(echoPin, HIGH);
     
-    long distance = float(duration) * 0.034 / 2.0;
+//     long distance = duration * 0.034 / 2.0;
 
-    return distance;
-}
+//     return distance;
+// }
 
 long checkCanDetector(){
-    long distance = readSonar();
+    long distance = sonar.ping_cm();
 
     int index = numReadingsTaken % maxReadingCount;
     long reading = sonarReadings[index];

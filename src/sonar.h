@@ -1,9 +1,11 @@
 #ifndef ROBOTSONAR_H
 #define ROBOTSONAR_H
-
+#include <NewPing.h>
 //boolean for can detection at sonar
 //Is modified by checkCanDetector()
 extern bool isCanDetected;
+
+extern NewPing sonar;
 
 #define maxReadingCount 50
 #define sonarThreshold 43
@@ -13,7 +15,7 @@ extern bool isCanDetected;
 void setupSonar();
 
 //Sends and receives sonar pulse and returns distance in cm
-long readSonar();
+//long readSonar();
 
 //Keeps track of past sonar readings and filters them to more accurately
 //determine if an object: can is detected at the sonar.

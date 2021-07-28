@@ -14,6 +14,8 @@
 #include <util.h>
 #include <rservos.h>
 
+char buff1[100];
+
 void setup(){
     setupMotors();
 
@@ -43,37 +45,74 @@ void setup(){
     printDisplaySetup("Setup\nComplete",2, 500,100);
 }
 
-void loop(){
+void loop(){    
+    // tapeFollowingLoop();
 //test code to see if timer works will IR, sonar, motors, and servos doing things
-    driveMotors(300,0,300,0);
-    delay(500);
+    // driveMotors(300,0,300,0);
+    // delay(500);
 
-    checkIRreceiver();
-    readSonar();
-
-    servoTurn(canKickerServo, 0, 1000);
-    servoTurn(armServo, 0, 1000);
-    servoTurn(canKickerServo, 180, 1000);
-    servoTurn(armServo, 180, 1000);
-
-    displayTimers(HERTZ_FORMAT);
-
-//main code loop
     // checkIRreceiver();
-    // updateDropOffState();
-    // checkCanDetector();
+    // readSonar();
 
-    // if(receivingIRData){
-    //     driveMotors(0,0,0,0);
-    //     parameterMenuLoop();
-    // }else{
-    //     if(dropOffState != driving || dropOffState != complete){
-    //         canDropoff();
-    //     }else if (isCanDetected){
-    //         driveMotors(0,0,0,0);
-    //         canPickup();
-    //     } else {
-    //         tapeFollowingLoop();
-    //     }
-    // }
+    // servoTurn(canKickerServo, 0, 1000);
+    // servoTurn(armServo, 0, 1000);
+    // servoTurn(canKickerServo, 180, 1000);
+    // servoTurn(armServo, 180, 1000);
+
+    // displayTimers(HERTZ_FORMAT);
+
+//time it loop
+    // uint32_t start = micros();
+    // updateDropOffState();
+    // uint32_t end = micros();
+    // uint32_t diff_dock = end-start;
+
+    // start = micros();
+    // long distance_ping = sonar.ping_cm();
+    // end = micros();
+    // uint32_t diff_ping = end-start;
+
+    // start = micros();
+    // long distance_pulse = readSonar();
+    // end = micros();
+    // uint32_t diff_pulse = end-start;
+
+    // start = micros();
+    // checkCanDetector();
+    // end = micros();
+    // uint32_t diff_can = end-start;
+
+    // start = micros();
+    // checkIRreceiver();
+    // end = micros();
+    // uint32_t diff_ir = end-start;
+
+
+    // snprintf(buff1, sizeof(buff1), "docking:%d\nsonarping:%d\ndistance:%d\npulsein:%d\npulsedistance:%d\ncandetector:%d\nir:%d",
+    // diff_dock,diff_ping,distance_ping,diff_pulse,distance_pulse,diff_can,diff_ir);
+    // String msg = buff1;
+    // printDisplay(msg, 1, 5000);
+    // display.clearDisplay();
+    // display.println(readSonar());
+    // display.display();
+    // delay(3000);
+    checkCanDetector();
+    updateDockingStatus();
+
+
+    if(receivingIRData){
+        driveMotors(0,0,0,0);
+        parameterMenuLoop();
+    }else{
+        if(dropOffState != driving && dropOffState != complete){
+            printDisplay("Can\nDrop\nOff",2,1);
+            canDropoff();
+        }else if (isCanDetected){
+            printDisplay("Can\nPick\nUp",2,1);
+            driveMotors(0,0,0,0);
+            canPickup();
+        } else 
+            tapeFollowingLoop();
+        
+    }
 }
