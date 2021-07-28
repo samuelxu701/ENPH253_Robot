@@ -8,7 +8,7 @@
 #define MOTOR_RIGHT_REV PA_3
 
 //*********IR RECEIVER**********//
-#define IR_RECEIVER PA11
+#define IR_RECEIVER_PIN PA7
 
 //*****SONAR PINS**********//
 #define triggerPin PB10

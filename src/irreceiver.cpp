@@ -8,32 +8,25 @@
 #include <IRremote.h>
 
 
-IRrecv irrecv(IR_RECEIVER, 1);
 bool receivingIRData;
 
 void setupIRRemote(){
-  irrecv.enableIRIn(); // Start the receive
+  IrReceiver.begin(IR_RECEIVER_PIN, ENABLE_LED_FEEDBACK, USE_DEFAULT_FEEDBACK_LED_PIN); // Start the receive
   receivingIRData = false;
 }
 
 
 void checkIRreceiver(){
-    if(irrecv.decode()){
-        if(irrecv.decodedIRData.decodedRawData == IR_POWER){
-            display.clearDisplay();
-            display.setCursor(0,0);
-            display.println("*****************");
-            display.println("RECEIVING IR DATA");
-            display.println("*****************");
-            display.display();
-
-            driveMotors(0,0,0,0);
-            delay(2000);
-            receivingIRData = !receivingIRData;
+    if(IrReceiver.decode()){
+        if(IrReceiver.decodedIRData.decodedRawData == IR_POWER){
+          printDisplay("RECEIVING\nIR\nDATA",2,1000);
+          display.setTextSize(1);
+          driveMotors(0,0,0,0);
+          receivingIRData = !receivingIRData;
         }
     }
 
-    irrecv.resume();
+    IrReceiver.resume();
 }
 
 int getNumFromDigits(int digitsArray[], int count){
@@ -79,7 +72,7 @@ int getNumFromIR(){
     int digits[MAX_DIGITS] = {-1};
     int digitsCount = 0;
 
-    irrecv.resume();
+    IrReceiver.resume();
 
 
     while(receivingDigits){
@@ -89,8 +82,8 @@ int getNumFromIR(){
       display.print("Enter Digits for new Value.");
       display.println("Press stop once finished.");
 
-        if(irrecv.decode()){
-            int rawData = irrecv.decodedIRData.decodedRawData;
+        if(IrReceiver.decode()){
+            int rawData = IrReceiver.decodedIRData.decodedRawData;
             int num = getNumFromRawData(rawData);
 
             if(num >= 0){
@@ -105,7 +98,7 @@ int getNumFromIR(){
             }
         }
 
-        irrecv.resume();
+        IrReceiver.resume();
 
         display.print("Value: ");
         for(int i = 0; i < digitsCount;i++){
@@ -139,8 +132,8 @@ void parameterMenuLoop(){
         display.println("Press Power: Exit setup");
         display.display();
 
-        if (irrecv.decode()){
-          switch(irrecv.decodedIRData.decodedRawData){
+        if (IrReceiver.decode()){
+          switch(IrReceiver.decodedIRData.decodedRawData){
             case IR_ONE:
               display.clearDisplay();
               display.setCursor(0,0);
@@ -209,7 +202,7 @@ void parameterMenuLoop(){
           }
         }
 
-        irrecv.resume();
+        IrReceiver.resume();
       }
 
 

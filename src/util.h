@@ -6,11 +6,11 @@ extern volatile bool onTape;
 //Hardware Timers
 extern HardwareTimer tim1;
 extern HardwareTimer tim2;
-extern HardwareTimer tim3;
-extern HardwareTimer tim4;
+// extern HardwareTimer tim3;
+// extern HardwareTimer tim4;
 
 //char array for storing messages to print
-extern char buff[];
+extern char buff[200];
 
 //Takes an analog value and reduces it to a binary based on a threshold value
 int binaryProcessor(int reading, int threshold);
@@ -25,7 +25,8 @@ void handleTapeSensorInterrupt();
 //HERTZ_FORMAT = display frequency
 //MICROSEC_FORMAT = display microsecond period
 //defualt is timer tick.
-void displayTimers(TimerFormat_t format);
+
+// void displayTimers(TimerFormat_t format);
 
 
 #endif
