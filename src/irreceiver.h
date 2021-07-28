@@ -1,11 +1,16 @@
-#ifndef IRRECEIVER_H
-#define IRRECEIVER_H
+#ifndef ROBOTIRRECEIVER_H
+#define ROBOTIRRECEIVER_H
+
+#include <irreceiver.h>
 
 //************IR RECEIVER VARIABLES*********//
+
+//true if IR receiver recently received a power signal from a remote
+//is modified inside checkIRreceiver()
 extern bool receivingIRData;
 
+//Max number of digits to receive for a parameter
 #define MAX_DIGITS 10
-
 
 //********FUNCTION DECLARATIONS*******//
 
@@ -15,6 +20,7 @@ void setupIRRemote();
 
 
 //check for an ir signal to start the parameter menu process
+//modifies bool bool receivingIRData
 void checkIRreceiver();
 
 

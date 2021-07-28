@@ -1,5 +1,5 @@
-#ifndef PINDEFINITIONS_H
-#define PINDEFINITIONS_H
+#ifndef ROBOTPINDEFINITIONS_H
+#define ROBOTPINDEFINITIONS_H
 
 //*********MOTOR PINS*******//
 #define MOTOR_LEFT_FWD PA_0
@@ -7,12 +7,12 @@
 #define MOTOR_RIGHT_FWD PA_2
 #define MOTOR_RIGHT_REV PA_3
 
+//*********IR RECEIVER**********//
+#define IR_RECEIVER PA11
+
 //*****SONAR PINS**********//
 #define triggerPin PB10
 #define echoPin PB11
-
-//**********IR RECEIVER********//
-#define IR_RECEIVER PA7
 
 //*********TAPE SENSOR PINS**********//
 #define LEFT_SENSOR PA4
@@ -23,14 +23,12 @@
 
 //*********SERVO PINS*************//
 #define sweepServoPin PA8
-#define armServoPin PB8
-#define gateServoPin PA9
+#define armServoPin PA9
+#define gateServoPin PA10
 #define canKickerServoPin PB8
 
 //**********DISPLAY PINS*********//
 //#define sck PB6
 //#define sda PB7
-
-
 
 #endif

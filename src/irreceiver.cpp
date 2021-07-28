@@ -4,7 +4,7 @@
 #include <Wire.h>
 #include <display.h>
 #include <motor.h>
-#include <tapefollowing.h>
+#include <TapeFollowing.h>
 #include <IRremote.h>
 
 
@@ -19,14 +19,14 @@ void setupIRRemote(){
 
 void checkIRreceiver(){
     if(irrecv.decode()){
-        display.clearDisplay();
-        display.setCursor(0,0);
-        display.println("*****************");
-        display.println("RECEIVING IR DATA");
-        display.println("*****************");
-        display.display();
-
         if(irrecv.decodedIRData.decodedRawData == IR_POWER){
+            display.clearDisplay();
+            display.setCursor(0,0);
+            display.println("*****************");
+            display.println("RECEIVING IR DATA");
+            display.println("*****************");
+            display.display();
+
             driveMotors(0,0,0,0);
             delay(2000);
             receivingIRData = !receivingIRData;
@@ -86,7 +86,7 @@ int getNumFromIR(){
       display.clearDisplay();
       display.setCursor(0,0);
 
-      display.println("Enter Digits for new Value.");
+      display.print("Enter Digits for new Value.");
       display.println("Press stop once finished.");
 
         if(irrecv.decode()){

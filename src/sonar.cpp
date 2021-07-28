@@ -1,6 +1,7 @@
 #include <sonar.h>
 #include <Arduino.h>
-#include <pindefinitions.h>
+#include <PinDefinitions.h>
+#include <display.h>
 
 int *sonarReadings;
 int array[maxReadingCount] = {0};
@@ -23,6 +24,12 @@ int readSonar(){
     int duration = pulseIn(echoPin, HIGH);
     
     int distance = duration * 0.034 / 2.0;
+
+    return distance;
+}
+
+int checkCanDetector(){
+    int distance = readSonar();
 
     int index = numReadingsTaken % maxReadingCount;
     int reading = sonarReadings[index];
