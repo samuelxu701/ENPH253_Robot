@@ -7,7 +7,7 @@ extern bool isCanDetected;
 
 extern NewPing sonar;
 
-#define maxReadingCount 50
+#define maxReadingCount 25
 #define sonarThreshold 43
 #define minPercentBelowThreshold 0.8
 

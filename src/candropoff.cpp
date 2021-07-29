@@ -106,8 +106,8 @@ DropOffState updateDropOffState(){
 }
 
 void bumpCans(){
-    canKickerServo.write(bumperInAngle);
-    canKickerServo.write(bumperOutAngle);
+    servoTurn(canKickerServo, bumperInAngle, 10);
+    servoTurn(canKickerServo, bumperOutAngle, 500);
 }
 
 

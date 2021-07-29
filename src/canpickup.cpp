@@ -14,10 +14,10 @@
 const int sweepOpenAngle = 0;
 const int sweepCloseAngle = 180;
 
-const int armDownAngle = 0;
+const int armDownAngle = 5;
 const int armUpAngle = 115; // 115
 
-const int gateTopAngle = 10; // 47
+const int gateTopAngle = 5; // 47
 const int gateBotAngle = 100; // 175
 
 //*********State Machine Function Dec. and Variables**********//
@@ -35,6 +35,9 @@ volatile int canCount = 0;
 
 void setupCanPickup() {
   gateState = bottom;
+  servoTurn(sweepServo, sweepOpenAngle, 200);
+  servoTurn(armServo, armDownAngle, 200);
+  servoTurn(gateServo, gateBotAngle, 200);
 }
 
 void canPickup(){
@@ -49,7 +52,7 @@ void canPickup(){
     delay(servoTaskTimeDelay);
   }
 
-  servoTurn(sweepServo, sweepCloseAngle, 1200);
+  servoTurn(sweepServo, sweepCloseAngle, 1000);
   delay(sweepCloseDelay);
 
   servoTurn(sweepServo, sweepOpenAngle, 500);

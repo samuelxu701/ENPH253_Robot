@@ -30,14 +30,14 @@ void setup(){
     printDisplaySetup("Motor\nSetup\nComplete", 1, 500,10);
     printDisplaySetup("Display\nSetup\nComplete", 1, 500,20);
 
-    attachServos();
-    printDisplaySetup("Servos\nAttatched",1, 500,30);
-
     setupSonar();
-    printDisplaySetup("Sonar\nSetup\nComplete",1, 500,40);
+    printDisplaySetup("Sonar\nSetup\nComplete",1, 500,30);
 
     setupTapeFollowing();
-    printDisplaySetup("Tape\nFollowing\nSetup\nComplete",1, 500,50);
+    printDisplaySetup("Tape\nFollowing\nSetup\nComplete",1, 500,40);
+
+    attachServos();
+    printDisplaySetup("Servos\nAttatched",1, 500,50);
 
     setupCanPickup();
     printDisplaySetup("Pickup\nSetup\nComplete",1, 500,60);
