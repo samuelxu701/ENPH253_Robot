@@ -6,11 +6,24 @@
 //Setup tape following parameters and sensors
 void setupTapeFollowing();
 
-//Main loop for tape following, call this in main.cpp -> loop()
-void tapeFollowingLoop();
+
+//call this in main for tape following
+//main PID control function, reads tape sensors and calculates int g = p + i + d  value
+//also prints all sensor readings to display
+//takes an optional direction parameter for forward/reverse tape following
+        //dir = 0 -> forward (default value)
+        //dir = 1 -> reverse
+//takes an option pwm parameter
+//if parameter remains 0 it will switch to pwm_max global              
+int tapeFollowingPID(int dir = 0, int pwm = 0);
 
 //Takes a g values based on PID control then determines and writes pwm values to motors
-void motor(int g);
+//takes an optional direction parameter for forward/reverse tape following
+        //dir = 0 -> forward (default value)
+        //dir = 1 -> reverse
+//takes an option pwm parameter
+//if parameter remains 0 it will switch to pwm_max global        
+void motor(int g, int dir = 0, int pwm = 0);
 
 //Reads tape sensors and returns error state of robot
 int getState(int leftBinary, int rightBinary);

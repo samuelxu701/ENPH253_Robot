@@ -41,18 +41,16 @@ void canDropoff(){
         updateDropOffState();
 
         if(dockingStatus == slowDown)
-            driveMotors(dropOffPWM, 0, dropOffPWM, 0);
+            tapeFollowingPID(0, dropOffPWM);
 
         if(dockingStatus == dropOff){
             //stop
             driveMotors(0,0,0,0);
             delay(10);
 
-            //reverse at slow speed becuase of overshoot
-            driveMotors(0,dropOffPWM,0,dropOffPWM);
-
-            //reverse until docking sensor on tape again
-            while(analogRead(DOCKING_SENSOR) < binaryThreshold);
+            //reverse tape follow until docking sensor on tape again
+            while(analogRead(DOCKING_SENSOR) < binaryThreshold)
+                tapeFollowingPID(1, dropOffPWM);
             //stop
             driveMotors(0,0,0,0);
 
