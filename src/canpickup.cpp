@@ -34,10 +34,10 @@ GateState gateState;
 volatile int canCount = 0;
 
 void setupCanPickup() {
+  sweepServo.write(sweepOpenAngle);
+  armServo.write(armDownAngle);
+  gateServo.write(gateBotAngle);
   gateState = bottom;
-  servoTurn(sweepServo, sweepOpenAngle, 200);
-  servoTurn(armServo, armDownAngle, 200);
-  servoTurn(gateServo, gateBotAngle, 200);
 }
 
 void canPickup(){
