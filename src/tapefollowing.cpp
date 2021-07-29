@@ -118,9 +118,13 @@ void motor(int g, int dir = 0, int pwm = 0) {
 
   if(dir == 0)
     driveMotors(left_fwd_pwm, left_rev_pwm, right_fwd_pwm, right_rev_pwm);
-  else
-    //reverse direction
-    driveMotors(left_rev_pwm,left_fwd_pwm, right_rev_pwm, right_fwd_pwm);
+  else {
+    if(g != 0)
+      //error correction
+      driveMotors(left_fwd_pwm, left_rev_pwm, right_fwd_pwm, right_rev_pwm);
+    else  
+      driveMotors(0,pwm,0,pwm);
+  }
 }
 
 int getState(int leftBinary, int rightBinary) {
