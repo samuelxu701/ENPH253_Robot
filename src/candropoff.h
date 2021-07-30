@@ -6,7 +6,7 @@ extern int bumperOutAngle;
 extern int bumperInAngle;
 
 //max number of cans to drop off
-#define MAX_CANS 6
+#define MAX_CANS 8
 
 //pwm speed for drop off procedure
 extern int dropOffPWM;

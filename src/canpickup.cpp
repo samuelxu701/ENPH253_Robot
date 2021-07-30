@@ -31,24 +31,25 @@ const int sweepCloseDelay = 500;
 
 
 GateState gateState;
-volatile int canCount = 0;
+volatile int canCount;
 
 void setupCanPickup() {
+  canCount = 0;
   gateState = bottom;
 }
 
 void resetCanPickup(){
-  gateState = bottom;
   canCount = 0;
+  gateState = bottom;
 }
 
 void canPickup(){
   printDisplay("Can\nPickup",3,1);
-  if(canCount >= 3 && gateState != top){
+  if(canCount >= 3){
     gateState = top;
     servoTurn(gateServo, gateTopAngle, 1000);
     delay(servoTaskTimeDelay);
-  }else if(canCount < 3 && gateState != bottom){
+  }else if(canCount < 3){
     gateState = bottom;
     servoTurn(gateServo, gateBotAngle, 1000);
     delay(servoTaskTimeDelay);
@@ -60,7 +61,7 @@ void canPickup(){
   servoTurn(sweepServo, sweepOpenAngle, 500);
   delay(servoTaskTimeDelay);
 
-  servoTurn(armServo, armUpAngle, 1200);
+  servoTurn(armServo, armUpAngle, 1000);
   // delay(servoTaskTimeDelay);
 
   if (gateState == bottom) {

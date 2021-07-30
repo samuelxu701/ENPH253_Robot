@@ -37,7 +37,7 @@ void setup(){
     printDisplaySetup("Tape\nFollowing\nSetup\nComplete",1, 500,40);
 
     setupServos();
-    printDisplaySetup("Servos\nAttatched",1, 500,50);
+    printDisplaySetup("Servos\nSetup",1, 500,50);
 
     setupCanPickup();
     printDisplaySetup("Pickup\nSetup\nComplete",1, 500,60);

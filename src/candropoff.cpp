@@ -13,7 +13,7 @@
 
 
 // TODO: These Values need to be calibrated 
-int bumperOutAngle = 45;
+int bumperOutAngle = 20;//45;
 int bumperInAngle = 90;
 
 //time it takes for cans to fall into silo after getting hit by bumper
@@ -79,7 +79,7 @@ void canDropoff(){
 
             printDisplay("Next Slot",2,0);
             while(analogRead(DOCKING_SENSOR) > binaryThreshold)
-                tapeFollowingPID(0, dropOffPWM);
+                tapeFollowingPID(0, max_pwm);
 
             dockingStatus = 0;     
         }
@@ -118,9 +118,9 @@ DropOffState updateDropOffState(){
 
 void bumpCans(){
     servoTurn(canKickerServo, bumperOutAngle, 500);
-    delay(500);
+    delay(200);
     servoTurn(canKickerServo, bumperInAngle, 10);
-    delay(500);
+    delay(200);
     servoTurn(canKickerServo, bumperOutAngle, 500);
 }
 

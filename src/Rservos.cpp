@@ -39,7 +39,7 @@ void setupServos(){
 void resetServos(){
   canKickerServo.write(bumperOutAngle);
   sweepServo.write(sweepOpenAngle);
-  gateServo.write(gateTopAngle);
+  gateServo.write(gateBotAngle);
   armServo.write(armDownAngle);
 }
 

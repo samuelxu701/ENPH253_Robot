@@ -282,7 +282,7 @@ void angleParameterMenu(){
   while(receivingServoAngles){
 
     if(angleSetupState == AngleMenu){
-      printDisplay("1:arm bot\n2:arm top\n3:sweep close\n4:sweep open\n5:gate top\n6:gate bot", 1, 1);
+      printDisplay("1:arm bot\n2:arm top\n3:sweep close\n4:sweep open\n5:gate top\n6:gate bot\n7:kicker out\n8:kicker in", 1, 1);
 
       if(IrReceiver.decode()){
           switch(IrReceiver.decodedIRData.decodedRawData){
@@ -339,7 +339,25 @@ void angleParameterMenu(){
               display.display();
               angleSetupState = GateBot;
               delay(1000);
-              break;                                        
+              break;         
+            case IR_SEVEN:
+              display.clearDisplay();
+              display.setCursor(0,0);
+              display.println("You have selected to");
+              display.println("modify KICKER OUT");
+              display.display();
+              angleSetupState = KickerOut;
+              delay(1000);
+              break;   
+            case IR_EIGHT:
+              display.clearDisplay();
+              display.setCursor(0,0);
+              display.println("You have selected to");
+              display.println("modify KICKER IN");
+              display.display();
+              angleSetupState = KickerIn;
+              delay(1000);
+              break;                                                               
             case IR_POWER:
               display.clearDisplay();
               display.setCursor(0,0);
@@ -390,7 +408,15 @@ if(angleSetupState != AngleMenu){
           case GateBot:
             gateBotAngle = num;
             servoTurn(gateServo, gateBotAngle, 1000);
-            break;                  
+            break;        
+          case KickerOut:
+            bumperOutAngle = num;
+            servoTurn(canKickerServo, bumperOutAngle, 1000);
+            break;   
+          case KickerIn:
+            bumperInAngle = num;
+            servoTurn(canKickerServo, bumperInAngle, 1000);
+            break;                                          
           case AngleMenu:
             break;    
           default:
