@@ -11,14 +11,14 @@
 
 //**********Servo Angle Parameters**************//
 //change these for open and close positions of servos
-const int sweepOpenAngle = 0;
-const int sweepCloseAngle = 180;
+int sweepOpenAngle = 0;
+int sweepCloseAngle = 180;
 
-const int armDownAngle = 5;
-const int armUpAngle = 115; // 115
+int armDownAngle = 45;// 5
+int armUpAngle = 150; // 115
 
-const int gateTopAngle = 5; // 47
-const int gateBotAngle = 100; // 175
+int gateTopAngle = 5; // 47
+int gateBotAngle = 100; // 175
 
 //*********State Machine Function Dec. and Variables**********//
 //Two options for step in state machine
@@ -34,10 +34,12 @@ GateState gateState;
 volatile int canCount = 0;
 
 void setupCanPickup() {
-  sweepServo.write(sweepOpenAngle);
-  armServo.write(armDownAngle);
-  gateServo.write(gateBotAngle);
   gateState = bottom;
+}
+
+void resetCanPickup(){
+  gateState = bottom;
+  canCount = 0;
 }
 
 void canPickup(){

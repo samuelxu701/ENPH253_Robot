@@ -21,7 +21,7 @@ int kd = 20;
 int binaryThreshold = 650;
 
 //***********SPEED/TURNING PARAMETERS********//
-int max_pwm = 950;
+int max_pwm = 1050;
 int multiplier = 25;
 int absolute_maximum_pwm = 4096;
  
@@ -39,8 +39,15 @@ void setupTapeFollowing() {
   lastErrStateStartTime = millis();
 }
 
-int tapeFollowingPID(int dir = 0){
-  absolute_maximum_pwm = 2 * max_pwm;
+void resetPID(){
+  lastErrState = 0;
+  lastErrStateStartTime = 0;
+  currErrState = 0;
+  currErrStateStartTime = 0;
+}
+
+void tapeFollowingPID(int dir , int pwm, bool displayData){
+   absolute_maximum_pwm = 2 * max_pwm;
   int leftReading = analogRead(LEFT_SENSOR);
   int rightReading = analogRead(RIGHT_SENSOR);
   int docking = analogRead(DOCKING_SENSOR);
@@ -65,22 +72,27 @@ int tapeFollowingPID(int dir = 0){
   
   float derivative = errStep / timeStep;
 
-  // Calculate g;
+    // Calculate g;
+  
   int p = kp * currErrState;
   int d = kd * derivative;
   int g = p + d;
 
-  motor(g, dir);
+  if(pwm == 0)
+    pwm = max_pwm;
 
-  long sonar_dis = sonar.ping_cm();
-  
-  snprintf(buff, sizeof(buff), "Left Reading:%d\nRight Reading:%d\nDocking Reading:%d\nSonar Dis:%d\nnCurrent Error:%d\nTime Step:%d\ng:%d",
-  leftReading, rightReading,docking, sonar_dis, currErrState, timeStep, g);
-  String msg = buff;
-  printDisplay(msg, 1, 1);
+  motor(g,dir,pwm);
+
+  if(displayData){
+    long sonar_dis = sonar.ping_cm();
+    snprintf(buff, sizeof(buff), "Left Reading:%d\nRight Reading:%d\nDocking Reading:%d\nSonar Dis:%d\nnCurrent Error:%d\nTime Step:%d\ng:%d",
+    leftReading, rightReading,docking, sonar_dis, currErrState, timeStep, g);
+    String msg = buff;
+    printDisplay(msg, 1, 1);
+  }
 }
  
-void motor(int g, int dir = 0, int pwm = 0) {
+void motor(int g, int dir, int pwm) {
   if(pwm == 0)
     pwm = max_pwm;
 

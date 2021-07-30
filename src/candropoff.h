@@ -1,6 +1,10 @@
 #ifndef ROBOTCANDROPOFF_H
 #define ROBOTCANDROPOFF_H
 
+//angles
+extern int bumperOutAngle;
+extern int bumperInAngle;
+
 //max number of cans to drop off
 #define MAX_CANS 6
 
@@ -28,6 +32,9 @@ extern DropOffState dropOffState;
 
 //sets up can drop off variables
 void setupCanDropoff();
+
+//reset drop off variables to starting conditions
+void resetCanDropOff();
 
 //Checkings tape sensor and updates docking status variable
 //returns current docking status

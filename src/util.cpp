@@ -11,7 +11,7 @@ float unitVoltage = 3.3/1024;
 // HardwareTimer tim1(TIM1);
 // HardwareTimer tim2(TIM2);
 // HardwareTimer tim3(TIM3);
-//when this is uncommented , it interferes with the ir timer for some reason
+// //when this is uncommented , it interferes with the ir timer for some reason
 // HardwareTimer tim4(TIM4);
 
 void handleTapeSensorInterrupt(){

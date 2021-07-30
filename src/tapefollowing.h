@@ -14,16 +14,20 @@ void setupTapeFollowing();
         //dir = 0 -> forward (default value)
         //dir = 1 -> reverse
 //takes an option pwm parameter
-//if parameter remains 0 it will switch to pwm_max global              
-int tapeFollowingPID(int dir = 0, int pwm = 0);
+//if parameter remains 0 it will switch to pwm_max global       
+//otpional display data paraneter to print out sensor/error readings, defualts to true       
+void tapeFollowingPID(int dir = 0 , int pwm = 0, bool displayData = true);
+
+//reset tape following pid variables
+void resetPID();
 
 //Takes a g values based on PID control then determines and writes pwm values to motors
-//takes an optional direction parameter for forward/reverse tape following
+//takes a direction parameter for forward/reverse tape following
         //dir = 0 -> forward (default value)
         //dir = 1 -> reverse
-//takes an option pwm parameter
-//if parameter remains 0 it will switch to pwm_max global        
-void motor(int g, int dir = 0, int pwm = 0);
+//takes a pwm parameter for max straight pwm        
+
+void motor(int g, int dir, int pwm);
 
 //Reads tape sensors and returns error state of robot
 int getState(int leftBinary, int rightBinary);

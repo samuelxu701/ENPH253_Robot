@@ -24,6 +24,15 @@ extern Servo canKickerServo;
 //Attaches ALL servos to correct pins
 void attachServos();
 
+//write servos to correct start angles
+void setupServos();
+
+//reset servos to start angle
+void resetServos();
+
+//test servos over their angle range
+void testServos();
+
 //Detaches ALL servos to correct pins
 void detachServos();
 
