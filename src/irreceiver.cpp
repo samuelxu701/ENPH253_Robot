@@ -231,7 +231,8 @@ void parameterMenuLoop(){
         display.print(num);
         display.display();
 
-        switch(setupState){
+        if(num > 0){
+          switch(setupState){
           case KP:
             kp = num;
             break;
@@ -257,8 +258,9 @@ void parameterMenuLoop(){
             break;    
           default:
             break;  
+          }
         }
-
+      
         receivingIRData = true;
         setupState = Menu;
       }
@@ -384,7 +386,8 @@ if(angleSetupState != AngleMenu){
         display.print(num);
         display.display();
 
-        switch(angleSetupState){
+        if(num >= 0 && num <= 180){
+          switch(angleSetupState){
           case ArmTop :
             armUpAngle = num;
             servoTurn(armServo, armUpAngle, 1000);
@@ -422,6 +425,8 @@ if(angleSetupState != AngleMenu){
           default:
             break;  
         }
+        }
+        
 
         receivingServoAngles = true;
         angleSetupState = AngleMenu;
