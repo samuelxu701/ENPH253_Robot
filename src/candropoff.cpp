@@ -74,7 +74,7 @@ void canDropoff(){
             delay(motorStopDelay);
         }
 
-        if(dockingStatus == dropOff){
+        if(dropOffState == dropOff){
             printDisplay("Bump Cans",2,0);
             bumpCans();
             delay(dropOffBumpDelay);
