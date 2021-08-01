@@ -115,32 +115,21 @@ int updateDockingStatus(){
 DropOffState updateDropOffState(){
     updateDockingStatus();
 
-    //first encounter docking transition
-    if(dockingStatus == 1 && dropOffState == driving )
+    if(dockingStatus == 1 && dropOffState == driving ) //first encounter docking transition
         dropOffState = slowDown;    
-
-    //drive slowly after de-accelerating
-    if(dockingStatus == 1 && dropOffState == slowDown)
+    else if(dockingStatus == 1 && dropOffState == slowDown) //drive slowly after de-accelerating
         dropOffState == slowDrive;
-
-    //reverse after overshoot
-    if(dockingStatus == 2 && (dropOffState == slowDown || dropOffState == slowDrive))
+    else if(dockingStatus == 2 && (dropOffState == slowDown || dropOffState == slowDrive))  //reverse after overshoot
         dropOffState = reverse;
-
-    //drop off cans after reversing to black line
-    if(dropOffState == reverse)
+    else if(dropOffState == reverse) //drop off cans after reversing to black line
         dropOffState = dropOff;  
-
-    //check completion state after dropping off cans
-    if(dropOffState == dropOff){
+    else if(dropOffState == dropOff){ //check completion state after dropping off cans
         if(dropOffCount >= MAX_CANS)
             dropOffState = complete;
         else
             dropOffState = next;    
     }
-
-    //drive slowly to next line after reaching white space
-    if(dropOffState == next)
+    else if(dropOffState == next)  //drive slowly to next line after reaching white space
         dropOffState == slowDrive;
  
     return dropOffState;    
