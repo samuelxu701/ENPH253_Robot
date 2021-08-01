@@ -15,22 +15,31 @@ const int centered = 0;
 const int slightRight = 1;
 const int farRight = 5;
 
+
 //*********TAPE FOLLOWING PID PARAMETERS********//
 int kp = 25;
 int kd = 20;
 int binaryThreshold = 650;
 
+
 //***********SPEED/TURNING PARAMETERS********//
 int max_pwm = 1050;
 int multiplier = 25;
 int absolute_maximum_pwm = 4096;
+
  
 //***********volatile pid varaibles********//
 volatile int lastErrState = 0;
 volatile unsigned long lastErrStateStartTime = 0;
 volatile int currErrState = 0;
 volatile unsigned long currErrStateStartTime = 0;
- 
+
+
+//***********turn state varaibles********//
+TurnState turnState = noTurn;
+int numRightError = 0;
+int numLeftError = 0;
+
 void setupTapeFollowing() {
   pinMode(LEFT_SENSOR, INPUT);
   pinMode(RIGHT_SENSOR, INPUT);
@@ -50,7 +59,6 @@ void tapeFollowingPID(int dir , int pwm, bool displayData){
    absolute_maximum_pwm = 2 * max_pwm;
   int leftReading = analogRead(LEFT_SENSOR);
   int rightReading = analogRead(RIGHT_SENSOR);
-  int docking = analogRead(DOCKING_SENSOR);
 
   unsigned long currTime = millis();
   
@@ -84,6 +92,7 @@ void tapeFollowingPID(int dir , int pwm, bool displayData){
   motor(g,dir,pwm);
 
   if(displayData){
+    int docking = analogRead(DOCKING_SENSOR);
     long sonar_dis = sonar.ping_cm();
     snprintf(buff, sizeof(buff), "Left Reading:%d\nRight Reading:%d\nDocking Reading:%d\nSonar Dis:%d\nnCurrent Error:%d\nTime Step:%d\ng:%d",
     leftReading, rightReading,docking, sonar_dis, currErrState, timeStep, g);
@@ -158,4 +167,31 @@ int getState(int leftBinary, int rightBinary) {
     }
   }
   return farLeft;
+}
+
+TurnState updateTurnState(){
+  if(currErrState == farRight)
+    turnState = rightTurn;
+  else if(currErrState == farLeft)
+    turnState = leftTurn;
+  else{
+    if(currErrState == slightLeft)
+      numLeftError++;
+    if(currErrState == slightRight)
+      numRightError++;  
+
+    if((float) numLeftError >= maxTurnErrorHistory*minPercentTurnError)
+      turnState = leftTurn;
+    else if ((float) numRightError >= maxTurnErrorHistory*minPercentTurnError)
+      turnState = rightTurn;
+    else
+      turnState = noTurn;  
+
+    if(turnState != noTurn){
+      numLeftError = 0;
+      numRightError = 0;
+    }
+  }
+
+  return turnState;
 }

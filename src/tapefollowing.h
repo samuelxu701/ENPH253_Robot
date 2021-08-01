@@ -1,11 +1,19 @@
 #ifndef TAPEFOLLOWING_H
 #define TAPEFOLLOWING_H
 
+//*********GLOBAL TURN INDICATOR********//
+#define maxTurnErrorHistory 10
+#define minPercentTurnError 0.8
+
+//turn state of robot
+enum TurnState{noTurn, rightTurn, leftTurn};
+extern TurnState turnState;
+
+
 //*********FUNCTION DECLARATIONS********//
 
 //Setup tape following parameters and sensors
 void setupTapeFollowing();
-
 
 //call this in main for tape following
 //main PID control function, reads tape sensors and calculates int g = p + i + d  value
@@ -26,11 +34,13 @@ void resetPID();
         //dir = 0 -> forward (default value)
         //dir = 1 -> reverse
 //takes a pwm parameter for max straight pwm        
-
 void motor(int g, int dir, int pwm);
 
 //Reads tape sensors and returns error state of robot
 int getState(int leftBinary, int rightBinary);
+
+//update the turning state of the robot
+TurnState updateTurnState();
 
 
 //********GLOBAL PID VARAIBLES**********//
