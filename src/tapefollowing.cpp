@@ -8,42 +8,28 @@
 #include <util.h>
 #include <sonar.h>
 
-// Adjustable parameters:
+//******ERROR PARAMETERS******//
 const int farLeft = -5;
 const int slightLeft = -1;
 const int centered = 0;
 const int slightRight = 1;
 const int farRight = 5;
- 
 
-int binaryThreshold = 650;
- 
+//*********TAPE FOLLOWING PID PARAMETERS********//
 int kp = 25;
 int kd = 20;
- 
-const int straight_max_pwm = 300;
-const int turning_max_pwm = 300;
+int binaryThreshold = 650;
 
-volatile int absolute_maximum_pwm = 4096;
- 
-const float straight_multiplier = 40;
-const float turning_multiplier = 40;
-
- 
-// Speed-dependent variables;
-int max_pwm = 950;
+//***********SPEED/TURNING PARAMETERS********//
+int max_pwm = 1050;
 int multiplier = 25;
+int absolute_maximum_pwm = 4096;
  
-// PID variables:
+//***********volatile pid varaibles********//
 volatile int lastErrState = 0;
 volatile unsigned long lastErrStateStartTime = 0;
 volatile int currErrState = 0;
 volatile unsigned long currErrStateStartTime = 0;
- 
-// Speed toggle variable:
-volatile int lastTapeState = HIGH;
-volatile int currTapeState = HIGH;
-volatile int speedSetting = LOW;
  
 void setupTapeFollowing() {
   pinMode(LEFT_SENSOR, INPUT);
@@ -52,9 +38,16 @@ void setupTapeFollowing() {
   
   lastErrStateStartTime = millis();
 }
- 
-void tapeFollowingLoop() {
-  absolute_maximum_pwm = 2 * max_pwm;
+
+void resetPID(){
+  lastErrState = 0;
+  lastErrStateStartTime = 0;
+  currErrState = 0;
+  currErrStateStartTime = 0;
+}
+
+void tapeFollowingPID(int dir , int pwm, bool displayData){
+   absolute_maximum_pwm = 2 * max_pwm;
   int leftReading = analogRead(LEFT_SENSOR);
   int rightReading = analogRead(RIGHT_SENSOR);
   int docking = analogRead(DOCKING_SENSOR);
@@ -85,24 +78,32 @@ void tapeFollowingLoop() {
   int d = kd * derivative;
   int g = p + d;
 
-  motor(g);
-  long sonar_dis = sonar.ping_cm();
-  
-  snprintf(buff, sizeof(buff), "Left Reading:%d\nRight Reading:%d\nDocking Reading:%d\nSonar Dis:%d\nnCurrent Error:%d\nTime Step:%d\ng:%d",
-  leftReading, rightReading,docking, sonar_dis, currErrState, timeStep, g);
-  String msg = buff;
-  printDisplay(msg, 1, 1);
+  if(pwm == 0)
+    pwm = max_pwm;
+
+  motor(g,dir,pwm);
+
+  if(displayData){
+    long sonar_dis = sonar.ping_cm();
+    snprintf(buff, sizeof(buff), "Left Reading:%d\nRight Reading:%d\nDocking Reading:%d\nSonar Dis:%d\nnCurrent Error:%d\nTime Step:%d\ng:%d",
+    leftReading, rightReading,docking, sonar_dis, currErrState, timeStep, g);
+    String msg = buff;
+    printDisplay(msg, 1, 1);
+  }
 }
  
-void motor(int g) {
+void motor(int g, int dir, int pwm) {
+  if(pwm == 0)
+    pwm = max_pwm;
+
   int left_fwd_pwm = 0;
   int right_fwd_pwm = 0;
   int left_rev_pwm = 0;
   int right_rev_pwm = 0;
   
   if (g < 0) {
-    right_fwd_pwm = max_pwm - (multiplier * abs(g));
-    left_fwd_pwm = max_pwm + (multiplier * abs(g));
+    right_fwd_pwm = pwm - (multiplier * abs(g));
+    left_fwd_pwm = pwm + (multiplier * abs(g));
     if (right_fwd_pwm < 0) {
       if (abs(g) >= 4) {
         right_rev_pwm = abs(right_fwd_pwm);
@@ -113,8 +114,8 @@ void motor(int g) {
       left_fwd_pwm = absolute_maximum_pwm;
     }
   } else {
-    left_fwd_pwm = max_pwm - (multiplier * abs(g));
-    right_fwd_pwm = max_pwm + (multiplier * abs(g));
+    left_fwd_pwm = pwm - (multiplier * abs(g));
+    right_fwd_pwm = pwm + (multiplier * abs(g));
     if (left_fwd_pwm < 0) {
       if (abs(g) >= 4) {
       left_rev_pwm = abs(left_fwd_pwm);
@@ -126,8 +127,16 @@ void motor(int g) {
     }
    
   }
- 
-  driveMotors(left_fwd_pwm, left_rev_pwm, right_fwd_pwm, right_rev_pwm);
+
+  if(dir == 0)
+    driveMotors(left_fwd_pwm, left_rev_pwm, right_fwd_pwm, right_rev_pwm);
+  else {
+    if(g != 0)
+      //error correction
+      driveMotors(left_fwd_pwm, left_rev_pwm, right_fwd_pwm, right_rev_pwm);
+    else  
+      driveMotors(0,pwm,0,pwm);
+  }
 }
 
 int getState(int leftBinary, int rightBinary) {

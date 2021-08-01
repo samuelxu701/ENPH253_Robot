@@ -4,6 +4,8 @@
 #include <Arduino.h>
 #include <Motor.h>
 #include <display.h>
+#include <canpickup.h>
+#include <candropoff.h>
 
 //************** Servo Declaration***********//
 Servo sweepServo;
@@ -27,6 +29,18 @@ void detachServos(){
     armServo.detach();
     gateServo.detach();
     canKickerServo.detach();
+}
+
+void setupServos(){
+  attachServos();
+  resetServos();
+}
+
+void resetServos(){
+  canKickerServo.write(bumperOutAngle);
+  sweepServo.write(sweepOpenAngle);
+  gateServo.write(gateBotAngle);
+  armServo.write(armDownAngle);
 }
 
 void servoTurn(Servo servo, int finalPos, float millis){

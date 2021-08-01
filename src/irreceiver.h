@@ -10,7 +10,9 @@
 extern bool receivingIRData;
 
 //state enum for setup menu
-enum SetupState{Menu, KP, KD, Multiplier, MaxPWM, Threshold, Frequency, DropOffPWM};
+enum SetupState{Menu, KP, KD, Multiplier, MaxPWM, Threshold, Frequency, DropOffPWM, ServoAngles};
+enum AngleSetupState{AngleMenu,GateTop,GateBot,SweepOpen,SweepClose,ArmBot,ArmTop,KickerOut,KickerIn};
+
 
 //Max number of digits to receive for a parameter
 #define MAX_DIGITS 10
@@ -29,6 +31,8 @@ void checkIRreceiver();
 
 //IR Receiver paramater menu setup loop (main ir function loop)
 void parameterMenuLoop();
+
+void angleParameterMenu();
 
 
 //convert raw IR data (int form of binary) into a decimal digit

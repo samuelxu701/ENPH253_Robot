@@ -13,16 +13,14 @@
 
 
 // TODO: These Values need to be calibrated 
-const int bumperOutAngle = 45;
-const int bumperInAngle = 90;
+int bumperOutAngle = 20;//45;
+int bumperInAngle = 90;
 
 //time it takes for cans to fall into silo after getting hit by bumper
 const int dropOffBumpDelay = 1000;
 
-int dropOffPWM = 400;
-
-int prevDockingState = LOW;
-int currDockingState = LOW;
+int dropOffPWM = 1000;
+int prevBinary;
 
 volatile int dockingStatus = 0;
 DropOffState dropOffState;
@@ -34,59 +32,74 @@ void setupCanDropoff() {
   pinMode(DOCKING_SENSOR, INPUT);
   dropOffState = driving;
   dropOffCount = 0;
+  prevBinary = 0;
+}
+
+void resetCanDropOff(){
+    dropOffState = driving;
+    dropOffCount = 0;
+    prevBinary = 0;
 }
 
 void canDropoff(){
     while(dockingStatus != driving && dockingStatus != complete){
         updateDropOffState();
 
-        if(dockingStatus == slowDown)
-            driveMotors(dropOffPWM, 0, dropOffPWM, 0);
+        if(dockingStatus == slowDown){
+            driveMotors(0,0,0,0);
+            delay(250);
+            tapeFollowingPID(0, dropOffPWM, false);
+            printDisplay("Slowing\nDown",2,0);
+        }
 
         if(dockingStatus == dropOff){
+            printDisplay("Stop",2,0);
             //stop
             driveMotors(0,0,0,0);
             delay(10);
 
-            //reverse at slow speed becuase of overshoot
-            driveMotors(0,dropOffPWM,0,dropOffPWM);
-
-            //reverse until docking sensor on tape again
-            while(analogRead(DOCKING_SENSOR) < binaryThreshold);
+            //reverse tape follow until docking sensor on tape again
+            while(analogRead(DOCKING_SENSOR) < binaryThreshold){
+                printDisplay("Reverse",2,0);
+                tapeFollowingPID(1, max_pwm, false);
+            }
             //stop
             driveMotors(0,0,0,0);
 
+            printDisplay("Bump Cans",2,0);
             bumpCans();
             delay(dropOffBumpDelay);
 
             dropOffCount+=2;
 
-            if(dropOffCount < MAX_CANS)
-                dropOffState = slowDown;
+            if(dropOffCount >= MAX_CANS){
+                dropOffState = complete;
+                printDisplay("Drop\nOff\nComplete",2,5000); 
+            } 
             else
-                dropOffState = complete;    
+                dropOffState = slowDown;    
+
+            printDisplay("Next Slot",2,0);
+            while(analogRead(DOCKING_SENSOR) > binaryThreshold)
+                tapeFollowingPID(0, max_pwm, false);
+
+            dockingStatus = 0;     
         }
 
     }
 }
 
 int updateDockingStatus(){
-    int dockerReading = analogRead(DOCKING_SENSOR);
-    int dockerReadingBinary = binaryProcessor(dockerReading, binaryThreshold);
+    int currBinary = binaryProcessor(analogRead(DOCKING_SENSOR), binaryThreshold);
 
-    if (currDockingState == HIGH) {
+    if(currBinary == 1)
         dockingStatus = 1;
-    } else {
-        if (prevDockingState == HIGH) {
-            dockingStatus = 2;
-            driveMotors(0,0,0,0);
-        } else {
-            dockingStatus = 0;
-        }
-    }
+    else if(prevBinary == 1 && currBinary == 0)
+        dockingStatus = 2;    
+    else
+        dockingStatus = 0;    
 
-    prevDockingState = currDockingState;
-    currDockingState = dockerReadingBinary;
+    prevBinary = currBinary; 
 
     return dockingStatus;
 }
@@ -106,7 +119,10 @@ DropOffState updateDropOffState(){
 }
 
 void bumpCans(){
+    servoTurn(canKickerServo, bumperOutAngle, 500);
+    delay(200);
     servoTurn(canKickerServo, bumperInAngle, 10);
+    delay(200);
     servoTurn(canKickerServo, bumperOutAngle, 500);
 }
 

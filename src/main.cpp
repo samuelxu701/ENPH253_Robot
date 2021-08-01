@@ -36,8 +36,8 @@ void setup(){
     setupTapeFollowing();
     printDisplaySetup("Tape\nFollowing\nSetup\nComplete",1, 500,40);
 
-    attachServos();
-    printDisplaySetup("Servos\nAttatched",1, 500,50);
+    setupServos();
+    printDisplaySetup("Servos\nSetup",1, 500,50);
 
     setupCanPickup();
     printDisplaySetup("Pickup\nSetup\nComplete",1, 500,60);
@@ -52,7 +52,7 @@ void setup(){
 }
 
 void loop(){    
-//*********MAIN CODE LOOP********//    
+//*********MAIN CODE LOOP********//  
     checkCanDetector();
     updateDropOffState();
     checkIRreceiver();
@@ -62,15 +62,15 @@ void loop(){
         parameterMenuLoop();
     }else{
         if(dropOffState != driving && dropOffState != complete){
-            printDisplay("Can\nDrop\nOff",2,1);
+            printDisplay("Can\nDrop\nOff",2,0);
             canDropoff();
         }else if (isCanDetected){
             printDisplay("Can\nPick\nUp",2,1);
             driveMotors(0,0,0,0);
             canPickup();
         } else 
-            tapeFollowingLoop();
-    }
+            tapeFollowingPID();
+     }
 
 
 
@@ -80,12 +80,13 @@ void loop(){
     // delay(500);
 
     // checkIRreceiver();
-    // readSonar();
+    // checkCanDetector();
+    // updateDropOffState();
 
-    // servoTurn(canKickerServo, 0, 1000);
-    // servoTurn(armServo, 0, 1000);
-    // servoTurn(canKickerServo, 180, 1000);
-    // servoTurn(armServo, 180, 1000);
+    // servoTurn(canKickerServo, 0, 10);
+    // servoTurn(armServo, 0, 10);
+    // servoTurn(canKickerServo, 180, 10);
+    // servoTurn(armServo, 180, 10);
 
     // displayTimers(HERTZ_FORMAT);
 

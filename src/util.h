@@ -4,8 +4,8 @@
 extern volatile bool onTape;
 
 //Hardware Timers
-extern HardwareTimer tim1;
-extern HardwareTimer tim2;
+// extern HardwareTimer tim1;
+// extern HardwareTimer tim2;
 // extern HardwareTimer tim3;
 // extern HardwareTimer tim4;
 

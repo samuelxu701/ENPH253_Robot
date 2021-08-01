@@ -7,15 +7,18 @@
 #include <TapeFollowing.h>
 #include <IRremote.h>
 #include <CanDropoff.h>
-
+#include <canpickup.h>
+#include <Rservos.h>
 
 bool receivingIRData;
 SetupState setupState;
+AngleSetupState angleSetupState;
 
 void setupIRRemote(){
   IrReceiver.begin(IR_RECEIVER_PIN, ENABLE_LED_FEEDBACK, USE_DEFAULT_FEEDBACK_LED_PIN); // Start the receive
   receivingIRData = false;
   setupState = Menu;
+  angleSetupState = AngleMenu;
 }
 
 
@@ -124,16 +127,7 @@ void parameterMenuLoop(){
     while(receivingIRData){
       if(setupState == Menu){
         display.clearDisplay();
-        display.setCursor(0,0);
-        display.println("1: Kp");
-        display.println("2: Kd");
-        display.println("3: mul");
-        display.println("4: PWM");
-        display.println("5: thresh");
-        display.println("6: freq");
-        display.println("7: dropoff pwm");
-        display.println("Power: Exit setup");
-        display.display();
+        printDisplay("1:Kp\n2:Kd\n3:Mul\n4:PWM\n5:thresh\n6:freq\n7:dropoff pwm\n8:Servo Angle", 1, 1);
 
         if (IrReceiver.decode()){
           switch(IrReceiver.decodedIRData.decodedRawData){
@@ -200,7 +194,16 @@ void parameterMenuLoop(){
               display.display();
               setupState = DropOffPWM;
               delay(1000);
-              break;                                    
+              break;      
+            case IR_EIGHT:
+              display.clearDisplay();
+              display.setCursor(0,0);
+              display.println("You have selected to");
+              display.println("modify SERVO ANGLES");
+              delay(1000);
+              display.display();
+              angleParameterMenu();
+              break;                                            
             case IR_POWER:
               display.clearDisplay();
               display.setCursor(0,0);
@@ -218,7 +221,6 @@ void parameterMenuLoop(){
         IrReceiver.resume();
       }
 
-
       if(setupState != Menu){
         display.clearDisplay();
         display.setCursor(0,0);
@@ -229,7 +231,8 @@ void parameterMenuLoop(){
         display.print(num);
         display.display();
 
-        switch(setupState){
+        if(num > 0){
+          switch(setupState){
           case KP:
             kp = num;
             break;
@@ -255,8 +258,9 @@ void parameterMenuLoop(){
             break;    
           default:
             break;  
+          }
         }
-
+      
         receivingIRData = true;
         setupState = Menu;
       }
@@ -266,7 +270,173 @@ void parameterMenuLoop(){
     snprintf(buff, sizeof(buff), "MyRobo Parameters:\nKp:%d\nKd:%d\nMult.:%d\nMax PWM:%d\nThreshold:%d\nFreq.:%d\nDropOff PWM:%d", kp, kd, multiplier, max_pwm, binaryThreshold, freq, dropOffPWM);
     String msg = buff;
     printDisplay(msg, 1, 4000);
+
+    resetCanDropOff();
+    resetCanPickup();
+    resetPID();
     printDisplay("Leaving\nSetup\nSoon", 2, 1000);
+}
+
+void angleParameterMenu(){
+  bool receivingServoAngles = true;
+  angleSetupState = AngleMenu;
+
+  while(receivingServoAngles){
+
+    if(angleSetupState == AngleMenu){
+      printDisplay("1:arm bot\n2:arm top\n3:sweep close\n4:sweep open\n5:gate top\n6:gate bot\n7:kicker out\n8:kicker in", 1, 1);
+
+      if(IrReceiver.decode()){
+          switch(IrReceiver.decodedIRData.decodedRawData){
+            case IR_ONE:
+              display.clearDisplay();
+              display.setCursor(0,0);
+              display.println("You have selected to");
+              display.print("modify arm bottom angle ");
+              display.display();
+              angleSetupState = ArmBot;
+              delay(1000);
+              break;
+            case IR_TWO:
+              display.clearDisplay();
+              display.setCursor(0,0);
+              display.println("You have selected to");
+              display.println("modify arm top angle");
+              display.display();
+              angleSetupState = ArmTop;
+              delay(1000);
+              break;
+            case IR_THREE:
+              display.clearDisplay();
+              display.setCursor(0,0);
+              display.println("You have selected to");
+              display.println("modify  sweep close angle");
+              display.display();
+              angleSetupState = SweepClose;
+              delay(1000);
+              break;
+            case IR_FOUR:
+              display.clearDisplay();
+              display.setCursor(0,0);
+              display.println("You have selected to");
+              display.println("modify sweep open angle");
+              display.display();
+              angleSetupState = SweepOpen;
+              delay(1000);
+              break;
+            case IR_FIVE:
+              display.clearDisplay();
+              display.setCursor(0,0);
+              display.println("You have selected to");
+              display.println("modify gate top");
+              display.display();
+              angleSetupState = GateTop;
+              delay(1000);
+              break;       
+            case IR_SIX:
+              display.clearDisplay();
+              display.setCursor(0,0);
+              display.println("You have selected to");
+              display.println("modify Gate Bot");
+              display.display();
+              angleSetupState = GateBot;
+              delay(1000);
+              break;         
+            case IR_SEVEN:
+              display.clearDisplay();
+              display.setCursor(0,0);
+              display.println("You have selected to");
+              display.println("modify KICKER OUT");
+              display.display();
+              angleSetupState = KickerOut;
+              delay(1000);
+              break;   
+            case IR_EIGHT:
+              display.clearDisplay();
+              display.setCursor(0,0);
+              display.println("You have selected to");
+              display.println("modify KICKER IN");
+              display.display();
+              angleSetupState = KickerIn;
+              delay(1000);
+              break;                                                               
+            case IR_POWER:
+              display.clearDisplay();
+              display.setCursor(0,0);
+              display.println("You have selected to");
+              display.println("Exit MyRobo ANLGE Setup :(");
+              display.display();
+              receivingServoAngles = false;
+              delay(1000);
+              break;            
+            default:
+              break;
+          }        
+      }
+      IrReceiver.resume();
+  }
+
+if(angleSetupState != AngleMenu){
+        display.clearDisplay();
+        display.setCursor(0,0);
+
+        int num = getNumFromIR();
+
+        display.print("Set value to ");
+        display.print(num);
+        display.display();
+
+        if(num >= 0 && num <= 180){
+          switch(angleSetupState){
+          case ArmTop :
+            armUpAngle = num;
+            servoTurn(armServo, armUpAngle, 1000);
+            break;
+          case ArmBot:
+            armDownAngle = num;
+            servoTurn(armServo, armDownAngle, 1000);
+            break;
+          case SweepOpen:
+            sweepOpenAngle = num;
+            servoTurn(sweepServo, sweepOpenAngle, 1000);
+            break;
+          case SweepClose:
+            sweepCloseAngle = num;
+            servoTurn(sweepServo, sweepCloseAngle, 1000);
+            break;  
+          case GateTop:
+            gateTopAngle = num;
+            servoTurn(gateServo, gateTopAngle, 1000);
+            break;                
+          case GateBot:
+            gateBotAngle = num;
+            servoTurn(gateServo, gateBotAngle, 1000);
+            break;        
+          case KickerOut:
+            bumperOutAngle = num;
+            servoTurn(canKickerServo, bumperOutAngle, 1000);
+            break;   
+          case KickerIn:
+            bumperInAngle = num;
+            servoTurn(canKickerServo, bumperInAngle, 1000);
+            break;                                          
+          case AngleMenu:
+            break;    
+          default:
+            break;  
+        }
+        }
+        
+
+        receivingServoAngles = true;
+        angleSetupState = AngleMenu;
+      }
+  }
+
+    snprintf(buff, sizeof(buff), "Angle Parameters:\nArm Down:%d\nArm Up:%d\nSweep Open:%d\nSweep Close:%d\nGate Top%d\nGate Bot:%d", armDownAngle, armUpAngle, sweepOpenAngle, sweepCloseAngle, gateTopAngle, gateBotAngle);
+    String msg = buff;
+    printDisplay(msg, 1, 4000);
+    resetServos();
 }
     
 
