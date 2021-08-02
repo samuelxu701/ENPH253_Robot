@@ -31,8 +31,15 @@ volatile unsigned long lastErrStateStartTime = 0;
 volatile int currErrState = 0;
 volatile unsigned long currErrStateStartTime = 0;
 
+//*********analog error map variables and constants*******//
 volatile int lastLeftErr = 0;
 volatile int lastRightErr = 0;
+
+const int sensorLowerWhiteBound = 25;
+const int sensorUpperBlackBound = 1000;
+
+const int errorLowerBound = 0;
+const int errorUpperBound = 5;
  
 void setupTapeFollowing() {
   pinMode(LEFT_SENSOR, INPUT);
@@ -161,8 +168,8 @@ void motor(int g, int dir, int pwm) {
 // }
 
 int getState(int leftAnalog, int rightAnalog){
-  int currRightErr = map(leftAnalog, 25,1000,5,0);
-  int currLeftErr = map(rightAnalog, 25, 1000, 5, 0);
+  int currRightErr = map(leftAnalog,sensorLowerWhiteBound,sensorUpperBlackBound,errorUpperBound,errorLowerBound);
+  int currLeftErr = map(rightAnalog,sensorLowerWhiteBound,sensorUpperBlackBound,errorUpperBound,errorLowerBound);
 
   int currErr = 0;
 
