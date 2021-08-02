@@ -33,7 +33,7 @@ void motor(int g, int dir, int pwm);
 
 //Reads tape sensors and returns error state of robot
 //maps analog values
-float getState(int leftAnalog, int rightAnalog);
+int getState(int leftAnalog, int rightAnalog);
 
 
 //********GLOBAL PID VARAIBLES**********//

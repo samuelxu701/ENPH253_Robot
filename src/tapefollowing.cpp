@@ -35,8 +35,8 @@ volatile unsigned long currErrStateStartTime = 0;
 volatile int lastLeftErr = 0;
 volatile int lastRightErr = 0;
 
-const int sensorLowerWhiteBound = 25;
-const int sensorUpperBlackBound = 1000;
+const int sensorLowerWhiteBound = 50;
+const int sensorUpperBlackBound = 880;
 
 const int errorLowerBound = 0;
 const int errorUpperBound = 5;
@@ -174,9 +174,16 @@ int getState(int leftAnalog, int rightAnalog){
   int currErr = 0;
 
   if(lastLeftErr > lastRightErr)
-    currErr = -1*(currRightErr + currLeftErr)/2;
-  else if (lastRightErr > lastLeftErr)
     currErr = (currRightErr + currLeftErr)/2;
+  else if (lastRightErr > lastLeftErr)
+    currErr = -1*(currRightErr + currLeftErr)/2;
+  else{
+    if(lastErrState < 0)
+      currErr = -1*(currRightErr + currLeftErr)/2;
+    else
+      currErr = (currRightErr + currLeftErr)/2;
+  }
+
 
   lastLeftErr = currLeftErr;
   lastRightErr = currRightErr;
