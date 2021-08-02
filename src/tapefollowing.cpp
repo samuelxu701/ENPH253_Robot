@@ -30,6 +30,9 @@ volatile int lastErrState = 0;
 volatile unsigned long lastErrStateStartTime = 0;
 volatile int currErrState = 0;
 volatile unsigned long currErrStateStartTime = 0;
+
+volatile int lastLeftErr = 0;
+volatile int lastRightErr = 0;
  
 void setupTapeFollowing() {
   pinMode(LEFT_SENSOR, INPUT);
@@ -47,17 +50,13 @@ void resetPID(){
 }
 
 void tapeFollowingPID(int dir , int pwm, bool displayData){
-   absolute_maximum_pwm = 2 * max_pwm;
+  absolute_maximum_pwm = 2 * max_pwm;
   int leftReading = analogRead(LEFT_SENSOR);
   int rightReading = analogRead(RIGHT_SENSOR);
-  int docking = analogRead(DOCKING_SENSOR);
 
   unsigned long currTime = millis();
-  
-  int leftBinary = binaryProcessor(leftReading, binaryThreshold);
-  int rightBinary = binaryProcessor(rightReading, binaryThreshold);
-  
-  int currState = getState(leftBinary, rightBinary);
+
+  int currState = getState(leftReading, rightReading);
   
   if (currState != currErrState) {
     lastErrState = currErrState;
@@ -84,6 +83,7 @@ void tapeFollowingPID(int dir , int pwm, bool displayData){
   motor(g,dir,pwm);
 
   if(displayData){
+    int docking = analogRead(DOCKING_SENSOR);
     long sonar_dis = sonar.ping_cm();
     snprintf(buff, sizeof(buff), "Left Reading:%d\nRight Reading:%d\nDocking Reading:%d\nSonar Dis:%d\nnCurrent Error:%d\nTime Step:%d\ng:%d",
     leftReading, rightReading,docking, sonar_dis, currErrState, timeStep, g);
@@ -139,23 +139,40 @@ void motor(int g, int dir, int pwm) {
   }
 }
 
-int getState(int leftBinary, int rightBinary) {
-  // return centered;
-  if (leftBinary == HIGH && rightBinary == HIGH) {
-    return centered;
-  }
+// int getState(int leftBinary, int rightBinary) {
+//   return centered;
+//   if (leftBinary == HIGH && rightBinary == HIGH) {
+//     return centered;
+//   }
   
-  if (leftBinary == HIGH && rightBinary == LOW) {
-    return slightRight;
-  }
-    if (leftBinary == LOW && rightBinary == HIGH) {
-    return slightLeft;
-  }
+//   if (leftBinary == HIGH && rightBinary == LOW) {
+//     return slightRight;
+//   }
+//     if (leftBinary == LOW && rightBinary == HIGH) {
+//     return slightLeft;
+//   }
   
-  if (leftBinary == LOW && rightBinary == LOW) {
-    if (currErrState > 0) {
-      return farRight;
-    }
-  }
-  return farLeft;
+//   if (leftBinary == LOW && rightBinary == LOW) {
+//     if (currErrState > 0) {
+//       return farRight;
+//     }
+//   }
+//   return farLeft;
+// }
+
+int getState(int leftAnalog, int rightAnalog){
+  int currRightErr = map(leftAnalog, 25,1000,5,0);
+  int currLeftErr = map(rightAnalog, 25, 1000, 5, 0);
+
+  int currErr = 0;
+
+  if(lastLeftErr > lastRightErr)
+    currErr = -1*(currRightErr + currLeftErr)/2;
+  else if (lastRightErr > lastLeftErr)
+    currErr = (currRightErr + currLeftErr)/2;
+
+  lastLeftErr = currLeftErr;
+  lastRightErr = currRightErr;
+
+  return currErr;  
 }
