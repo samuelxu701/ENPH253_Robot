@@ -168,15 +168,15 @@ void motor(int g, int dir, int pwm) {
 // }
 
 int getState(int leftAnalog, int rightAnalog){
-  int currRightErr = map(leftAnalog,sensorLowerWhiteBound,sensorUpperBlackBound,errorUpperBound,errorLowerBound);
-  int currLeftErr = map(rightAnalog,sensorLowerWhiteBound,sensorUpperBlackBound,errorUpperBound,errorLowerBound);
+  int currRightErr = map(rightAnalog,sensorLowerWhiteBound,sensorUpperBlackBound,errorUpperBound,errorLowerBound);
+  int currLeftErr = map(leftAnalog,sensorLowerWhiteBound,sensorUpperBlackBound,errorUpperBound,errorLowerBound);
 
   int currErr = 0;
 
   if(lastLeftErr > lastRightErr)
-    currErr = (currRightErr + currLeftErr)/2;
-  else if (lastRightErr > lastLeftErr)
     currErr = -1*(currRightErr + currLeftErr)/2;
+  else if (lastRightErr > lastLeftErr)
+    currErr = (currRightErr + currLeftErr)/2;
   else{
     if(lastErrState < 0)
       currErr = -1*(currRightErr + currLeftErr)/2;
