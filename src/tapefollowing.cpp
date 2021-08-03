@@ -17,7 +17,7 @@ const int farRight = 5;
 
 //*********TAPE FOLLOWING PID PARAMETERS********//
 int kp = 25;
-int kd = 30;
+int kd = 35;
 int binaryThreshold = 650;
 
 //***********SPEED/TURNING PARAMETERS********//
