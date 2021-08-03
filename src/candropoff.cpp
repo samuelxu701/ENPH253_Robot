@@ -28,6 +28,8 @@ DropOffState dropOffState;
 int dropOffCount;
 int dockingTriggerCount;
 
+ int dropOffPWM = 950;
+
 void setupCanDropoff() {
   // put your setup code here, to run once:
   pinMode(DOCKING_SENSOR, INPUT);
@@ -55,7 +57,7 @@ void canDropoff(){
 
         if(dropOffState == slowDrive){
             printDisplay("Slowing\nDrive",2,0);
-            tapeFollowingPID(0, max_pwm, false);
+            tapeFollowingPID(0, dropOffPWM, false);
         }
 
         if(dropOffState == reverse){
@@ -67,7 +69,7 @@ void canDropoff(){
             printDisplay("Reverse",2,0);
             //reverse tape follow until docking sensor on tape again
             while(analogRead(DOCKING_SENSOR) < binaryThreshold){
-                tapeFollowingPID(1, max_pwm, false);
+                tapeFollowingPID(1, dropOffPWM, false);
             }
 
             //stop after reverse
@@ -83,9 +85,13 @@ void canDropoff(){
             dropOffCount+=2;
 
             while(analogRead(DOCKING_SENSOR) > binaryThreshold)
-                tapeFollowingPID(0, max_pwm, false);
-
-            //dockingStatus = 0;    
+                tapeFollowingPID(0, dropOffPWM, false);
+            
+            driveMotors(max_pwm, 0 ,max_pwm, 0);
+            delay(motorStopDelay);
+            driveMotors(0,0,0,0);
+            dockingStatus = 0;
+            prevBinary = 0;
         }
 
         if(dropOffState == complete)
