@@ -45,7 +45,7 @@ void setup(){
     setupCanDropoff();
     printDisplaySetup("Dropoff\nSetup\nComplete",1, 500,70);
 
-    setupIRRemote();
+    // setupIRRemote();
     printDisplaySetup("IR\nSetup\nComplete",1, 500,80);;
 
     printDisplaySetup("Setup\nComplete",2, 500,100);
@@ -53,24 +53,25 @@ void setup(){
 
 void loop(){    
 //*********MAIN CODE LOOP********//  
-    checkCanDetector();
-    updateDropOffState();
-    checkIRreceiver();
+    // checkCanDetector();
+    // // updateDropOffState();
+    // // checkIRreceiver();
 
-    if(receivingIRData){
-        driveMotors(0,0,0,0);
-        parameterMenuLoop();
-    }else{
-        if(dropOffState != driving && dropOffState != complete){
-            printDisplay("Can\nDrop\nOff",2,0);
-            canDropoff();
-        }else if (isCanDetected){
-            printDisplay("Can\nPick\nUp",2,1);
-            driveMotors(0,0,0,0);
-            canPickup();
-        } else 
-            tapeFollowingPID();
-     }
+    // if(receivingIRData){
+    //     driveMotors(0,0,0,0);
+    //     parameterMenuLoop();
+    // }else{
+    //     if(dropOffState != driving && dropOffState != complete){
+    //         printDisplay("Can\nDrop\nOff",2,0);
+    //         canDropoff();
+    //     }else if (isCanDetected){
+    //         printDisplay("Can\nPick\nUp",2,1);
+    //         driveMotors(0,0,0,0);
+    //         canPickup();
+    //     } else 
+    //         tapeFollowingPID();
+    //  }
+    tapeFollowingPID();
 
 
 

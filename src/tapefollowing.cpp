@@ -17,13 +17,15 @@ const int farRight = 5;
 
 //*********TAPE FOLLOWING PID PARAMETERS********//
 int kp = 25;
-int kd = 20;
+int kd = 30;
 int binaryThreshold = 650;
 
 //***********SPEED/TURNING PARAMETERS********//
-int max_pwm = 1050;
-int multiplier = 20;
+int max_pwm = 1150;
+int multiplier = 27;
 int absolute_maximum_pwm = 4096;
+int outMult = 1;
+int inMult = 1;
  
 //***********volatile pid varaibles********//
 volatile int lastErrState = 0;
@@ -106,16 +108,16 @@ void motor(int g, int dir, int pwm) {
   int right_rev_pwm = 0;
   
  if (g < 0) {
-    right_fwd_pwm = pwm - (multiplier * abs(g));
-    left_fwd_pwm = pwm + (0.7 * multiplier * abs(g));
+    right_fwd_pwm = pwm - (inMult * multiplier * abs(g));
+    left_fwd_pwm = pwm + (outMult * multiplier * abs(g));
     if (right_fwd_pwm < 0) {
       right_rev_pwm = abs(right_fwd_pwm);
       right_fwd_pwm = 0;
     }
 
   } else {
-    left_fwd_pwm = pwm - (multiplier * abs(g));
-    right_fwd_pwm = pwm + (0.7 * multiplier * abs(g));;
+    left_fwd_pwm = pwm - (inMult * multiplier * abs(g));
+    right_fwd_pwm = pwm + (outMult * multiplier * abs(g));;
     if (left_fwd_pwm < 0) {
       left_rev_pwm = abs(left_fwd_pwm);
       left_fwd_pwm = 0;
