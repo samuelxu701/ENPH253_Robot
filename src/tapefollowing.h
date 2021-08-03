@@ -53,7 +53,7 @@ extern int max_pwm;
 
 //PID multiplier to vary pwm, multiplies PID g value
 //recommended range : 10-30
-extern int multiplier;
+extern double multiplier;
 
 //Threshold for analog tape sensors to make them binary
 //recommended value = 650
