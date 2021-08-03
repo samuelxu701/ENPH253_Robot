@@ -20,7 +20,6 @@ int bumperInAngle = 90;
 const int dropOffBumpDelay = 1000;
 const int motorStopDelay = 250;
 
-int dropOffPWM = 1000;
 int prevBinary;
 
 volatile int dockingStatus = 0;
@@ -53,7 +52,7 @@ void canDropoff(){
 
         if(dropOffState == slowDrive){
             printDisplay("Slowing\nDrive",2,0);
-            tapeFollowingPID(0, dropOffPWM, false);
+            tapeFollowingPID(0, max_pwm, false);
         }
 
         if(dropOffState == reverse){
