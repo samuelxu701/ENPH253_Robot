@@ -22,7 +22,7 @@ int binaryThreshold = 650;
 
 //***********SPEED/TURNING PARAMETERS********//
 int max_pwm = 1050;
-int multiplier = 25;
+int multiplier = 20;
 int absolute_maximum_pwm = 4096;
  
 //***********volatile pid varaibles********//
@@ -32,8 +32,6 @@ volatile int currErrState = 0;
 volatile unsigned long currErrStateStartTime = 0;
 
 //*********analog error map variables and constants*******//
-volatile int lastLeftErr = 0;
-volatile int lastRightErr = 0;
 
 const int sensorLowerWhiteBound = 50;
 const int sensorUpperBlackBound = 880;
@@ -44,7 +42,6 @@ const int errorUpperBound = 5;
 void setupTapeFollowing() {
   pinMode(LEFT_SENSOR, INPUT);
   pinMode(RIGHT_SENSOR, INPUT);
-  pinMode(PWM_ADJUST, INPUT);
   
   lastErrStateStartTime = millis();
 }
@@ -108,31 +105,21 @@ void motor(int g, int dir, int pwm) {
   int left_rev_pwm = 0;
   int right_rev_pwm = 0;
   
-  if (g < 0) {
+ if (g < 0) {
     right_fwd_pwm = pwm - (multiplier * abs(g));
-    left_fwd_pwm = pwm + (multiplier * abs(g));
+    left_fwd_pwm = pwm + (0.7 * multiplier * abs(g));
     if (right_fwd_pwm < 0) {
-      if (abs(g) >= 4) {
-        right_rev_pwm = abs(right_fwd_pwm);
-      }
+      right_rev_pwm = abs(right_fwd_pwm);
       right_fwd_pwm = 0;
     }
-    if (left_fwd_pwm > absolute_maximum_pwm) {
-      left_fwd_pwm = absolute_maximum_pwm;
-    }
+
   } else {
     left_fwd_pwm = pwm - (multiplier * abs(g));
-    right_fwd_pwm = pwm + (multiplier * abs(g));
+    right_fwd_pwm = pwm + (0.7 * multiplier * abs(g));;
     if (left_fwd_pwm < 0) {
-      if (abs(g) >= 4) {
       left_rev_pwm = abs(left_fwd_pwm);
-      }
       left_fwd_pwm = 0;
     }
-    if (right_fwd_pwm > absolute_maximum_pwm) {
-      right_fwd_pwm = absolute_maximum_pwm;
-    }
-   
   }
 
   if(dir == 0)
@@ -173,20 +160,16 @@ int getState(int leftAnalog, int rightAnalog){
 
   int currErr = 0;
 
-  if(lastLeftErr > lastRightErr)
+  if(currLeftErr > currRightErr)
     currErr = -1*(currRightErr + currLeftErr)/2;
-  else if (lastRightErr > lastLeftErr)
+  else if (currRightErr > currLeftErr)
     currErr = (currRightErr + currLeftErr)/2;
   else{
-    if(lastErrState < 0)
+    if(currErrState < 0)
       currErr = -1*(currRightErr + currLeftErr)/2;
-    else
+    else if (currErrState > 0)
       currErr = (currRightErr + currLeftErr)/2;
   }
-
-
-  lastLeftErr = currLeftErr;
-  lastRightErr = currRightErr;
 
   return currErr;  
 }
