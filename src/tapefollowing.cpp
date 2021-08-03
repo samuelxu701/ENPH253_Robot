@@ -17,13 +17,15 @@ const int farRight = 5;
 
 //*********TAPE FOLLOWING PID PARAMETERS********//
 int kp = 25;
-int kd = 20;
+int kd = 30;
 int binaryThreshold = 650;
 
 //***********SPEED/TURNING PARAMETERS********//
-int max_pwm = 1050;
-int multiplier = 25;
+int max_pwm = 1150;
+int multiplier = 27;
 int absolute_maximum_pwm = 4096;
+int outMult = 1;
+int inMult = 1;
  
 //***********volatile pid varaibles********//
 volatile int lastErrState = 0;
@@ -32,8 +34,6 @@ volatile int currErrState = 0;
 volatile unsigned long currErrStateStartTime = 0;
 
 //*********analog error map variables and constants*******//
-volatile int lastLeftErr = 0;
-volatile int lastRightErr = 0;
 
 const int sensorLowerWhiteBound = 50;
 const int sensorUpperBlackBound = 880;
@@ -44,7 +44,6 @@ const int errorUpperBound = 5;
 void setupTapeFollowing() {
   pinMode(LEFT_SENSOR, INPUT);
   pinMode(RIGHT_SENSOR, INPUT);
-  pinMode(PWM_ADJUST, INPUT);
   
   lastErrStateStartTime = millis();
 }
@@ -108,31 +107,21 @@ void motor(int g, int dir, int pwm) {
   int left_rev_pwm = 0;
   int right_rev_pwm = 0;
   
-  if (g < 0) {
-    right_fwd_pwm = pwm - (multiplier * abs(g));
-    left_fwd_pwm = pwm + (multiplier * abs(g));
+ if (g < 0) {
+    right_fwd_pwm = pwm - (inMult * multiplier * abs(g));
+    left_fwd_pwm = pwm + (outMult * multiplier * abs(g));
     if (right_fwd_pwm < 0) {
-      if (abs(g) >= 4) {
-        right_rev_pwm = abs(right_fwd_pwm);
-      }
+      right_rev_pwm = abs(right_fwd_pwm);
       right_fwd_pwm = 0;
     }
-    if (left_fwd_pwm > absolute_maximum_pwm) {
-      left_fwd_pwm = absolute_maximum_pwm;
-    }
+
   } else {
-    left_fwd_pwm = pwm - (multiplier * abs(g));
-    right_fwd_pwm = pwm + (multiplier * abs(g));
+    left_fwd_pwm = pwm - (inMult * multiplier * abs(g));
+    right_fwd_pwm = pwm + (outMult * multiplier * abs(g));;
     if (left_fwd_pwm < 0) {
-      if (abs(g) >= 4) {
       left_rev_pwm = abs(left_fwd_pwm);
-      }
       left_fwd_pwm = 0;
     }
-    if (right_fwd_pwm > absolute_maximum_pwm) {
-      right_fwd_pwm = absolute_maximum_pwm;
-    }
-   
   }
 
   if(dir == 0)
@@ -168,25 +157,21 @@ void motor(int g, int dir, int pwm) {
 // }
 
 int getState(int leftAnalog, int rightAnalog){
-  int currRightErr = map(leftAnalog,sensorLowerWhiteBound,sensorUpperBlackBound,errorUpperBound,errorLowerBound);
-  int currLeftErr = map(rightAnalog,sensorLowerWhiteBound,sensorUpperBlackBound,errorUpperBound,errorLowerBound);
+  int currRightErr = map(rightAnalog,sensorLowerWhiteBound,sensorUpperBlackBound,errorUpperBound,errorLowerBound);
+  int currLeftErr = map(leftAnalog,sensorLowerWhiteBound,sensorUpperBlackBound,errorUpperBound,errorLowerBound);
 
   int currErr = 0;
 
-  if(lastLeftErr > lastRightErr)
-    currErr = (currRightErr + currLeftErr)/2;
-  else if (lastRightErr > lastLeftErr)
+  if(currLeftErr > currRightErr)
     currErr = -1*(currRightErr + currLeftErr)/2;
+  else if (currRightErr > currLeftErr)
+    currErr = (currRightErr + currLeftErr)/2;
   else{
-    if(lastErrState < 0)
+    if(currErrState < 0)
       currErr = -1*(currRightErr + currLeftErr)/2;
-    else
+    else if (currErrState > 0)
       currErr = (currRightErr + currLeftErr)/2;
   }
-
-
-  lastLeftErr = currLeftErr;
-  lastRightErr = currRightErr;
 
   return currErr;  
 }
