@@ -43,8 +43,7 @@ void resetCanDropOff(){
 }
 
 void canDropoff(){
-    while(dockingStatus != driving && dockingStatus != complete){
-        updateDropOffState();
+    while(dropOffState != driving && dropOffState != complete){
 
         if(dropOffState == slowDown){
             printDisplay("Slow\nDown",2,0);
@@ -80,19 +79,17 @@ void canDropoff(){
             delay(dropOffBumpDelay);
 
             dropOffCount+=2;
-        }
-
-        if(dropOffState == next){
-            printDisplay("Next\nLine",2,0);
 
             while(analogRead(DOCKING_SENSOR) > binaryThreshold)
                 tapeFollowingPID(0, max_pwm, false);
-                
-            dockingStatus = 0;
+
+            //dockingStatus = 0;    
         }
 
         if(dropOffState == complete)
             printDisplay("Drop\nOff\nComplete",2,5000); 
+
+        updateDropOffState();    
 
     }
 }
@@ -127,10 +124,8 @@ DropOffState updateDropOffState(){
         if(dropOffCount >= MAX_CANS)
             dropOffState = complete;
         else
-            dropOffState = next;    
+            dropOffState = slowDrive;    
     }
-    else if(dropOffState == next)  //drive slowly to next line after reaching white space
-        dropOffState == slowDrive;
  
     return dropOffState;    
 }
