@@ -25,14 +25,14 @@ const int farRight = 5;
 
   Set 2: 21s
     kp: 25
-    kd: 80
+    kd: 80 / 70
     pwm: 1125
     mult: 27
 */
 
 //*********TAPE FOLLOWING PID PARAMETERS********//
 int kp = 25;
-int kd = 80;
+int kd = 70;
 int binaryThreshold = 650;
 
 //***********SPEED/TURNING PARAMETERS********//
