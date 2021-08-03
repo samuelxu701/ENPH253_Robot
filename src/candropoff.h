@@ -11,6 +11,9 @@ extern int bumperInAngle;
 //pwm speed for drop off procedure
 extern int dropOffPWM;
 
+//number of times docking sensor detects tape
+extern int dockingTriggerCount;
+
 //Enum representing drop off states
 //0 ='driving' = no docking
 //1 = 'slowDown' = deaccelerate once black line detected

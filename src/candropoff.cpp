@@ -26,6 +26,7 @@ volatile int dockingStatus = 0;
 DropOffState dropOffState;
 
 int dropOffCount;
+int dockingTriggerCount;
 
 void setupCanDropoff() {
   // put your setup code here, to run once:
@@ -33,12 +34,14 @@ void setupCanDropoff() {
   dropOffState = driving;
   dropOffCount = 0;
   prevBinary = 0;
+  dockingTriggerCount = 0;
 }
 
 void resetCanDropOff(){
     dropOffState = driving;
     dropOffCount = 0;
     prevBinary = 0;
+    dockingTriggerCount = 0;
 }
 
 void canDropoff(){
@@ -96,8 +99,10 @@ void canDropoff(){
 int updateDockingStatus(){
     int currBinary = binaryProcessor(analogRead(DOCKING_SENSOR), binaryThreshold);
 
-    if(currBinary == 1)
+    if(currBinary == 1){
         dockingStatus = 1;
+        dockingTriggerCount++;
+    }
     else if(prevBinary == 1 && currBinary == 0)
         dockingStatus = 2;    
     else
