@@ -55,25 +55,6 @@ void setup(){
 
 void loop(){    
 //*********MAIN CODE LOOP********//  
-<<<<<<< HEAD
-    checkCanDetector();
-    updateDropOffState();
-    // checkIRreceiver();
-
-    if(receivingIRData){
-        driveMotors(0,0,0,0);
-        parameterMenuLoop();
-    }else{
-        if(dropOffState != driving && dropOffState != complete){
-            printDisplay("Can\nDrop\nOff",2,0);
-            canDropoff();
-        }else if (isCanDetected){
-            printDisplay("Can\nPick\nUp",2,1);
-            driveMotors(0,0,0,0);
-            canPickup();
-            if (analogRead(LEFT_SENSOR) < binaryThreshold && analogRead(RIGHT_SENSOR) < binaryThreshold) {
-                driveMotors(0, max_pwm + 200, 0, max_pwm + 200);
-=======
     if(hasDescended) {
         if(foundMarker){
             checkCanDetector();
@@ -97,7 +78,6 @@ void loop(){
                     while (analogRead(LEFT_SENSOR) < binaryThreshold && analogRead(RIGHT_SENSOR) < binaryThreshold);  
                 } else 
                     tapeFollowingPID();
->>>>>>> Robot4-PEEwee
             }
         }else{
             tapeFollowingPID();
