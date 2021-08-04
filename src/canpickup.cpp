@@ -14,7 +14,7 @@
 int sweepOpenAngle = 0;
 int sweepCloseAngle = 180;
 
-int armDownAngle = 5;
+int armDownAngle = 10;
 int armUpAngle = 120;
 
 int gateTopAngle = 5; // 47

@@ -32,12 +32,12 @@ const int farRight = 5;
 
 //*********TAPE FOLLOWING PID PARAMETERS********//
 int kp = 25;
-int kd = 70;
+int kd = 85;
 int binaryThreshold = 650;
 
 //***********SPEED/TURNING PARAMETERS********//
 int max_pwm = 1125;
-double multiplier = 27;
+double multiplier = 26.5;
 int absolute_maximum_pwm = 4096;
 double outMult = 1;
 double inMult = 1;
