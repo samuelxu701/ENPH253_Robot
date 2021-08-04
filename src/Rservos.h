@@ -27,6 +27,9 @@ void attachServos();
 //write servos to correct start angles
 void setupServos();
 
+
+void descentServos();
+
 //reset servos to start angle
 void resetServos();
 

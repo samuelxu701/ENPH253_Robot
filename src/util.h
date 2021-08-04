@@ -15,7 +15,6 @@ int binaryProcessor(int reading, int threshold);
 //HERTZ_FORMAT = display frequency
 //MICROSEC_FORMAT = display microsecond period
 //defualt is timer tick.
-
 // void displayTimers(TimerFormat_t format);
 
 

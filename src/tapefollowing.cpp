@@ -17,27 +17,21 @@ const int slightRight = 1;
 const int farRight = 5;
 
 /*
-  Set 1: 19.5s
+  Set 1: 30s
     kp: 25
     kd: 70
-    pwm: 1150
-    mult: 27
-
-  Set 2: 21s
-    kp: 25
-    kd: 80 / 70
-    pwm: 1125
-    mult: 27
+    pwm: 1350
+    mult: 28.5
 */
 
 //*********TAPE FOLLOWING PID PARAMETERS********//
 int kp = 25;
-int kd = 70;
+int kd = 60;
 int binaryThreshold = 650;
 
 //***********SPEED/TURNING PARAMETERS********//
-int max_pwm = 1125;
-double multiplier = 27;
+int max_pwm = 1050;//1100;// 1125;
+double multiplier = 20;
 int absolute_maximum_pwm = 4096;
 double outMult = 1;
 double inMult = 1;
