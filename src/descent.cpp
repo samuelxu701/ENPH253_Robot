@@ -10,8 +10,8 @@
 #include <tapefollowing.h>
 #include <descent.h>
 
-bool hasDescended = false;
-bool foundMarker = false;
+bool hasDescended;
+bool foundMarker;
 int postDescentDelay = 400;
 int postDescentPWM = 1000;
 const int descentThreshold = 100; // CHANGE
