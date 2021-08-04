@@ -11,12 +11,18 @@ extern int bumperInAngle;
 //pwm speed for drop off procedure
 extern int dropOffPWM;
 
+//number of times docking sensor detects tape
+extern int dockingTriggerCount;
+
 //Enum representing drop off states
 //0 ='driving' = no docking
-//1 = 'slowDown' = stopping soon, slow down
-//2 = 'dropOff' = Docking/drop off procedure
-//4 = 'complete' = drop off procedure complete
-enum DropOffState{driving,slowDown,dropOff,complete};
+//1 = 'slowDown' = deaccelerate once black line detected
+//2 = 'slowDrive' = slow drive until white detected
+//3 = 'reverse' = if overshoot , reverse until black detected
+//4 = 'dropOff' = Docking/drop off procedure
+//5 = 'next' = move robot ahead to next white space to read next line
+//6 = 'complete' = drop off procedure complete
+enum DropOffState{driving,slowDown,slowDrive,reverse,dropOff,next,complete};
 
 //integer representing docking status
 //is modified by updateDropOffState -> updateDockingStatus()

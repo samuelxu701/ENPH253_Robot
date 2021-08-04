@@ -7,6 +7,7 @@
 #include <PinDefinitions.h>
 #include <util.h>
 #include <sonar.h>
+#include <candropoff.h>
 
 //******ERROR PARAMETERS******//
 const int farLeft = -5;
@@ -97,10 +98,10 @@ void tapeFollowingPID(int dir , int pwm, bool displayData){
   motor(g,dir,pwm);
 
   if(displayData){
-    int docking = analogRead(DOCKING_SENSOR);
+    int dockerReading = analogRead(DOCKING_SENSOR);
     long sonar_dis = sonar.ping_cm();
-    snprintf(buff, sizeof(buff), "Left Reading:%d\nRight Reading:%d\nDocking Reading:%d\nSonar Dis:%d\nnCurrent Error:%d\nTime Step:%d\ng:%d",
-    leftReading, rightReading,docking, sonar_dis, currErrState, timeStep, g);
+    snprintf(buff, sizeof(buff), "Left Reading:%d\nRight Reading:%d\nDocking Count:%d\nDocker Reading:%d\nSonar Dis:%d\nnCurrent Error:%d\nTime Step:%d\ng:%d",
+    leftReading, rightReading,dockingTriggerCount,dockerReading, sonar_dis, currErrState, timeStep, g);
     String msg = buff;
     printDisplay(msg, 1, 1);
   }
