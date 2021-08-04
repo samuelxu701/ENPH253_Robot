@@ -26,14 +26,12 @@ Set 1: 19.5s
 
 //*********TAPE FOLLOWING PID PARAMETERS********//
 int kp = 25;
-
-int kd = 80;
+int kd = 60;
 int binaryThreshold = 650;
 
 //***********SPEED/TURNING PARAMETERS********//
-int max_pwm = 1100;
-
-double multiplier = 27;
+int max_pwm = 1050;//1100;// 1125;
+double multiplier = 20;
 int absolute_maximum_pwm = 4096;
 double outMult = 1;
 double inMult = 1;
