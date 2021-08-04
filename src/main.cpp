@@ -23,7 +23,7 @@ The file is usually found in:
 C:\Users\<username>\.platformio\packages\framework-arduinoststm32\variants\STM32F1xx\F103C8T_F103CB(T-U)
 */
 
-#define TOGGLE_DESCENT true
+#define TOGGLE_DESCENT false
 
 void setup(){
     setupMotors();
@@ -45,6 +45,9 @@ void setup(){
     setupCanDropoff();
     printDisplaySetup("Dropoff\nSetup\nComplete",1, 500,70);
 
+    attachServos();
+    
+
     // setupIRRemote();
     // printDisplaySetup("IR\nSetup\nComplete",1, 500,80);;
 
@@ -54,7 +57,7 @@ void setup(){
         foundMarker = false;
         printDisplaySetup("Descent\nSetup",1, 1000,50);
     } else {
-        attachServos();
+        resetServos();
         hasDescended = true;
         foundMarker = true;
         printDisplaySetup("Servo\nSetup",1, 1000,50);
