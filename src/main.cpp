@@ -54,7 +54,7 @@ void setup(){
 void loop(){    
 //*********MAIN CODE LOOP********//  
     checkCanDetector();
-    // updateDropOffState();
+    updateDropOffState();
     // checkIRreceiver();
 
     if(receivingIRData){

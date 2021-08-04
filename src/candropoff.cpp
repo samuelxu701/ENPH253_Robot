@@ -28,7 +28,7 @@ DropOffState dropOffState;
 int dropOffCount;
 int dockingTriggerCount;
 
- int dropOffPWM = 950;
+ int dropOffPWM = 1025;
 
 void setupCanDropoff() {
   // put your setup code here, to run once:
@@ -105,12 +105,15 @@ void canDropoff(){
 int updateDockingStatus(){
     int currBinary = binaryProcessor(analogRead(DOCKING_SENSOR), binaryThreshold);
 
-    if(currBinary == 1){
-        dockingStatus = 1;
+    if (prevBinary == 0 && currBinary == 1){
         dockingTriggerCount++;
     }
-    else if(prevBinary == 1 && currBinary == 0)
+
+    if(currBinary == 1){
+        dockingStatus = 1;
+    } else if(prevBinary == 1 && currBinary == 0){
         dockingStatus = 2;    
+    }
     else
         dockingStatus = 0;    
 
@@ -122,19 +125,28 @@ int updateDockingStatus(){
 DropOffState updateDropOffState(){
     updateDockingStatus();
 
-    if(dockingStatus == 1 && dropOffState == driving ) //first encounter docking transition
-        dropOffState = slowDown;    
-    else if(dockingStatus == 1 && dropOffState == slowDown) //drive slowly after de-accelerating
-        dropOffState == slowDrive;
-    else if(dockingStatus == 2 && (dropOffState == slowDown || dropOffState == slowDrive))  //reverse after overshoot
-        dropOffState = reverse;
-    else if(dropOffState == reverse) //drop off cans after reversing to black line
-        dropOffState = dropOff;  
-    else if(dropOffState == dropOff){ //check completion state after dropping off cans
-        if(dropOffCount >= MAX_CANS)
-            dropOffState = complete;
-        else
-            dropOffState = slowDrive;    
+    if(dockingTriggerCount == 1){
+        driveMotors(0,0,0,0);
+        max_pwm = dropOffPWM;
+        delay(motorStopDelay);
+        dockingTriggerCount++;
+        dockingStatus = 0;
+        prevBinary = 0;
+    } else if (dockingTriggerCount > 1) {
+        if(dockingStatus == 1 && dropOffState == driving ) //first encounter docking transition
+            dropOffState = slowDown;    
+        else if(dockingStatus == 1 && dropOffState == slowDown) //drive slowly after de-accelerating
+            dropOffState == slowDrive;
+        else if(dockingStatus == 2 && (dropOffState == slowDown || dropOffState == slowDrive))  //reverse after overshoot
+            dropOffState = reverse;
+        else if(dropOffState == reverse) //drop off cans after reversing to black line
+            dropOffState = dropOff;  
+        else if(dropOffState == dropOff){ //check completion state after dropping off cans
+            if(dropOffCount >= MAX_CANS)
+                dropOffState = complete;
+            else
+                dropOffState = slowDrive;    
+        }
     }
  
     return dropOffState;    
