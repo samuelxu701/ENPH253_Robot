@@ -67,6 +67,7 @@ void setupTapeFollowing() {
   pinMode(RIGHT_SENSOR, INPUT);
   
   lastErrStateStartTime = millis();
+  turnState = noTurn;
 }
 
 void resetPID(){
@@ -74,6 +75,7 @@ void resetPID(){
   lastErrStateStartTime = 0;
   currErrState = 0;
   currErrStateStartTime = 0;
+  turnState = noTurn;
 }
 
 void tapeFollowingPID(int dir , int pwm, bool displayData){
@@ -108,6 +110,8 @@ void tapeFollowingPID(int dir , int pwm, bool displayData){
     pwm = max_pwm;
 
   motor(g,dir,pwm);
+
+  updateTurnState();
 
   if(displayData){
     int dockerReading = analogRead(DOCKING_SENSOR);
@@ -203,9 +207,9 @@ TurnState updateTurnState(){
   else if(currErrState == farLeft)
     turnState = leftTurn;
   else{
-    if(currErrState == slightLeft)
+    if(currErrState >= slightLeft)
       numLeftError++;
-    if(currErrState == slightRight)
+    if(currErrState >= slightRight)
       numRightError++;  
 
     if((float) numLeftError >= maxTurnErrorHistory*minPercentTurnError)
