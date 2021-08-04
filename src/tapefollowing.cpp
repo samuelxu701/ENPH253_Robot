@@ -30,7 +30,7 @@ int kd = 80;
 int binaryThreshold = 650;
 
 //***********SPEED/TURNING PARAMETERS********//
-int max_pwm = 1125;
+int max_pwm = 1125;//1100;// 1125;
 double multiplier = 27;
 int absolute_maximum_pwm = 4096;
 double outMult = 1;
