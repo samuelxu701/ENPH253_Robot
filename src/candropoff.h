@@ -7,6 +7,7 @@ extern int bumperInAngle;
 
 //max number of cans to drop off
 #define MAX_CANS 8
+#define MAX_TRIGGER 4
 
 //pwm speed for drop off procedure
 extern int dropOffPWM;
@@ -26,9 +27,10 @@ enum DropOffState{driving,slowDown,slowDrive,reverse,dropOff,next,complete};
 
 //integer representing docking status
 //is modified by updateDropOffState -> updateDockingStatus()
-//0 = no docking
-//1 = docking soon, slow down
-//2 = Docking/drop off procedure
+//0 = continious white
+//1 = white to black trigger
+//2 = continious black
+//3 = black to white trigger
 extern volatile int dockingStatus;
 
 //Can drop off states
