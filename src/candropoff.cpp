@@ -20,13 +20,15 @@ int bumperInAngle = 90;
 const int dropOffBumpDelay = 1000;
 const int motorStopDelay = 250;
 
-int dropOffPWM = 1000;
 int prevBinary;
 
 volatile int dockingStatus = 0;
 DropOffState dropOffState;
 
 int dropOffCount;
+int dockingTriggerCount;
+
+ int dropOffPWM = 950;
 
 void setupCanDropoff() {
   // put your setup code here, to run once:
@@ -34,17 +36,18 @@ void setupCanDropoff() {
   dropOffState = driving;
   dropOffCount = 0;
   prevBinary = 0;
+  dockingTriggerCount = 0;
 }
 
 void resetCanDropOff(){
     dropOffState = driving;
     dropOffCount = 0;
     prevBinary = 0;
+    dockingTriggerCount = 0;
 }
 
 void canDropoff(){
-    while(dockingStatus != driving && dockingStatus != complete){
-        updateDropOffState();
+    while(dropOffState != driving && dropOffState != complete){
 
         if(dropOffState == slowDown){
             printDisplay("Slow\nDown",2,0);
@@ -66,7 +69,7 @@ void canDropoff(){
             printDisplay("Reverse",2,0);
             //reverse tape follow until docking sensor on tape again
             while(analogRead(DOCKING_SENSOR) < binaryThreshold){
-                tapeFollowingPID(1, max_pwm, false);
+                tapeFollowingPID(1, dropOffPWM, false);
             }
 
             //stop after reverse
@@ -80,19 +83,21 @@ void canDropoff(){
             delay(dropOffBumpDelay);
 
             dropOffCount+=2;
-        }
-
-        if(dropOffState == next){
-            printDisplay("Next\nLine",2,0);
 
             while(analogRead(DOCKING_SENSOR) > binaryThreshold)
-                tapeFollowingPID(0, max_pwm, false);
-                
+                tapeFollowingPID(0, dropOffPWM, false);
+            
+            driveMotors(max_pwm, 0 ,max_pwm, 0);
+            delay(motorStopDelay);
+            driveMotors(0,0,0,0);
             dockingStatus = 0;
+            prevBinary = 0;
         }
 
         if(dropOffState == complete)
             printDisplay("Drop\nOff\nComplete",2,5000); 
+
+        updateDropOffState();    
 
     }
 }
@@ -100,8 +105,10 @@ void canDropoff(){
 int updateDockingStatus(){
     int currBinary = binaryProcessor(analogRead(DOCKING_SENSOR), binaryThreshold);
 
-    if(currBinary == 1)
+    if(currBinary == 1){
         dockingStatus = 1;
+        dockingTriggerCount++;
+    }
     else if(prevBinary == 1 && currBinary == 0)
         dockingStatus = 2;    
     else
@@ -113,6 +120,7 @@ int updateDockingStatus(){
 }
 
 DropOffState updateDropOffState(){
+<<<<<<< HEAD
     updateTurnState();
     if(turnState == noTurn){
         updateDockingStatus();
@@ -134,6 +142,25 @@ DropOffState updateDropOffState(){
             dropOffState == slowDrive;        
     }
 
+=======
+    updateDockingStatus();
+
+    if(dockingStatus == 1 && dropOffState == driving ) //first encounter docking transition
+        dropOffState = slowDown;    
+    else if(dockingStatus == 1 && dropOffState == slowDown) //drive slowly after de-accelerating
+        dropOffState == slowDrive;
+    else if(dockingStatus == 2 && (dropOffState == slowDown || dropOffState == slowDrive))  //reverse after overshoot
+        dropOffState = reverse;
+    else if(dropOffState == reverse) //drop off cans after reversing to black line
+        dropOffState = dropOff;  
+    else if(dropOffState == dropOff){ //check completion state after dropping off cans
+        if(dropOffCount >= MAX_CANS)
+            dropOffState = complete;
+        else
+            dropOffState = slowDrive;    
+    }
+ 
+>>>>>>> main
     return dropOffState;    
 }
 

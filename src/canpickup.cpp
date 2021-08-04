@@ -14,8 +14,8 @@
 int sweepOpenAngle = 0;
 int sweepCloseAngle = 180;
 
-int armDownAngle = 45;// 5
-int armUpAngle = 150; // 115
+int armDownAngle = 5;
+int armUpAngle = 120;
 
 int gateTopAngle = 5; // 47
 int gateBotAngle = 100; // 175
@@ -26,8 +26,8 @@ int gateBotAngle = 100; // 175
 
 //time it takes for servo to finish task
 const int servoTaskTimeDelay = 100;
-const int armUpDelay = 1000;
-const int sweepCloseDelay = 500;
+const int armUpDelay = 250;
+const int sweepCloseDelay = 250;
 
 
 GateState gateState;
@@ -47,21 +47,21 @@ void canPickup(){
   printDisplay("Can\nPickup",3,1);
   if(canCount >= 3){
     gateState = top;
-    servoTurn(gateServo, gateTopAngle, 1000);
+    gateServo.write(gateTopAngle);
     delay(servoTaskTimeDelay);
   }else if(canCount < 3){
     gateState = bottom;
-    servoTurn(gateServo, gateBotAngle, 1000);
+    gateServo.write(gateBotAngle);
     delay(servoTaskTimeDelay);
   }
 
-  servoTurn(sweepServo, sweepCloseAngle, 1000);
+  servoTurn(sweepServo, sweepCloseAngle, 700);
   delay(sweepCloseDelay);
 
-  servoTurn(sweepServo, sweepOpenAngle, 500);
+  sweepServo.write(sweepOpenAngle);
   delay(servoTaskTimeDelay);
 
-  servoTurn(armServo, armUpAngle, 1000);
+  servoTurn(armServo, armUpAngle, 500);
   // delay(servoTaskTimeDelay);
 
   if (gateState == bottom) {
@@ -69,7 +69,8 @@ void canPickup(){
     delay(armUpDelay);
   }
 
-  servoTurn(armServo, armDownAngle, 500);
+  armServo.write(armDownAngle);
   delay(servoTaskTimeDelay);
   canCount++;
+
 }
