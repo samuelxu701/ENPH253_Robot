@@ -13,6 +13,7 @@
 #include <pindefinitions.h>
 #include <util.h>
 #include <rservos.h>
+#include <descent.h>
 
 //Note from yousif:
 /*
@@ -36,7 +37,8 @@ void setup(){
     setupTapeFollowing();
     printDisplaySetup("Tape\nFollowing\nSetup\nComplete",1, 500,40);
 
-    setupServos();
+    attachServos();
+    descentServos();
     printDisplaySetup("Servos\nSetup",1, 500,50);
 
     setupCanPickup();
@@ -53,6 +55,7 @@ void setup(){
 
 void loop(){    
 //*********MAIN CODE LOOP********//  
+<<<<<<< HEAD
     checkCanDetector();
     updateDropOffState();
     // checkIRreceiver();
@@ -70,12 +73,46 @@ void loop(){
             canPickup();
             if (analogRead(LEFT_SENSOR) < binaryThreshold && analogRead(RIGHT_SENSOR) < binaryThreshold) {
                 driveMotors(0, max_pwm + 200, 0, max_pwm + 200);
-            }
-            while (analogRead(LEFT_SENSOR) < binaryThreshold && analogRead(RIGHT_SENSOR) < binaryThreshold);  
-        } else 
-            tapeFollowingPID();
-     }
+=======
+    if(hasDescended) {
+        if(foundMarker){
+            checkCanDetector();
+            // updateDropOffState();
+            // checkIRreceiver();
 
+            if(receivingIRData){
+                driveMotors(0,0,0,0);
+                parameterMenuLoop();
+            }else{
+                if(dropOffState != driving && dropOffState != complete){
+                    printDisplay("Can\nDrop\nOff",2,0);
+                    canDropoff();
+                }else if (isCanDetected){
+                    printDisplay("Can\nPick\nUp",2,1);
+                    driveMotors(0,0,0,0);
+                    canPickup();
+                    if (analogRead(LEFT_SENSOR) < binaryThreshold && analogRead(RIGHT_SENSOR) < binaryThreshold) {
+                        driveMotors(0, max_pwm + 200, 0, max_pwm + 200);
+                    }
+                    while (analogRead(LEFT_SENSOR) < binaryThreshold && analogRead(RIGHT_SENSOR) < binaryThreshold);  
+                } else 
+                    tapeFollowingPID();
+>>>>>>> Robot4-PEEwee
+            }
+        }else{
+            tapeFollowingPID();
+            checkMarker();
+            if(foundMarker){
+                resetServos();
+            }
+        }
+    }else{
+        updateDescentStatus();
+        if(hasDescended){
+            driveMotors(postDescentPWM, 0, postDescentPWM, 0);
+            delay(postDescentDelay);
+        }
+    }
 
 
 //*********TIMER TEST LOOP********//  
