@@ -17,7 +17,7 @@ const int slightRight = 1;
 const int farRight = 5;
 
 /*
-  Set 1: 19.5s
+Set 1: 19.5s
     kp: 25
     kd: 70
     pwm: 1150
