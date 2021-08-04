@@ -23,6 +23,8 @@ The file is usually found in:
 C:\Users\<username>\.platformio\packages\framework-arduinoststm32\variants\STM32F1xx\F103C8T_F103CB(T-U)
 */
 
+#define TOGGLE_DESCENT true
+
 void setup(){
     setupMotors();
 
@@ -37,10 +39,6 @@ void setup(){
     setupTapeFollowing();
     printDisplaySetup("Tape\nFollowing\nSetup\nComplete",1, 500,40);
 
-    attachServos();
-    descentServos();
-    printDisplaySetup("Servos\nSetup",1, 500,50);
-
     setupCanPickup();
     printDisplaySetup("Pickup\nSetup\nComplete",1, 500,60);
 
@@ -48,8 +46,20 @@ void setup(){
     printDisplaySetup("Dropoff\nSetup\nComplete",1, 500,70);
 
     // setupIRRemote();
-    printDisplaySetup("IR\nSetup\nComplete",1, 500,80);;
+    // printDisplaySetup("IR\nSetup\nComplete",1, 500,80);;
 
+    if(TOGGLE_DESCENT){
+        descentServos();
+        hasDescended = false;
+        foundMarker = false;
+        printDisplaySetup("Descent\nSetup",1, 1000,50);
+    } else {
+        attachServos();
+        hasDescended = true;
+        foundMarker = true;
+        printDisplaySetup("Servo\nSetup",1, 1000,50);
+    }
+    
     printDisplaySetup("Setup\nComplete",2, 500,100);
 }
 
@@ -58,7 +68,7 @@ void loop(){
     if(hasDescended) {
         if(foundMarker){
             checkCanDetector();
-            // updateDropOffState();
+            updateDropOffState();
             // checkIRreceiver();
 
             if(receivingIRData){
