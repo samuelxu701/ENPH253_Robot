@@ -24,6 +24,8 @@ C:\Users\<username>\.platformio\packages\framework-arduinoststm32\variants\STM32
 */
 
 #define TOGGLE_DESCENT false
+#define EMERGENCY_DROP_OFF_TIME 55000
+long startTime;
 
 void setup(){
     setupMotors();
@@ -68,6 +70,9 @@ void setup(){
 
 void loop(){    
 //*********MAIN CODE LOOP********//  
+    if((millis() - startTime) >= EMERGENCY_DROP_OFF_TIME && dropOffCount == 0)
+        emergencyCanDropOff();
+
     if(hasDescended) {
         if(foundMarker){
             checkCanDetector();
