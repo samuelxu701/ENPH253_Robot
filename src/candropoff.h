@@ -15,6 +15,9 @@ extern int dropOffPWM;
 //number of times docking sensor detects tape
 extern int dockingTriggerCount;
 
+//num of cans dropped off 
+extern int dropOffCount;
+
 //Enum representing drop off states
 //0 ='driving' = no docking
 //1 = 'slowDown' = deaccelerate once black line detected
@@ -54,6 +57,10 @@ void bumpCans();
 //Main docking method for can drop off
 //call in main -> loop();
 void canDropoff();
+
+
+//code to drop off all cans in an emergency situation
+void emergencyCanDropOff();
 
 //calls updateDockingStatus() to check docking tape sensor
 //updates drop off state based on docking status and takes into account current docking state

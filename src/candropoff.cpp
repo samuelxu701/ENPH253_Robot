@@ -173,6 +173,18 @@ void bumpCans(){
     canKickerServo.write(bumperOutAngle);
 }
 
+void emergencyCanDropOff(){
+    driveMotors(max_pwm, 0,max_pwm,0);
+
+    while(dropOffCount < MAX_CANS){
+        bumpCans();
+        delay(dropOffBumpDelay);
+        dropOffCount+=2;
+    }
+
+    dropOffState = complete;
+}
+
 
 
 
