@@ -23,7 +23,10 @@ The file is usually found in:
 C:\Users\<username>\.platformio\packages\framework-arduinoststm32\variants\STM32F1xx\F103C8T_F103CB(T-U)
 */
 
-#define TOGGLE_DESCENT false
+#define TOGGLE_DESCENT true
+int initMarkerTime = 0;
+int descentTime = 0;
+
 
 void setup(){
     setupMotors();
@@ -71,7 +74,9 @@ void loop(){
     if(hasDescended) {
         if(foundMarker){
             checkCanDetector();
-            updateDropOffState();
+            if(millis() + 2000 > initMarkerTime){
+                updateDropOffState();
+            }
             // checkIRreceiver();
 
             if(receivingIRData){
@@ -94,9 +99,12 @@ void loop(){
             }
         }else{
             tapeFollowingPID();
-            checkMarker();
+            if(millis() + 2000 > descentTime){
+                checkMarker();
+            }
             if(foundMarker){
                 resetServos();
+                initMarkerTime = millis();
             }
         }
     }else{
@@ -104,6 +112,7 @@ void loop(){
         if(hasDescended){
             driveMotors(postDescentPWM, 0, postDescentPWM, 0);
             delay(postDescentDelay);
+            descentTime = millis();
         }
     }
 

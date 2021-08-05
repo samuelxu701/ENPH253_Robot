@@ -15,11 +15,12 @@ bool foundMarker;
 int postDescentDelay = 400;
 int postDescentPWM = 1000;
 const int descentThreshold = 100; // CHANGE
+const int markerThreshold = 800;
 
 void updateDescentStatus() {
     if (analogRead(LEFT_SENSOR) < descentThreshold && analogRead(RIGHT_SENSOR) < descentThreshold) hasDescended = true;
 }
 
 void checkMarker() {
-    if (analogRead(DOCKING_SENSOR) > binaryThreshold) foundMarker = true;
+    if (analogRead(DOCKING_SENSOR) > markerThreshold) foundMarker = true;
 }
