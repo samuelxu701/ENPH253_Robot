@@ -9,11 +9,12 @@
 #include <motor.h>
 #include <tapefollowing.h>
 #include <descent.h>
+#include <parameters.h>
 
 bool hasDescended;
 bool foundMarker;
 int postDescentDelay = 400;
-int postDescentPWM = 1000;
+int postDescentPWM = DESCENT_PWM;
 const int descentThreshold = 200; // CHANGE
 const int markerThreshold = 800;
 

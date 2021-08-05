@@ -14,6 +14,7 @@
 #include <util.h>
 #include <rservos.h>
 #include <descent.h>
+#include <parameters.h>
 
 //Note from yousif:
 /*
@@ -23,12 +24,9 @@ The file is usually found in:
 C:\Users\<username>\.platformio\packages\framework-arduinoststm32\variants\STM32F1xx\F103C8T_F103CB(T-U)
 */
 
-#define TOGGLE_DESCENT true
 int initMarkerTime = 0;
 // int descentTime = 0;
-
-#define EMERGENCY_DROP_OFF_TIME 55000
-long startTime;
+long startTime = 0;
 
 void setup(){
     setupMotors();
@@ -113,6 +111,7 @@ void loop(){
     }else{
         updateDescentStatus();
         if(hasDescended){
+            delay(2000);
             driveMotors(postDescentPWM, 0, postDescentPWM, 0);
             startTime = millis();
             delay(postDescentDelay);
