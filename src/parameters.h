@@ -47,11 +47,7 @@
 #define KD 80//80
 #define KP 25
 #define MAX_PWM 1055
-<<<<<<< HEAD
 #define MULTIPLIER 0.5*28.25
-=======
-#define MULTIPLIER 0.5 * 28.25
->>>>>>> 90e45e573a7785d18090989b031d8dbb27e8c8c8
 #define IN_MULT 1
 #define OUT_MULT 1
 #define ERROR_UPPER_BOUND 10
@@ -106,11 +102,7 @@
 #define KD 60
 #define KP 15
 #define MAX_PWM 1000
-<<<<<<< HEAD
 #define MULTIPLIER 0.5*30
-=======
-#define MULTIPLIER 15
->>>>>>> 90e45e573a7785d18090989b031d8dbb27e8c8c8
 #define IN_MULT 1.2
 #define OUT_MULT 1
 #define ERROR_UPPER_BOUND 10
