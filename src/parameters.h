@@ -23,6 +23,7 @@
 #define MULTIPLIER 27
 #define IN_MULT 1
 #define OUT_MULT 1
+#define ERROR_UPPER_BOUND 5
 
 //pickup
 #define SWEEP_OPEN_ANGLE 0
@@ -46,9 +47,14 @@
 #define KD 80//80
 #define KP 25
 #define MAX_PWM 1055
+<<<<<<< HEAD
 #define MULTIPLIER 0.5*28.25
+=======
+#define MULTIPLIER 0.5 * 28.25
+>>>>>>> 90e45e573a7785d18090989b031d8dbb27e8c8c8
 #define IN_MULT 1
 #define OUT_MULT 1
+#define ERROR_UPPER_BOUND 10
 
 //pickup
 #define SWEEP_OPEN_ANGLE 0
@@ -69,12 +75,13 @@
 
 #ifdef R3
 //tape follow
-#define KD 70
-#define KP 25
-#define MAX_PWM 1125
-#define MULTIPLIER 27
+#define KD 120 //100
+#define KP 18 //30 //15
+#define MAX_PWM 875 //865
+#define MULTIPLIER 10
 #define IN_MULT 1
 #define OUT_MULT 1
+#define ERROR_UPPER_BOUND 10
 
 //pickup
 #define SWEEP_OPEN_ANGLE 0
@@ -99,9 +106,14 @@
 #define KD 60
 #define KP 15
 #define MAX_PWM 1000
+<<<<<<< HEAD
 #define MULTIPLIER 0.5*30
+=======
+#define MULTIPLIER 15
+>>>>>>> 90e45e573a7785d18090989b031d8dbb27e8c8c8
 #define IN_MULT 1.2
 #define OUT_MULT 1
+#define ERROR_UPPER_BOUND 10
 
 //pickup
 #define SWEEP_OPEN_ANGLE 0
