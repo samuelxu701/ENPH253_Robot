@@ -25,7 +25,7 @@ C:\Users\<username>\.platformio\packages\framework-arduinoststm32\variants\STM32
 
 #define TOGGLE_DESCENT true
 int initMarkerTime = 0;
-int descentTime = 0;
+// int descentTime = 0;
 
 
 void setup(){
@@ -99,9 +99,7 @@ void loop(){
             }
         }else{
             tapeFollowingPID();
-            if(millis() > descentTime + 2000){
-                checkMarker();
-            }
+            checkMarker();
             if(foundMarker){
                 resetServos();
                 initMarkerTime = millis();
@@ -112,7 +110,7 @@ void loop(){
         if(hasDescended){
             driveMotors(postDescentPWM, 0, postDescentPWM, 0);
             delay(postDescentDelay);
-            descentTime = millis();
+            // descentTime = millis();
         }
     }
 
