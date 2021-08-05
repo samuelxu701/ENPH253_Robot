@@ -3,12 +3,16 @@
 
 
 //**********SELECT ONE ROBOT, COMMENT THE REST*****//
-#define R1_WIRE_STRIPPER
-// #define R2_OG
+//#define R1_WIRE_STRIPPER
+#define R2_OG
 // #define R3
 // #define R4_PEE_WEE
 
 //***********************************//
+
+//********COMMON PARAMS***********//
+#define TOGGLE_DESCENT false
+#define EMERGENCY_DROP_OFF_TIME 55000
 
 //********PARAMS**********//
 #ifdef R1_WIRE_STRIPPER
@@ -33,11 +37,14 @@
 #define DROP_OFF_PWM 950
 #define BUMPER_OUT_ANGLE 15
 #define BUMPER_IN_ANGLE 80
+
+//descent
+#define DESCENT_PWM 1300
 #endif
 
 #ifdef R2_OG
 //tape follow
-#define KD 80
+#define KD 80//80
 #define KP 25
 #define MAX_PWM 1055
 #define MULTIPLIER 0.5 * 28.25
@@ -54,9 +61,12 @@
 #define GATE_BOT_ANGLE 100
 
 //drop off
-#define DROP_OFF_PWM 950
+#define DROP_OFF_PWM 975
 #define BUMPER_OUT_ANGLE 15
 #define BUMPER_IN_ANGLE 80
+
+//descent
+#define DESCENT_PWM 1300
 #endif
 
 #ifdef R3
@@ -81,6 +91,9 @@
 #define DROP_OFF_PWM 950
 #define BUMPER_OUT_ANGLE 15
 #define BUMPER_IN_ANGLE 80
+
+//descent
+#define DESCENT_PWM 1300
 #endif
 
 
@@ -106,6 +119,9 @@
 #define DROP_OFF_PWM 950
 #define BUMPER_OUT_ANGLE 15
 #define BUMPER_IN_ANGLE 80
+
+//descent
+#define DESCENT_PWM 1300
 #endif
 
 
