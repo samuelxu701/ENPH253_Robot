@@ -23,7 +23,7 @@ The file is usually found in:
 C:\Users\<username>\.platformio\packages\framework-arduinoststm32\variants\STM32F1xx\F103C8T_F103CB(T-U)
 */
 
-#define TOGGLE_DESCENT true
+#define TOGGLE_DESCENT false
 int initMarkerTime = 0;
 int descentTime = 0;
 
@@ -74,7 +74,7 @@ void loop(){
     if(hasDescended) {
         if(foundMarker){
             checkCanDetector();
-            if(millis() + 20000 > initMarkerTime){
+            if(millis() > initMarkerTime + 5000){
                 updateDropOffState();
             }
             // checkIRreceiver();
@@ -99,7 +99,7 @@ void loop(){
             }
         }else{
             tapeFollowingPID();
-            if(millis() + 4000 > descentTime){
+            if(millis() > descentTime + 2000){
                 checkMarker();
             }
             if(foundMarker){

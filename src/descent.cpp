@@ -14,7 +14,7 @@ bool hasDescended;
 bool foundMarker;
 int postDescentDelay = 400;
 int postDescentPWM = 1000;
-const int descentThreshold = 100; // CHANGE
+const int descentThreshold = 200; // CHANGE
 const int markerThreshold = 800;
 
 void updateDescentStatus() {
