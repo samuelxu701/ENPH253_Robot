@@ -17,6 +17,8 @@ const int centered = 0;
 const int slightRight = 1;
 const int farRight = 5;
 
+int prevG = 0;
+
 /*
   Set 1: 30s
     kp: 25
@@ -50,7 +52,7 @@ const int sensorLowerWhiteBound = 50;
 const int sensorUpperBlackBound = 880;
 
 const int errorLowerBound = 0;
-const int errorUpperBound = 5;
+const int errorUpperBound = ERROR_UPPER_BOUND;
  
 void setupTapeFollowing() {
   pinMode(LEFT_SENSOR, INPUT);
@@ -74,13 +76,18 @@ void tapeFollowingPID(int dir , int pwm, bool displayData){
   unsigned long currTime = millis();
 
   int currState = getState(leftReading, rightReading);
-  
+
   if (currState != currErrState) {
     lastErrState = currErrState;
     currErrState = currState;
   
     lastErrStateStartTime = currErrStateStartTime;
     currErrStateStartTime = currTime;
+  }
+
+  if (leftReading < binaryThreshold && rightReading < binaryThreshold && currErrState == 0) {
+    if (prevG <= 0) currErrState = -errorUpperBound;
+    else currErrState = errorUpperBound;
   }
   
   float timeStep = (currTime - lastErrStateStartTime) / 1.0;
@@ -107,6 +114,7 @@ void tapeFollowingPID(int dir , int pwm, bool displayData){
     String msg = buff;
     printDisplay(msg, 1, 1);
   }
+  prevG = g;
 }
  
 void motor(int g, int dir, int pwm) {
@@ -134,6 +142,10 @@ void motor(int g, int dir, int pwm) {
       left_fwd_pwm = 0;
     }
   }
+  left_fwd_pwm = std::min(left_fwd_pwm, absolute_maximum_pwm);
+  left_rev_pwm = std::min(left_rev_pwm, absolute_maximum_pwm);
+  right_fwd_pwm = std::min(right_fwd_pwm, absolute_maximum_pwm);
+  right_rev_pwm = std::min(right_rev_pwm, absolute_maximum_pwm);
 
   if(dir == 0)
     driveMotors(left_fwd_pwm, left_rev_pwm, right_fwd_pwm, right_rev_pwm);
@@ -147,7 +159,6 @@ void motor(int g, int dir, int pwm) {
 }
 
 // int getState(int leftBinary, int rightBinary) {
-//   return centered;
 //   if (leftBinary == HIGH && rightBinary == HIGH) {
 //     return centered;
 //   }
