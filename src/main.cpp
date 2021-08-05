@@ -114,6 +114,7 @@ void loop(){
         updateDescentStatus();
         if(hasDescended){
             driveMotors(postDescentPWM, 0, postDescentPWM, 0);
+            startTime = millis();
             delay(postDescentDelay);
             // descentTime = millis();
         }
