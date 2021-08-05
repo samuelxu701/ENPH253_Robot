@@ -74,7 +74,7 @@ void loop(){
     if(hasDescended) {
         if(foundMarker){
             checkCanDetector();
-            if(millis() + 10000 > initMarkerTime){
+            if(millis() + 20000 > initMarkerTime){
                 updateDropOffState();
             }
             // checkIRreceiver();
