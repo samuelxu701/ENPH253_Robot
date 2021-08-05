@@ -1,6 +1,9 @@
 #ifndef TAPEFOLLOWING_H
 #define TAPEFOLLOWING_H
 
+//true for binary tape following
+//false for analog tape following
+#define TOGGLE_BINARY false
 //*********FUNCTION DECLARATIONS********//
 
 //Setup tape following parameters and sensors
@@ -33,7 +36,8 @@ void motor(int g, int dir, int pwm);
 
 //Reads tape sensors and returns error state of robot
 //maps analog values
-int getState(int leftAnalog, int rightAnalog);
+int getStateAnalog(int leftAnalog, int rightAnalog);
+int getStateDigital(int leftBinary, int rightBinary);
 
 
 //********GLOBAL PID VARAIBLES**********//

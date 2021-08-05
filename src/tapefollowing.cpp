@@ -71,7 +71,13 @@ void tapeFollowingPID(int dir , int pwm, bool displayData){
 
   unsigned long currTime = millis();
 
-  int currState = getState(leftReading, rightReading);
+
+  // if(TOGGLE_BINARY){
+  //   int leftBinary = binaryProcessor(leftReading, binaryThreshold);
+  //   int rightBinary = binaryProcessor(rightReading, binaryThreshold);
+  //   currState = getStateDigital(leftBinary, rightBinary);
+  // } else{
+  int currState = getStateAnalog(leftReading, rightReading);
   
   if (currState != currErrState) {
     lastErrState = currErrState;
@@ -144,28 +150,27 @@ void motor(int g, int dir, int pwm) {
   }
 }
 
-// int getState(int leftBinary, int rightBinary) {
-//   return centered;
-//   if (leftBinary == HIGH && rightBinary == HIGH) {
-//     return centered;
-//   }
+int getStateDigital(int leftBinary, int rightBinary) {
+  if (leftBinary == HIGH && rightBinary == HIGH) {
+    return centered;
+  }
   
-//   if (leftBinary == HIGH && rightBinary == LOW) {
-//     return slightRight;
-//   }
-//     if (leftBinary == LOW && rightBinary == HIGH) {
-//     return slightLeft;
-//   }
+  if (leftBinary == HIGH && rightBinary == LOW) {
+    return slightRight;
+  }
+    if (leftBinary == LOW && rightBinary == HIGH) {
+    return slightLeft;
+  }
   
-//   if (leftBinary == LOW && rightBinary == LOW) {
-//     if (currErrState > 0) {
-//       return farRight;
-//     }
-//   }
-//   return farLeft;
-// }
+  if (leftBinary == LOW && rightBinary == LOW) {
+    if (currErrState > 0) {
+      return farRight;
+    }
+  }
+  return farLeft;
+}
 
-int getState(int leftAnalog, int rightAnalog){
+int getStateAnalog(int leftAnalog, int rightAnalog){
   int currRightErr = map(rightAnalog,sensorLowerWhiteBound,sensorUpperBlackBound,errorUpperBound,errorLowerBound);
   int currLeftErr = map(leftAnalog,sensorLowerWhiteBound,sensorUpperBlackBound,errorUpperBound,errorLowerBound);
 
