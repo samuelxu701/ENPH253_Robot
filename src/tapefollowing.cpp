@@ -25,8 +25,8 @@ Set 1: 19.5s
 */
 
 //*********TAPE FOLLOWING PID PARAMETERS********//
-int kp = 25;
-int kd = 60;
+int kp = 20;
+int kd = 70;
 int binaryThreshold = 650;
 
 //***********SPEED/TURNING PARAMETERS********//
