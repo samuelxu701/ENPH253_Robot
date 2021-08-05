@@ -26,7 +26,7 @@ int gateBotAngle = 100; // 175
 
 //time it takes for servo to finish task
 const int servoTaskTimeDelay = 100;
-const int armUpDelay = 250;
+const int armUpDelay = 300;
 const int sweepCloseDelay = 250;
 
 

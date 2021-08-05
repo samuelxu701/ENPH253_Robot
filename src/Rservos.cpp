@@ -39,6 +39,7 @@ void detachServos(){
 void descentServos() {
   canKickerServo.write(bumperInAngle);
   armServo.write(armUpAngle);
+  delay(50);
   sweepServo.write(sweepCloseAngle);
   gateServo.write(gateBotAngle);
 }

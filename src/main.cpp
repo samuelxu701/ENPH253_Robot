@@ -24,6 +24,9 @@ C:\Users\<username>\.platformio\packages\framework-arduinoststm32\variants\STM32
 */
 
 #define TOGGLE_DESCENT true
+int initMarkerTime = 0;
+// int descentTime = 0;
+
 
 void setup(){
     setupMotors();
@@ -71,7 +74,9 @@ void loop(){
     if(hasDescended) {
         if(foundMarker){
             checkCanDetector();
-            updateDropOffState();
+            if(millis() > initMarkerTime + 5000){
+                updateDropOffState();
+            }
             // checkIRreceiver();
 
             if(receivingIRData){
@@ -97,6 +102,7 @@ void loop(){
             checkMarker();
             if(foundMarker){
                 resetServos();
+                initMarkerTime = millis();
             }
         }
     }else{
@@ -104,6 +110,7 @@ void loop(){
         if(hasDescended){
             driveMotors(postDescentPWM, 0, postDescentPWM, 0);
             delay(postDescentDelay);
+            // descentTime = millis();
         }
     }
 
