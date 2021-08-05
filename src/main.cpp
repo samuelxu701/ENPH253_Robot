@@ -23,7 +23,7 @@ The file is usually found in:
 C:\Users\<username>\.platformio\packages\framework-arduinoststm32\variants\STM32F1xx\F103C8T_F103CB(T-U)
 */
 
-#define TOGGLE_DESCENT false
+#define TOGGLE_DESCENT true
 
 void setup(){
     setupMotors();
