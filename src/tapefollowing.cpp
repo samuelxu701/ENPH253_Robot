@@ -8,6 +8,7 @@
 #include <util.h>
 #include <sonar.h>
 #include <candropoff.h>
+#include <parameters.h>
 
 //******ERROR PARAMETERS******//
 const int farLeft = -5;
@@ -25,17 +26,17 @@ const int farRight = 5;
 */
 
 //*********TAPE FOLLOWING PID PARAMETERS********//
-int kp = 25;
-int kd = 70;
+int kp = KP;
+int kd = KD;
 
 int binaryThreshold = 650;
 
 //***********SPEED/TURNING PARAMETERS********//
-int max_pwm = 1125;//1100;// 1125;
-double multiplier = 27;
+int max_pwm = MAX_PWM;//1100;// 1125;
+double multiplier = MULTIPLIER;
 int absolute_maximum_pwm = 4096;
-double outMult = 1;
-double inMult = 1;
+double outMult = OUT_MULT;
+double inMult = IN_MULT;
  
 //***********volatile pid varaibles********//
 volatile int lastErrState = 0;

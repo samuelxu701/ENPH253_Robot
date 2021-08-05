@@ -8,17 +8,18 @@
 #include <rservos.h>
 #include <Servo.h>
 #include <Display.h>
+#include <parameters.h>
 
 //**********Servo Angle Parameters**************//
 //change these for open and close positions of servos
-int sweepOpenAngle = 0;
-int sweepCloseAngle = 180;
+int sweepOpenAngle = SWEEP_OPEN_ANGLE;
+int sweepCloseAngle = SWEEP_CLOSE_ANGLE;
 
-int armDownAngle = 15;
-int armUpAngle = 120;
+int armDownAngle = ARM_DOWN_ANGLE;
+int armUpAngle = ARM_UP_ANGLE;
 
-int gateTopAngle = 5; // 47
-int gateBotAngle = 100; // 175
+int gateTopAngle = GATE_TOP_ANGLE; // 47
+int gateBotAngle = GATE_BOT_ANGLE; // 175
 
 //*********State Machine Function Dec. and Variables**********//
 //Two options for step in state machine

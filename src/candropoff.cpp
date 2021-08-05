@@ -10,11 +10,12 @@
 #include <tapefollowing.h>
 #include <rservos.h>
 #include <display.h>
+#include <parameters.h>
 
 
 // TODO: These Values need to be calibrated 
-int bumperOutAngle = 15;//45;
-int bumperInAngle = 80;
+int bumperOutAngle = BUMPER_OUT_ANGLE;//45;
+int bumperInAngle = BUMPER_IN_ANGLE;
 
 //time it takes for cans to fall into silo after getting hit by bumper
 const int dropOffBumpDelay = 1500;
@@ -28,7 +29,7 @@ DropOffState dropOffState;
 int dropOffCount;
 int dockingTriggerCount;
 
- int dropOffPWM = 950;
+ int dropOffPWM = DROP_OFF_PWM;
 
 void setupCanDropoff() {
   // put your setup code here, to run once:
