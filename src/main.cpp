@@ -74,7 +74,7 @@ void loop(){
     if(hasDescended) {
         if(foundMarker){
             checkCanDetector();
-            if(millis() + 2000 > initMarkerTime){
+            if(millis() + 10000 > initMarkerTime){
                 updateDropOffState();
             }
             // checkIRreceiver();
@@ -99,7 +99,7 @@ void loop(){
             }
         }else{
             tapeFollowingPID();
-            if(millis() + 2000 > descentTime){
+            if(millis() + 4000 > descentTime){
                 checkMarker();
             }
             if(foundMarker){
