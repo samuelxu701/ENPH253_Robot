@@ -3,10 +3,10 @@
 
 
 //**********SELECT ONE ROBOT, COMMENT THE REST*****//
-//#define R1_WIRE_STRIPPER
-#define R2_OG
+#define R1_WIRE_STRIPPER
+//#define R2_OG
 // #define R3
-// #define R4_PEE_WEE
+//#define R4_PEE_WEE
 
 //***********************************//
 
@@ -46,7 +46,7 @@
 #define KD 80//80
 #define KP 25
 #define MAX_PWM 1055
-#define MULTIPLIER 28.25
+#define MULTIPLIER 0.5*28.25
 #define IN_MULT 1
 #define OUT_MULT 1
 
@@ -99,7 +99,7 @@
 #define KD 60
 #define KP 15
 #define MAX_PWM 1000
-#define MULTIPLIER 30
+#define MULTIPLIER 0.5*30
 #define IN_MULT 1.2
 #define OUT_MULT 1
 
