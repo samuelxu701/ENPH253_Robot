@@ -82,16 +82,16 @@ void canDropoff(){
             // driveMotors(0,0,0,0);
             // delay(motorStopDelay);
 
-            //reverse tape follow until docking sensor on tape again
-            // while(analogRead(DOCKING_SENSOR) < binaryThreshold){
-            //     tapeFollowingPID(1, max_pwm, false);
-            // }
+            // reverse tape follow until docking sensor on tape again
+            while(analogRead(DOCKING_SENSOR) < binaryThreshold){
+                tapeFollowingPID(1, max_pwm, false);
+            }
 
             //blind reverse
-            if(analogRead(DOCKING_SENSOR) < binaryThreshold){
-                driveMotors(0, max_pwm, 0, max_pwm);
-            }
-            while(analogRead(DOCKING_SENSOR) < binaryThreshold);    
+            // if(analogRead(DOCKING_SENSOR) < binaryThreshold){
+            //     driveMotors(0, max_pwm, 0, max_pwm);
+            // }
+            // while(analogRead(DOCKING_SENSOR) < binaryThreshold);    
                 
 
             //stop after reverse
