@@ -1,7 +1,7 @@
 # ENPH253_Robot
-Code for enph 253 robot (C/C++) for arduino framework to be uploaded to stm32 microprocessor with platform io IDE.
+C/C++ code for enph 253 autonomous can retreival robot, named Pepsinator. Uses the Arduino framework and is uploaded to a STM32 MCU on a BluePill board with PlatformIO and StLink. 
 
-Members:
+Team Members:
 * Yousif
 * Samuel
 * Andrew
