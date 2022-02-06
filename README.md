@@ -7,4 +7,4 @@ Team Members:
 * Andrew
 * Ralph
 
-Demonstration video: https://bit.ly/32AcBV6![image](https://user-images.githubusercontent.com/69894176/152674024-8e19d2eb-2b58-4bc3-a8f0-6eefda65e362.png)
+Demonstration video: https://youtu.be/7hAUSq8ONJo
